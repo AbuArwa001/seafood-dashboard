@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   title: "SeaFood Dashboard",
   description: "Professional seafood business management dashboard",
   icons: {
-    icon: "/logo/logo-icon.svg",
+    icon: "/favicon.ico",
   },
 };
 
@@ -39,6 +39,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <Providers>{children}</Providers>
       </body>

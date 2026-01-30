@@ -101,9 +101,74 @@ export interface Payment {
   id: string;
   sale: Sale;
   entered_by: User;
-  amount: string;
-  payment_date: string;
-  payment_method: string;
-  reference_number: string;
+  currency: Currency;
+  buyer_name: string;
+  amount_paid: string;
+  expected_payment_date: string;
+  actual_payment_date: string | null;
   created_at: string;
+}
+
+// Supplier Purchase Types
+export interface SupplierPurchase {
+  id: string;
+  shipment: Shipment;
+  currency: Currency;
+  entered_by: User;
+  kg_purchased: string;
+  image_url: string | null;
+  created_at: string;
+}
+
+// Cost Ledger Types
+export type CostCategory =
+  | "Transport"
+  | "Freezing"
+  | "Cold Storage"
+  | "Packing Materials"
+  | "Labor"
+  | "Commissions"
+  | "Export Fees"
+  | "Fuel"
+  | "Accommodation"
+  | "Meals"
+  | "Miscellaneous";
+
+export interface CostLedger {
+  id: string;
+  shipment: Shipment;
+  entered_by: User;
+  cost_category: CostCategory;
+  amount: string;
+  other_category: string | null;
+  currency: Currency;
+  exchange_rate_used: string | null;
+  converted_amount: string;
+  created_at: string;
+}
+
+// Logistics Receipt Types
+export interface LogisticsReceipt {
+  id: string;
+  shipment: Shipment;
+  entered_by: User;
+  net_received_kg: string;
+  transport_loss_kg: string;
+  freezing_loss_kg: string;
+  facility_location: string;
+  notes: string;
+  created_at: string;
+}
+
+// API Response Types
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+export interface ApiError {
+  detail?: string;
+  [key: string]: any;
 }

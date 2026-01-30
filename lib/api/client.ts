@@ -1,8 +1,7 @@
 import axios from "axios";
-import { getSession } from "next-auth/react";
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,9 +10,10 @@ const apiClient = axios.create({
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   async (config) => {
-    const session = await getSession();
-    if (session?.user && (session as any).accessToken) {
-      config.headers.Authorization = `Bearer ${(session as any).accessToken}`;
+    // Get token from localStorage (we'll implement proper auth later)
+    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -28,7 +28,8 @@ apiClient.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       // Handle token refresh or redirect to login
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('access_token');
         window.location.href = "/login";
       }
     }
