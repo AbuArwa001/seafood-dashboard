@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
@@ -33,7 +39,10 @@ export default function LoginPage() {
       toast.success("Welcome back!");
       router.push("/dashboard");
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || "Login failed. Please check your credentials.");
+      toast.error(
+        error.response?.data?.detail ||
+          "Login failed. Please check your credentials.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -58,8 +67,12 @@ export default function LoginPage() {
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-[#7C86F5] to-[#AFB5F7] bg-clip-text text-transparent">
-                SeaFood
+              <CardTitle className="flex justify-center items-center pb-2">
+                <img
+                  src="/login-logo.png"
+                  alt="SeaFood Logo"
+                  className="h-16 w-auto object-contain"
+                />
               </CardTitle>
               <CardDescription className="text-center text-slate-500 font-medium">
                 Premium Dashboard Access
@@ -69,7 +82,12 @@ export default function LoginPage() {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-600 font-semibold ml-1">Email Address</Label>
+                <Label
+                  htmlFor="email"
+                  className="text-slate-600 font-semibold ml-1"
+                >
+                  Email Address
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -83,7 +101,12 @@ export default function LoginPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between ml-1">
-                  <Label htmlFor="password" className="text-slate-600 font-semibold">Password</Label>
+                  <Label
+                    htmlFor="password"
+                    className="text-slate-600 font-semibold"
+                  >
+                    Password
+                  </Label>
                 </div>
                 <Input
                   id="password"
@@ -96,9 +119,9 @@ export default function LoginPage() {
                   className="bg-white/50 border-slate-200 focus:border-[#7C86F5] focus:ring-[#7C86F5] transition-all h-11"
                 />
               </div>
-              <Button 
-                type="submit" 
-                className="w-full h-11 bg-[#7C86F5] hover:bg-[#8791FC] text-white font-bold premium-button" 
+              <Button
+                type="submit"
+                className="w-full h-11 bg-[#7C86F5] hover:bg-[#8791FC] text-white font-bold premium-button"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -106,7 +129,9 @@ export default function LoginPage() {
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     Authenticating...
                   </span>
-                ) : "Sign In"}
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </form>
           </CardContent>
