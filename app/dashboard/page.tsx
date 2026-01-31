@@ -98,7 +98,11 @@ export default function DashboardPage() {
     queryKey: ["exchange-rates"],
     queryFn: async () => {
       const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
-        params: { page_size: 1000 },
+        params: {
+          page_size: 1000,
+          to_currency__code: "KES",
+          currencies: "USD,TZS,MZN,AED,CNY",
+        },
       });
       return response.data.results || response.data;
     },
