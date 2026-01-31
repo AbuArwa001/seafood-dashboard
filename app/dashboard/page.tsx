@@ -299,7 +299,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="h-16 w-full opacity-60 group-hover:opacity-100 transition-opacity">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={stat.data.map((v, i) => ({ v }))}>
+                    <AreaChart data={stat.data.map((v: any) => ({ v }))}>
                       <defs>
                         <linearGradient
                           id={`grad-${idx}`}
@@ -367,7 +367,7 @@ export default function DashboardPage() {
               <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
-                    data={salesChartData.map((v, i) => ({
+                    data={salesChartData.map((v: number, i: number) => ({
                       name: `P${i + 1}`,
                       value: v,
                     }))}
