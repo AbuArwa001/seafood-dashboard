@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   
   // Users
   USERS: "/api/v1/users/",
+  ME: "/api/v1/users/me/",
   ROLES: "/api/v1/roles/",
   
   // Products

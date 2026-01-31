@@ -14,9 +14,20 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bell, LogOut, User, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "@/lib/api/client";
+import { API_ENDPOINTS } from "@/lib/api/endpoints";
 
 export function Header() {
   const router = useRouter();
+
+  const { data: user } = useQuery({
+    queryKey: ["me"],
+    queryFn: async () => {
+      const response = await apiClient.get(API_ENDPOINTS.ME);
+      return response.data;
+    },
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -59,15 +70,19 @@ export function Header() {
             >
               <div className="flex flex-col items-end hidden md:flex">
                 <span className="text-sm font-black text-slate-800 tracking-tight">
-                  Abdi Arwa
+                  {user?.full_name || "Loading..."}
                 </span>
                 <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                  Global Admin
+                  {user?.role_name || "..."}
                 </span>
               </div>
               <Avatar className="h-10 w-10 border-2 border-white shadow-md ring-2 ring-primary/10">
                 <AvatarFallback className="bg-gradient-to-br from-primary to-primary/80 text-white text-xs font-black">
-                  AA
+                  {user?.full_name
+                    ?.split(" ")
+                    .map((n: string) => n[0])
+                    .join("")
+                    .toUpperCase() || "?"}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -80,12 +95,12 @@ export function Header() {
             <DropdownMenuLabel className="font-normal p-4">
               <div className="flex flex-col space-y-2">
                 <p className="text-base font-black text-slate-900 tracking-tight">
-                  Abdi Arwa
+                  {user?.full_name || "Loading..."}
                 </p>
                 <div className="flex items-center space-x-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   <p className="text-xs font-bold text-slate-500">
-                    abdi@seafood.registry
+                    {user?.email || "..."}
                   </p>
                 </div>
               </div>

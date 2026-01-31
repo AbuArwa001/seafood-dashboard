@@ -271,8 +271,10 @@ export default function SalesPage() {
                           </div>
                           <span className="font-bold text-slate-700 text-sm">
                             SHP#
-                            {sale.shipment?.substring(0, 6) ||
-                              sale.id.substring(0, 6)}
+                            {typeof sale.shipment === "string"
+                              ? sale.shipment.substring(0, 6)
+                              : sale.shipment?.id?.substring(0, 6) ||
+                                sale.id.substring(0, 6)}
                           </span>
                         </div>
                       </TableCell>
