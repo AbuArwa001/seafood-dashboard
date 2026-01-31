@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo, useState } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DollarSign,
@@ -57,11 +59,14 @@ const item = {
 };
 
 export default function DashboardPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   // Fetch Shipments
   const { data: shipments, isLoading: isLoadingShipments } = useQuery({
     queryKey: ["shipments"],
     queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.SHIPMENTS);
+      const response = await apiClient.get(API_ENDPOINTS.SHIPMENTS, {
+        params: { page_size: 1000 },
+      });
       return response.data.results || response.data;
     },
   });
@@ -70,7 +75,9 @@ export default function DashboardPage() {
   const { data: products, isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.PRODUCTS);
+      const response = await apiClient.get(API_ENDPOINTS.PRODUCTS, {
+        params: { page_size: 1000 },
+      });
       return response.data.results || response.data;
     },
   });
@@ -79,7 +86,20 @@ export default function DashboardPage() {
   const { data: sales, isLoading: isLoadingSales } = useQuery({
     queryKey: ["sales"],
     queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.SALES);
+      const response = await apiClient.get(API_ENDPOINTS.SALES, {
+        params: { page_size: 1000 },
+      });
+      return response.data.results || response.data;
+    },
+  });
+
+  // Fetch Exchange Rates
+  const { data: exchangeRates } = useQuery({
+    queryKey: ["exchange-rates"],
+    queryFn: async () => {
+      const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
+        params: { page_size: 1000 },
+      });
       return response.data.results || response.data;
     },
   });
@@ -88,23 +108,51 @@ export default function DashboardPage() {
   const { data: payments, isLoading: isLoadingPayments } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.PAYMENTS);
+      const response = await apiClient.get(API_ENDPOINTS.PAYMENTS, {
+        params: { page_size: 1000 },
+      });
       return response.data.results || response.data;
     },
   });
 
   // Calculate totals
-  const totalRevenue =
-    sales?.reduce(
-      (acc: number, sale: any) => acc + parseFloat(sale.total_sale_amount || 0),
-      0,
-    ) || 0;
-  const totalPaid =
-    payments?.reduce(
-      (acc: number, payment: any) => acc + parseFloat(payment.amount_paid || 0),
-      0,
-    ) || 0;
+  const totalRevenue = useMemo(
+    () =>
+      sales?.reduce(
+        (acc: number, sale: any) =>
+          acc + parseFloat(sale.total_sale_amount || 0),
+        0,
+      ) || 0,
+    [sales],
+  );
+
+  const totalPaid = useMemo(
+    () =>
+      payments?.reduce(
+        (acc: number, payment: any) =>
+          acc + parseFloat(payment.amount_paid || 0),
+        0,
+      ) || 0,
+    [payments],
+  );
+
   const pendingPayments = totalRevenue - totalPaid;
+
+  // Derive simple chart data from sales
+  const salesChartData = useMemo(() => {
+    if (!sales) return [0, 0, 0, 0, 0, 0, 0];
+    const last7 = sales
+      .slice(-7)
+      .map((s: any) => parseFloat(s.total_sale_amount || 0));
+    while (last7.length < 7) last7.unshift(0);
+    return last7;
+  }, [sales]);
+
+  const shipmentChartData = useMemo(() => {
+    if (!shipments) return [0, 0, 0, 0, 0, 0, 0];
+    // Just a placeholder based on volume for now
+    return shipments.slice(-7).map((s: any) => s.items?.length || 0);
+  }, [shipments]);
 
   const stats = [
     {
@@ -117,17 +165,21 @@ export default function DashboardPage() {
       icon: DollarSign,
       color: "text-primary",
       bgColor: "bg-primary/10",
-      data: [2400, 1398, 9800, 3908, 4800, 3800, 4300],
+      data: salesChartData,
     },
     {
       title: "Active Shipments",
-      value: isLoadingShipments ? "..." : shipments?.length?.toString() || "0",
+      value: isLoadingShipments
+        ? "..."
+        : (
+            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+          ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
       color: "text-secondary",
       bgColor: "bg-secondary/10",
-      data: [12, 18, 15, 22, 30, 25, 28],
+      data: shipmentChartData,
     },
     {
       title: "Pending Payments",
@@ -154,6 +206,20 @@ export default function DashboardPage() {
     },
   ];
 
+  // Helper for Currency Watch
+  const kshRates = useMemo(() => {
+    if (!exchangeRates) return [];
+    // We want rates where to_currency is KES (Kenya Shilling)
+    return exchangeRates
+      .filter((r: any) => r.to_currency.code === "KES")
+      .map((r: any) => ({
+        name: r.from_currency.name,
+        code: r.from_currency.code,
+        rate: parseFloat(r.rate).toFixed(4),
+        symbol: r.from_currency.symbol,
+      }));
+  }, [exchangeRates]);
+
   return (
     <motion.div
       variants={container}
@@ -178,9 +244,26 @@ export default function DashboardPage() {
           >
             Export Report
           </Button>
-          <Button className="rounded-2xl font-black shadow-lg shadow-primary/25">
-            <Plus className="h-4 w-4 mr-2" /> CREATE NEW REGISTRY
-          </Button>
+          <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+            <DialogTrigger asChild>
+              <Button className="rounded-2xl font-black shadow-lg shadow-primary/25">
+                <Plus className="h-4 w-4 mr-2" /> CREATE NEW REGISTRY
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+              <div className="bg-primary p-6 text-white text-center">
+                <DialogTitle className="text-2xl font-black">
+                  Product Registry
+                </DialogTitle>
+                <p className="text-primary-foreground/80 text-[10px] font-bold mt-1 uppercase tracking-widest">
+                  Create a new catalog entry
+                </p>
+              </div>
+              <div className="p-8">
+                <ProductForm onSuccess={() => setIsAddModalOpen(false)} />
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </header>
       {/* Stats Grid */}
@@ -284,9 +367,10 @@ export default function DashboardPage() {
               <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
-                    data={[2400, 1398, 9800, 3908, 4800, 3800, 4300].map(
-                      (v, i) => ({ name: i, value: v }),
-                    )}
+                    data={salesChartData.map((v, i) => ({
+                      name: `P${i + 1}`,
+                      value: v,
+                    }))}
                   >
                     <defs>
                       <linearGradient
@@ -450,67 +534,42 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="pt-6">
               <div className="space-y-1">
-                {[
-                  {
-                    name: "Kenya Shilling",
-                    code: "KSH",
-                    rate: "1.0000",
-                    color: "bg-slate-100",
-                  },
-                  {
-                    name: "Tanzania Shilling",
-                    code: "TZS",
-                    rate: "0.0501",
-                    color: "bg-emerald-50 text-emerald-600",
-                  },
-                  {
-                    name: "Mozambique Metical",
-                    code: "MZN",
-                    rate: "2.0405",
-                    color: "bg-blue-50 text-blue-600",
-                  },
-                  {
-                    name: "Chinese Yuan",
-                    code: "CNY",
-                    rate: "18.7229",
-                    color: "bg-red-50 text-red-600",
-                  },
-                  {
-                    name: "US Dollar",
-                    code: "USD",
-                    rate: "130.0943",
-                    color: "bg-amber-50 text-amber-600",
-                  },
-                ].map((curr) => (
-                  <div
-                    key={curr.code}
-                    className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div
-                        className={`h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs ${curr.color}`}
-                      >
-                        {curr.code}
+                {kshRates.length > 0 ? (
+                  kshRates.map((curr: any) => (
+                    <div
+                      key={curr.code}
+                      className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs bg-slate-100">
+                          {curr.code}
+                        </div>
+                        <div>
+                          <p className="text-sm font-black text-slate-900">
+                            {curr.name}
+                          </p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            {curr.code} / KSH
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-black text-slate-900">
-                          {curr.name}
+                      <div className="text-right">
+                        <p className="text-lg font-black text-slate-900 tracking-tighter">
+                          {curr.rate}
                         </p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                          {curr.code} / KSH
+                        <p className="text-[10px] font-bold text-slate-400">
+                          Current Unit Rate
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-lg font-black text-slate-900 tracking-tighter">
-                        {curr.rate}
-                      </p>
-                      <p className="text-[10px] font-bold text-slate-400">
-                        Current Unit Rate
-                      </p>
-                    </div>
+                  ))
+                ) : (
+                  <div className="py-20 text-center">
+                    <p className="text-slate-400 font-bold italic text-sm">
+                      No KSH pairs configured in Vault
+                    </p>
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>

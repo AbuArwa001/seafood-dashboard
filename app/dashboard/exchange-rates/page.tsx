@@ -52,30 +52,39 @@ const item = {
 export default function ExchangeRatesPage() {
   const [fromCurrency, setFromCurrency] = useState<string>("");
   const [toCurrency, setToCurrency] = useState<string>("");
+  const [page, setPage] = useState(1);
 
   const {
-    data: rates,
+    data: ratesData,
     isLoading,
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["exchange-rates"],
+    queryKey: ["exchange-rates", page],
     queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES);
-      return response.data.results || response.data;
+      const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
+        params: { page },
+      });
+      return response.data;
     },
   });
 
-  // Extract unique currencies for selection
-  const currencies = useMemo(() => {
-    if (!rates) return [];
-    const unique = new Map();
-    rates.forEach((r: any) => {
-      unique.set(r.from_currency.id, r.from_currency);
-      unique.set(r.to_currency.id, r.to_currency);
-    });
-    return Array.from(unique.values());
-  }, [rates]);
+  const rates = ratesData?.results || [];
+  const totalRates = ratesData?.count || 0;
+  const hasNext = !!ratesData?.next;
+  const hasPrev = !!ratesData?.previous;
+
+  const { data: currenciesData, isLoading: isLoadingCurrencies } = useQuery({
+    queryKey: ["currencies", "all"],
+    queryFn: async () => {
+      // Fetch with large page_size to get all currencies for dropdown
+      const response = await apiClient.get(API_ENDPOINTS.CURRENCIES, {
+        params: { page_size: 500 },
+      });
+      return response.data;
+    },
+  });
+  const currencies = currenciesData?.results || currenciesData || [];
 
   // Find the rate for the selected pair
   const selectedRate = useMemo(() => {
@@ -155,7 +164,7 @@ export default function ExchangeRatesPage() {
                     <SelectValue placeholder="Select Base" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
-                    {currencies.map((c: any) => (
+                    {currencies?.map((c: any) => (
                       <SelectItem
                         key={c.id}
                         value={c.id}
@@ -183,7 +192,7 @@ export default function ExchangeRatesPage() {
                     <SelectValue placeholder="Select Target" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
-                    {currencies.map((c: any) => (
+                    {currencies?.map((c: any) => (
                       <SelectItem
                         key={c.id}
                         value={c.id}
@@ -207,14 +216,17 @@ export default function ExchangeRatesPage() {
                   <div className="text-4xl font-black tracking-tighter">
                     1.00{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
-                      {currencies.find((c) => c.id === fromCurrency)?.code}
+                      {
+                        currencies?.find((c: any) => c.id === fromCurrency)
+                          ?.code
+                      }
                     </span>
                   </div>
                   <ChevronRight className="h-6 w-6 text-primary" />
                   <div className="text-4xl font-black tracking-tighter text-secondary">
                     {selectedRate.rate}{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
-                      {currencies.find((c) => c.id === toCurrency)?.code}
+                      {currencies?.find((c: any) => c.id === toCurrency)?.code}
                     </span>
                   </div>
                 </div>
@@ -250,7 +262,7 @@ export default function ExchangeRatesPage() {
               variant="outline"
               className="rounded-full border-primary/20 text-primary font-black px-4 py-1"
             >
-              {rates?.length || 0} ACTIVE PAIRS
+              {totalRates} ACTIVE PAIRS
             </Badge>
           </CardHeader>
           <CardContent className="p-0">
@@ -347,6 +359,30 @@ export default function ExchangeRatesPage() {
                 )}
               </TableBody>
             </Table>
+            <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                Showing {rates.length} of {totalRates} pairs
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={!hasPrev}
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                >
+                  PREVIOUS
+                </button>
+                <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-xl text-xs font-black">
+                  PAGE {page}
+                </div>
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={!hasNext}
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                >
+                  NEXT
+                </button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </motion.div>

@@ -15,6 +15,7 @@ import {
   Settings,
   Ship,
   ArrowRightLeft,
+  Banknote,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -36,6 +37,7 @@ const navigation = [
         href: "/dashboard/exchange-rates",
         icon: ArrowRightLeft,
       },
+      { name: "Currencies", href: "/dashboard/currencies", icon: Banknote },
       { name: "Payments", href: "/dashboard/payments", icon: CreditCard },
       { name: "Purchases", href: "/dashboard/purchases", icon: ShoppingBag },
       { name: "Costs", href: "/dashboard/costs", icon: DollarSign },
