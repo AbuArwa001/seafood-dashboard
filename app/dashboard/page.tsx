@@ -12,6 +12,7 @@ import {
   Anchor,
   Activity,
   Plus,
+  ArrowRightLeft,
 } from "lucide-react";
 import {
   AreaChart,
@@ -420,6 +421,150 @@ export default function DashboardPage() {
                 <Button className="w-full bg-white text-slate-900 font-black rounded-2xl hover:bg-slate-100 mt-2">
                   VIEW FULL LOG <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-6">
+        {/* Regional Currency Watch */}
+        <motion.div variants={item} className="lg:col-span-3">
+          <Card className="border-none shadow-premium bg-white h-full">
+            <CardHeader className="border-b border-slate-50 pb-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-xl font-black tracking-tight flex items-center">
+                    <ArrowRightLeft className="h-5 w-5 mr-3 text-secondary" />
+                    Currency Watch
+                  </CardTitle>
+                  <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest">
+                    Regional Rates to KSH
+                  </p>
+                </div>
+                <div className="bg-secondary/10 px-3 py-1 rounded-full">
+                  <span className="text-[10px] font-black text-secondary tracking-widest">
+                    REAL-TIME
+                  </span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-1">
+                {[
+                  {
+                    name: "Kenya Shilling",
+                    code: "KSH",
+                    rate: "1.0000",
+                    color: "bg-slate-100",
+                  },
+                  {
+                    name: "Tanzania Shilling",
+                    code: "TZS",
+                    rate: "0.0501",
+                    color: "bg-emerald-50 text-emerald-600",
+                  },
+                  {
+                    name: "Mozambique Metical",
+                    code: "MZN",
+                    rate: "2.0405",
+                    color: "bg-blue-50 text-blue-600",
+                  },
+                  {
+                    name: "Chinese Yuan",
+                    code: "CNY",
+                    rate: "18.7229",
+                    color: "bg-red-50 text-red-600",
+                  },
+                  {
+                    name: "US Dollar",
+                    code: "USD",
+                    rate: "130.0943",
+                    color: "bg-amber-50 text-amber-600",
+                  },
+                ].map((curr) => (
+                  <div
+                    key={curr.code}
+                    className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div
+                        className={`h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs ${curr.color}`}
+                      >
+                        {curr.code}
+                      </div>
+                      <div>
+                        <p className="text-sm font-black text-slate-900">
+                          {curr.name}
+                        </p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                          {curr.code} / KSH
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-black text-slate-900 tracking-tighter">
+                        {curr.rate}
+                      </p>
+                      <p className="text-[10px] font-bold text-slate-400">
+                        Current Unit Rate
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* System Health / Logistics Summary */}
+        <motion.div variants={item} className="lg:col-span-3">
+          <Card className="border-none shadow-premium bg-primary text-white h-full relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mt-20 -mr-20" />
+            <CardHeader>
+              <CardTitle className="text-xl font-black flex items-center">
+                <TrendingUp className="h-5 w-5 mr-3 text-secondary" />
+                Operational Pulse
+              </CardTitle>
+              <p className="text-sm text-primary-foreground/60 font-bold uppercase tracking-widest mt-1">
+                Supply Chain Efficiency
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="bg-white/10 p-6 rounded-[2rem] border border-white/5">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary-foreground/50 mb-2">
+                    Avg. Transit
+                  </p>
+                  <p className="text-3xl font-black">
+                    4.2{" "}
+                    <span className="text-sm font-bold opacity-50">Days</span>
+                  </p>
+                </div>
+                <div className="bg-white/10 p-6 rounded-[2rem] border border-white/5">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary-foreground/50 mb-2">
+                    Compliance
+                  </p>
+                  <p className="text-3xl font-black">
+                    98 <span className="text-sm font-bold opacity-50">%</span>
+                  </p>
+                </div>
+              </div>
+              <div className="mt-8 p-6 bg-white/5 rounded-[2rem] border border-white/5">
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-sm font-black">
+                    Regional Logistics Status
+                  </p>
+                  <span className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
+                </div>
+                <div className="space-y-4">
+                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-secondary w-[85%]" />
+                  </div>
+                  <p className="text-[10px] font-bold text-primary-foreground/60 uppercase text-center tracking-widest">
+                    85% Capacity Utilization in East Africa
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -1,5 +1,4 @@
-"use client";
-
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Table,
@@ -12,12 +11,20 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   DollarSign,
   RefreshCw,
   TrendingUp,
   Calendar,
   ArrowRightLeft,
   ChevronRight,
+  ArrowRight,
 } from "lucide-react";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
@@ -41,6 +48,9 @@ const item = {
 };
 
 export default function ExchangeRatesPage() {
+  const [fromCurrency, setFromCurrency] = useState<string>("");
+  const [toCurrency, setToCurrency] = useState<string>("");
+
   const {
     data: rates,
     isLoading,
@@ -53,6 +63,40 @@ export default function ExchangeRatesPage() {
       return response.data.results || response.data;
     },
   });
+
+  // Extract unique currencies for selection
+  const currencies = useMemo(() => {
+    if (!rates) return [];
+    const unique = new Map();
+    rates.forEach((r: any) => {
+      unique.set(r.from_currency.id, r.from_currency);
+      unique.set(r.to_currency.id, r.to_currency);
+    });
+    return Array.from(unique.values());
+  }, [rates]);
+
+  // Find the rate for the selected pair
+  const selectedRate = useMemo(() => {
+    if (!fromCurrency || !toCurrency || !rates) return null;
+    if (fromCurrency === toCurrency) return { rate: "1.0000" };
+
+    // Direct match
+    const direct = rates.find(
+      (r: any) =>
+        r.from_currency.id === fromCurrency && r.to_currency.id === toCurrency,
+    );
+    if (direct) return direct;
+
+    // Indirect match (inverse)
+    const inverse = rates.find(
+      (r: any) =>
+        r.from_currency.id === toCurrency && r.to_currency.id === fromCurrency,
+    );
+    if (inverse)
+      return { ...inverse, rate: (1 / parseFloat(inverse.rate)).toFixed(4) };
+
+    return null;
+  }, [fromCurrency, toCurrency, rates]);
 
   return (
     <motion.div
@@ -81,6 +125,111 @@ export default function ExchangeRatesPage() {
           />
         </button>
       </header>
+
+      {/* Interactive Converter Section */}
+      <motion.div variants={item}>
+        <div className="bg-slate-900 p-8 rounded-[3rem] text-white shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -mt-32 -mr-32" />
+          <div className="relative z-10">
+            <div className="flex items-center space-x-3 mb-8">
+              <div className="bg-white/10 p-3 rounded-2xl">
+                <RefreshCw className="h-6 w-6 text-secondary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black">Dynamic Converter</h3>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+                  Real-time pair discovery
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-7 items-center gap-6">
+              <div className="md:col-span-3 space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">
+                  Base Currency
+                </label>
+                <Select onValueChange={setFromCurrency} value={fromCurrency}>
+                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary">
+                    <SelectValue placeholder="Select Base" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
+                    {currencies.map((c: any) => (
+                      <SelectItem
+                        key={c.id}
+                        value={c.id}
+                        className="focus:bg-primary focus:text-white rounded-xl py-3"
+                      >
+                        {c.code} - {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex justify-center">
+                <div className="bg-primary h-12 w-12 rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transform hover:rotate-180 transition-transform duration-500">
+                  <ArrowRight className="h-6 w-6" />
+                </div>
+              </div>
+
+              <div className="md:col-span-3 space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">
+                  Target Currency
+                </label>
+                <Select onValueChange={setToCurrency} value={toCurrency}>
+                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary">
+                    <SelectValue placeholder="Select Target" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
+                    {currencies.map((c: any) => (
+                      <SelectItem
+                        key={c.id}
+                        value={c.id}
+                        className="focus:bg-primary focus:text-white rounded-xl py-3"
+                      >
+                        {c.code} - {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {selectedRate && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-8 p-6 bg-white/5 rounded-[2rem] border border-white/10 flex items-center justify-between"
+              >
+                <div className="flex items-center space-x-6">
+                  <div className="text-4xl font-black tracking-tighter">
+                    1.00{" "}
+                    <span className="text-sm font-bold text-slate-500 ml-2">
+                      {currencies.find((c) => c.id === fromCurrency)?.code}
+                    </span>
+                  </div>
+                  <ChevronRight className="h-6 w-6 text-primary" />
+                  <div className="text-4xl font-black tracking-tighter text-secondary">
+                    {selectedRate.rate}{" "}
+                    <span className="text-sm font-bold text-slate-500 ml-2">
+                      {currencies.find((c) => c.id === toCurrency)?.code}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    Stability Index
+                  </p>
+                  <div className="flex items-center text-emerald-400 font-bold mt-1">
+                    <TrendingUp className="h-4 w-4 mr-1" />
+                    +0.24%
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </motion.div>
 
       {/* Main Table Card */}
       <motion.div variants={item}>
