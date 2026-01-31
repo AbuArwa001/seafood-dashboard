@@ -13,6 +13,7 @@ import {
   Activity,
   Plus,
   ArrowRightLeft,
+  Layers,
 } from "lucide-react";
 import {
   AreaChart,
@@ -38,6 +39,7 @@ import {
 import { ShipmentForm } from "@/components/forms/ShipmentForm";
 import { SaleForm } from "@/components/forms/SaleForm";
 import { ProductForm } from "@/components/forms/ProductForm";
+import { CategoryForm } from "@/components/forms/CategoryForm";
 
 const container = {
   hidden: { opacity: 0 },
@@ -181,7 +183,6 @@ export default function DashboardPage() {
           </Button>
         </div>
       </header>
-
       {/* Stats Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, idx) => (
@@ -256,7 +257,6 @@ export default function DashboardPage() {
           </motion.div>
         ))}
       </div>
-
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
         {/* Analytics Chart */}
         <motion.div variants={item} className="lg:col-span-4">
@@ -426,7 +426,6 @@ export default function DashboardPage() {
           </Card>
         </motion.div>
       </div>
-
       <div className="grid gap-8 lg:grid-cols-6">
         {/* Regional Currency Watch */}
         <motion.div variants={item} className="lg:col-span-3">
@@ -573,7 +572,7 @@ export default function DashboardPage() {
 
       {/* Quick Actions Integration */}
       <motion.div variants={item}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Log Shipment Modal */}
           <Dialog>
             <DialogTrigger asChild>
@@ -585,8 +584,8 @@ export default function DashboardPage() {
                   <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
                     Log Shipment
                   </p>
-                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70">
-                    Register new seafood cargo
+                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    New seafood cargo
                   </p>
                 </div>
               </div>
@@ -617,8 +616,8 @@ export default function DashboardPage() {
                   <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
                     Record Sale
                   </p>
-                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70">
-                    Insert transaction data
+                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    Transaction data
                   </p>
                 </div>
               </div>
@@ -649,8 +648,8 @@ export default function DashboardPage() {
                   <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
                     Add Product
                   </p>
-                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70">
-                    Extend your inventory
+                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    Extend inventory
                   </p>
                 </div>
               </div>
@@ -666,6 +665,38 @@ export default function DashboardPage() {
               </div>
               <div className="p-8">
                 <ProductForm />
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Add Category Modal */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
+                <div className="bg-emerald-50 p-4 rounded-3xl group-hover:bg-white/20 transition-colors">
+                  <Layers className="h-8 w-8 text-emerald-600 group-hover:text-white" />
+                </div>
+                <div>
+                  <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
+                    Add Category
+                  </p>
+                  <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    Manage taxonomy
+                  </p>
+                </div>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+              <div className="bg-emerald-600 p-6 text-white">
+                <DialogTitle className="text-2xl font-black flex items-center">
+                  <Layers className="mr-3 h-6 w-6" /> Add Category
+                </DialogTitle>
+                <p className="text-emerald-50 text-sm font-bold mt-1 uppercase tracking-widest">
+                  Product classification
+                </p>
+              </div>
+              <div className="p-8">
+                <CategoryForm />
               </div>
             </DialogContent>
           </Dialog>

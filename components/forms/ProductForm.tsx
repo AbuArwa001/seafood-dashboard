@@ -25,7 +25,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { toast } from "sonner";
-import { Package, Loader2 } from "lucide-react";
+import { Package, Loader2, Plus } from "lucide-react";
+import { CategoryForm } from "./CategoryForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const productSchema = z.object({
   name: z.string().min(2, "Product name is required"),
@@ -116,9 +123,34 @@ export function ProductForm({ onSuccess }: ProductFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">
-                  Category
-                </FormLabel>
+                <div className="flex items-center justify-between">
+                  <FormLabel className="font-bold text-slate-700">
+                    Category
+                  </FormLabel>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        type="button"
+                        className="text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+                      <div className="bg-emerald-600 p-6 text-white">
+                        <DialogTitle className="text-2xl font-black flex items-center">
+                          <Plus className="mr-3 h-6 w-6" /> Add Category
+                        </DialogTitle>
+                        <p className="text-emerald-50 text-sm font-bold mt-1 uppercase tracking-widest">
+                          New product classification
+                        </p>
+                      </div>
+                      <div className="p-8">
+                        <CategoryForm />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
