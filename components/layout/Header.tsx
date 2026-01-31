@@ -17,6 +17,9 @@ import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Menu } from "lucide-react";
 
 export function Header() {
   const router = useRouter();
@@ -37,9 +40,25 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-20 items-center justify-between glass border-b border-primary/5 px-10 sticky top-0 z-10 mx-6 mt-4 rounded-3xl shadow-premium">
-      <div className="flex items-center flex-1">
-        <div className="relative w-full max-w-md group group">
+    <header className="flex h-20 items-center justify-between glass border-b border-primary/5 px-4 md:px-10 sticky top-0 z-10 mx-6 mt-4 rounded-3xl shadow-premium">
+      <div className="flex items-center flex-1 gap-4">
+        {/* Mobile Menu Trigger */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden rounded-2xl h-11 w-11"
+            >
+              <Menu className="h-6 w-6 text-slate-600" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-72 border-none">
+            <Sidebar />
+          </SheetContent>
+        </Sheet>
+
+        <div className="relative w-full max-w-md group group hidden md:block">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-all duration-300 group-hover:left-5" />
           <Input
             placeholder="Search shipmens, orders, or products..."

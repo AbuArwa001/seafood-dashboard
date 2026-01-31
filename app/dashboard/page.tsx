@@ -231,9 +231,9 @@ export default function DashboardPage() {
       animate="show"
       className="space-y-10 p-2"
     >
-      <header className="flex items-end justify-between">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h2 className="text-4xl font-black tracking-tight text-slate-900 font-heading">
+          <h2 className="text-2xl md:text-4xl font-black tracking-tight text-slate-900 font-heading">
             Executive <span className="text-primary italic">Overview</span>
           </h2>
           <p className="text-slate-500 font-medium mt-2">
@@ -271,7 +271,7 @@ export default function DashboardPage() {
         </div>
       </header>
       {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, idx) => (
           <motion.div key={stat.title} variants={item}>
             <Card className="border-none shadow-premium bg-white/80 backdrop-blur-sm overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
@@ -344,7 +344,7 @@ export default function DashboardPage() {
           </motion.div>
         ))}
       </div>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-6">
         {/* Analytics Chart */}
         <motion.div variants={item} className="lg:col-span-4">
           <Card className="border-none shadow-premium bg-white group h-full">
@@ -368,7 +368,7 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="pt-8">
-              <div className="h-80 w-full">
+              <div className="h-64 md:h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={salesChartData.map((v: number, i: number) => ({
@@ -514,7 +514,7 @@ export default function DashboardPage() {
           </Card>
         </motion.div>
       </div>
-      <div className="grid gap-8 lg:grid-cols-6">
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-6">
         {/* Regional Currency Watch */}
         <motion.div variants={item} className="lg:col-span-3">
           <Card className="border-none shadow-premium bg-white h-full">
