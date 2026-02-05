@@ -46,6 +46,7 @@ export function truncate(str: string, length: number = 50): string {
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
