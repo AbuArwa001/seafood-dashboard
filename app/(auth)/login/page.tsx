@@ -42,6 +42,7 @@ export default function LoginPage() {
       toast.error(
         error.response?.data?.detail ||
         "Login failed. Please check your credentials.",
+        "Login failed. Please check your credentials.",
       );
     } finally {
       setIsLoading(false);
