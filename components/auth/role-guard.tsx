@@ -3,7 +3,8 @@
 import { useAuth } from "@/components/providers/auth-provider";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface RoleGuardProps {
     children: React.ReactNode;
@@ -47,9 +48,20 @@ export function RoleGuard({ children, allowedRoles }: RoleGuardProps) {
     }
 
     return (
-        <div className="flex h-[50vh] flex-col items-center justify-center space-y-4">
-            <h1 className="text-2xl font-bold text-destructive">Access Denied</h1>
-            <p className="text-slate-500">You do not have permission to view this page.</p>
+        <div className="flex h-[70vh] flex-col items-center justify-center p-8 text-center">
+            <div className="bg-red-50 p-6 rounded-[2.5rem] mb-6">
+                <ShieldCheck className="h-12 w-12 text-destructive" />
+            </div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Security Restriction</h1>
+            <p className="text-slate-500 font-semibold mt-2 max-w-md">
+                Your administrative profile does not currently have the necessary <span className="text-destructive">clearing protocols</span> for this executive module.
+            </p>
+            <Button
+                onClick={() => router.push("/dashboard")}
+                className="mt-8 rounded-2xl bg-slate-900 px-8 h-12 font-black shadow-xl"
+            >
+                RETURN TO BRIDGE
+            </Button>
         </div>
     );
 }

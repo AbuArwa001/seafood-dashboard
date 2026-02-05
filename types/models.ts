@@ -5,6 +5,7 @@ export interface User {
   full_name: string;
   location: string;
   role: Role;
+  role_name?: string;
   is_active: boolean;
   created_at: string;
   updated_at: string;

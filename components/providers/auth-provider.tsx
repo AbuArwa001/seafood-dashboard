@@ -69,15 +69,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     // Helper flags
-    const roleName = user?.role?.role_name || null;
-    const isAdmin = roleName === "Admin";
+    const roleName = user?.role?.role_name || user?.role_name || null;
+    const isAdmin = roleName?.toLowerCase() === "admin";
     // Agent roles checking
     const isAgent = [
         "Mozambique Agent",
         "Logistics Agent",
         "Sales Agent",
         "Finance Agent"
-    ].includes(roleName || "");
+    ].some(role => role.toLowerCase() === roleName?.toLowerCase());
 
     const value = {
         user,
