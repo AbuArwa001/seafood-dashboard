@@ -27,12 +27,15 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 10px -5px rgba(0, 0, 0, 0.02);
+  --shadow-premium: 0 20px 50px -15px rgba(0, 0, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.03);
+  --shadow-executive: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
   --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
   
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
+  --radius-4xl: 2.5rem;
+  --radius-5xl: 3rem;
 }
 
 :root {
