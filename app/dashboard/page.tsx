@@ -16,6 +16,7 @@ import {
   Plus,
   ArrowRightLeft,
   Layers,
+  BarChart3,
 } from "lucide-react";
 import {
   AreaChart,
@@ -248,47 +249,58 @@ export default function DashboardPage() {
       }));
   }, [exchangeRates]);
 
+  // Combined chart data for analytics
+  const chartData = useMemo(() => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+    return months.map((month, i) => ({
+      month,
+      shipments: (shipmentChartData[i] || 0) * 10, // Mocked for scale
+      sales: (salesChartData[i] || 0) / 1000,      // Mocked for scale
+    }));
+  }, [salesChartData, shipmentChartData]);
+
   return (
     <motion.div
       variants={container}
       initial="hidden"
       animate="show"
-      className="space-y-10 p-2"
+      className="space-y-12 p-4 lg:p-8"
     >
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h2 className="text-2xl md:text-4xl font-black tracking-tight text-slate-900 font-heading">
-            Executive <span className="text-primary italic">Overview</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 font-heading leading-tight">
+            Executive <span className="text-[#1a365d] italic">Overview</span>
           </h2>
-          <p className="text-slate-500 font-medium mt-2">
-            Welcome back. Your seafood registry is performing{" "}
-            <span className="text-secondary font-bold">optimally</span>.
+          <p className="text-slate-500 font-semibold mt-3 text-lg">
+            Welcome back. Your global seafood operations are{" "}
+            <span className="text-emerald-500 font-black underline decoration-emerald-200 decoration-4 underline-offset-4">running smoothly</span>.
           </p>
         </div>
         <div className="flex space-x-3">
           <Button
             variant="outline"
-            className="rounded-2xl border-slate-200 font-bold hover:bg-slate-50"
+            className="rounded-2xl border-slate-200 font-bold hover:bg-slate-50 h-12 px-6 shadow-sm transition-all"
           >
-            Export Report
+            Generate Report
           </Button>
           {canManageCatalog && (
             <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
               <DialogTrigger asChild>
-                <Button className="rounded-2xl font-black shadow-lg shadow-primary/25">
-                  <Plus className="h-4 w-4 mr-2" /> CREATE NEW REGISTRY
+                <Button className="rounded-2xl font-black bg-[#1a365d] hover:bg-[#2c5282] h-12 px-8 shadow-xl shadow-[#1a365d]/20 transition-all active:scale-95">
+                  <Plus className="h-5 w-5 mr-3" /> REGISTER ASSET
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
-                <div className="bg-primary p-6 text-white text-center">
-                  <DialogTitle className="text-2xl font-black">
+              <DialogContent className="sm:max-w-[550px] rounded-[3rem] border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+                <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
+                  <DialogTitle className="text-3xl font-black tracking-tight">
                     Product Registry
                   </DialogTitle>
-                  <p className="text-primary-foreground/80 text-[10px] font-bold mt-1 uppercase tracking-widest">
-                    Create a new catalog entry
+                  <p className="text-blue-100/70 text-[11px] font-black mt-2 uppercase tracking-[0.2em]">
+                    Digital asset creation system
                   </p>
                 </div>
-                <div className="p-8">
+                <div className="p-10">
                   <ProductForm onSuccess={() => setIsAddModalOpen(false)} />
                 </div>
               </DialogContent>
@@ -296,38 +308,39 @@ export default function DashboardPage() {
           )}
         </div>
       </header>
+
       {/* Stats Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, idx) => (
           <motion.div key={stat.title} variants={item}>
-            <Card className="border-none shadow-premium bg-white/80 backdrop-blur-sm overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+            <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
               <CardContent className="p-0">
-                <div className="p-6 pb-2">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`${stat.bgColor} p-3 rounded-2xl`}>
-                      <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                <div className="p-8 pb-4">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className={`${stat.bgColor} p-4 rounded-[1.5rem] shadow-sm transform group-hover:rotate-6 transition-transform duration-500`}>
+                      <stat.icon className={`h-7 w-7 ${stat.color}`} />
                     </div>
                     <div
-                      className={`flex items-center text-xs font-black ${stat.trend === "up" ? "text-secondary" : "text-destructive"}`}
+                      className={`flex items-center text-[10px] font-black px-2.5 py-1 rounded-full ${stat.trend === "up" ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"}`}
                     >
                       {stat.trend === "up" ? (
-                        <TrendingUp className="h-3 w-3 mr-1" />
+                        <TrendingUp className="h-3 w-3 mr-1.5" />
                       ) : (
-                        <TrendingDown className="h-3 w-3 mr-1" />
+                        <TrendingDown className="h-3 w-3 mr-1.5" />
                       )}
                       {stat.change}
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-black text-slate-400/80 uppercase tracking-[0.2em]">
                       {stat.title}
                     </p>
-                    <div className="text-3xl font-black text-slate-900 tracking-tighter">
+                    <div className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#1a365d] transition-colors duration-500">
                       {stat.value}
                     </div>
                   </div>
                 </div>
-                <div className="h-16 w-full opacity-60 group-hover:opacity-100 transition-opacity">
+                <div className="h-20 w-full opacity-40 group-hover:opacity-100 transition-opacity duration-700">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={stat.data.map((v: any) => ({ v }))}>
                       <defs>
@@ -341,14 +354,14 @@ export default function DashboardPage() {
                           <stop
                             offset="5%"
                             stopColor={
-                              stat.trend === "up" ? "#10B981" : "#0F52BA"
+                              stat.trend === "up" ? "#10B981" : "#1a365d"
                             }
-                            stopOpacity={0.3}
+                            stopOpacity={0.4}
                           />
                           <stop
                             offset="95%"
                             stopColor={
-                              stat.trend === "up" ? "#10B981" : "#0F52BA"
+                              stat.trend === "up" ? "#10B981" : "#1a365d"
                             }
                             stopOpacity={0}
                           />
@@ -357,10 +370,10 @@ export default function DashboardPage() {
                       <Area
                         type="monotone"
                         dataKey="v"
-                        stroke={stat.trend === "up" ? "#10B981" : "#0F52BA"}
+                        stroke={stat.trend === "up" ? "#10B981" : "#1a365d"}
                         fillOpacity={1}
                         fill={`url(#grad-${idx})`}
-                        strokeWidth={2}
+                        strokeWidth={3}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -371,41 +384,40 @@ export default function DashboardPage() {
         ))}
       </div>
       <div className="grid gap-8 grid-cols-1 lg:grid-cols-6">
-        {/* Analytics Chart */}
+        {/* Performance Analytics */}
         {showRevenue && (
           <motion.div variants={item} className="lg:col-span-4">
-            <Card className="border-none shadow-premium bg-white group h-full">
-              <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 pb-6">
-                <div>
-                  <CardTitle className="text-xl font-black tracking-tight flex items-center">
-                    <Activity className="h-5 w-5 mr-3 text-primary" />
-                    Performance Analytics
-                  </CardTitle>
-                  <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest">
-                    Revenue vs Shipments
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-1 rounded-xl flex">
-                  <button className="px-4 py-1.5 text-xs font-black bg-white shadow-sm rounded-lg text-primary">
-                    Income
-                  </button>
-                  <button className="px-4 py-1.5 text-xs font-bold text-slate-500">
-                    Volume
-                  </button>
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] h-full overflow-hidden transition-all duration-500">
+              <CardHeader className="border-b border-slate-50 p-8 pb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-2xl font-black tracking-tight flex items-center text-slate-900">
+                      <BarChart3 className="h-6 w-6 mr-3 text-secondary" />
+                      Performance <span className="text-[#1a365d] ml-1.5 italic">Analytics</span>
+                    </CardTitle>
+                    <p className="text-sm font-semibold text-slate-400 mt-2 uppercase tracking-widest">
+                      Year-over-year operational growth
+                    </p>
+                  </div>
+                  <div className="flex bg-slate-100 p-1.5 rounded-2xl">
+                    {["12M", "6M", "30D"].map((t) => (
+                      <button
+                        key={t}
+                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest transition-all ${t === "12M" ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </CardHeader>
-              <CardContent className="pt-8">
-                <div className="h-64 md:h-80 w-full">
+              <CardContent className="p-8">
+                <div className="h-[400px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                      data={salesChartData.map((v: number, i: number) => ({
-                        name: `P${i + 1}`,
-                        value: v,
-                      }))}
-                    >
+                    <AreaChart data={chartData}>
                       <defs>
                         <linearGradient
-                          id="colorRevenue"
+                          id="colorShipments"
                           x1="0"
                           y1="0"
                           x2="0"
@@ -413,12 +425,30 @@ export default function DashboardPage() {
                         >
                           <stop
                             offset="5%"
-                            stopColor="#0F52BA"
-                            stopOpacity={0.1}
+                            stopColor="#1a365d"
+                            stopOpacity={0.15}
                           />
                           <stop
                             offset="95%"
-                            stopColor="#0F52BA"
+                            stopColor="#1a365d"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                        <linearGradient
+                          id="colorSales"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#FF9A62"
+                            stopOpacity={0.15}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#FF9A62"
                             stopOpacity={0}
                           />
                         </linearGradient>
@@ -429,33 +459,51 @@ export default function DashboardPage() {
                         stroke="#f1f5f9"
                       />
                       <XAxis
-                        dataKey="name"
+                        dataKey="month"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: 700 }}
-                        dy={10}
+                        tick={{
+                          fill: "#94a3b8",
+                          fontSize: 10,
+                          fontWeight: "black",
+                        }}
+                        dy={15}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: 700 }}
+                        tick={{
+                          fill: "#94a3b8",
+                          fontSize: 10,
+                          fontWeight: "black",
+                        }}
                       />
                       <Tooltip
                         contentStyle={{
                           borderRadius: "20px",
                           border: "none",
-                          boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)",
+                          boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
                           padding: "15px",
                         }}
-                        itemStyle={{ fontWeight: "black", color: "#0F52BA" }}
+                        cursor={{ stroke: "#e2e8f0", strokeWidth: 2 }}
                       />
                       <Area
                         type="monotone"
-                        dataKey="value"
-                        stroke="#0F52BA"
+                        dataKey="shipments"
+                        stroke="#1a365d"
                         strokeWidth={4}
                         fillOpacity={1}
-                        fill="url(#colorRevenue)"
+                        fill="url(#colorShipments)"
+                        name="Shipments"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="sales"
+                        stroke="#FF9A62"
+                        strokeWidth={4}
+                        fillOpacity={1}
+                        fill="url(#colorSales)"
+                        name="New Sales"
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -465,63 +513,65 @@ export default function DashboardPage() {
           </motion.div>
         )}
 
-        {/* Recent Shipments */}
+        {/* Live Feed */}
         {showShipments && (
           <motion.div variants={item} className="lg:col-span-2">
-            <Card className="border-none shadow-premium bg-slate-900 text-white h-full relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mt-10 -mr-10" />
-              <CardHeader className="relative z-10 border-b border-white/5 pb-2">
-                <CardTitle className="text-xl font-black flex items-center">
-                  <Anchor className="h-5 w-5 mr-3 text-secondary" />
-                  Live Feed
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+              {/* Decorative waves */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl -mb-10 -ml-10" />
+
+              <CardHeader className="relative z-10 border-b border-white/10 p-8 pb-6">
+                <CardTitle className="text-2xl font-black tracking-tight flex items-center text-white">
+                  <Anchor className="h-6 w-6 mr-3 text-secondary" />
+                  Live <span className="text-secondary ml-1.5 italic">Feed</span>
                 </CardTitle>
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
-                  Real-time shipments
+                <p className="text-[10px] text-blue-200/60 font-black uppercase tracking-[0.25em] mt-2">
+                  Global Logistics Stream
                 </p>
               </CardHeader>
-              <CardContent className="relative z-10 pt-6">
-                <div className="space-y-6">
+              <CardContent className="relative z-10 p-8 pt-6">
+                <div className="space-y-4">
                   {isLoadingShipments ? (
                     [1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
-                        className="flex items-center space-x-4 p-4 bg-white/5 rounded-3xl"
+                        className="flex items-center space-x-4 p-5 bg-white/5 rounded-[1.75rem] border border-white/5"
                       >
-                        <Skeleton className="h-10 w-10 rounded-2xl bg-white/10" />
+                        <Skeleton className="h-11 w-11 rounded-2xl bg-white/10" />
                         <div className="space-y-2 flex-1">
-                          <Skeleton className="h-4 w-20 bg-white/10" />
-                          <Skeleton className="h-3 w-32 bg-white/10" />
+                          <Skeleton className="h-4 w-24 bg-white/10" />
+                          <Skeleton className="h-3 w-32 bg-white/5" />
                         </div>
                       </div>
                     ))
                   ) : shipments?.length > 0 ? (
-                    shipments.slice(0, 4).map((shipment: any) => (
+                    shipments.slice(0, 5).map((shipment: any) => (
                       <div
                         key={shipment.id}
-                        className="group relative flex items-center justify-between p-4 bg-white/5 rounded-3xl hover:bg-white/10 transition-colors border border-white/5"
+                        className="group relative flex items-center justify-between p-5 bg-white/5 rounded-[1.75rem] hover:bg-white/[0.08] transition-all duration-300 border border-white/5 hover:border-white/10"
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="bg-primary/20 h-10 w-10 rounded-2xl flex items-center justify-center">
-                            <Ship className="h-5 w-5 text-primary" />
+                          <div className="bg-secondary/20 h-11 w-11 rounded-2xl flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
+                            <Ship className="h-5 w-5 text-secondary" />
                           </div>
                           <div>
-                            <p className="text-sm font-black tracking-tight">
-                              SHP#{shipment.id.substring(0, 4)}
+                            <p className="text-sm font-black tracking-tight text-white group-hover:text-secondary transition-colors">
+                              SHP#{shipment.id.substring(0, 6)}
                             </p>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-                              {shipment.country_origin}
+                            <p className="text-[10px] text-blue-200/50 font-black uppercase tracking-widest mt-0.5">
+                              {shipment.country_origin} → {shipment.country_destination || "Global"}
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-bold text-secondary">
-                            {shipment.status === "COMPLETED" ? "DONE" : "TRACK"}
+                          <p className="text-xs font-black text-white px-3 py-1 bg-white/5 rounded-full border border-white/10 mb-2">
+                            {new Date(shipment.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${shipment.status === "RECEIVED" ||
-                              shipment.status === "COMPLETED"
-                              ? "bg-secondary/20 text-secondary"
-                              : "bg-primary/20 text-primary"
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" || shipment.status === "COMPLETED"
+                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                              : "bg-secondary/20 text-secondary border border-secondary/20"
                               }`}
                           >
                             {shipment.status.replace("_", " ")}
@@ -530,12 +580,15 @@ export default function DashboardPage() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-xs text-slate-500 font-bold text-center py-10 italic">
-                      No active shipments found.
-                    </p>
+                    <div className="py-16 text-center">
+                      <Ship className="h-12 w-12 text-white/10 mx-auto mb-4" />
+                      <p className="text-sm text-blue-200/30 font-bold italic">
+                        No active deployments tracked.
+                      </p>
+                    </div>
                   )}
-                  <Button className="w-full bg-white text-slate-900 font-black rounded-2xl hover:bg-slate-100 mt-2">
-                    VIEW FULL LOG <ArrowRight className="h-4 w-4 ml-2" />
+                  <Button className="w-full bg-white text-[#1a365d] font-black rounded-2xl hover:bg-white/90 h-14 mt-4 shadow-xl transition-all active:scale-95 group">
+                    EXPLORE REGISTRY <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </CardContent>
