@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
+import { PERMISSIONS, hasPermission } from "@/lib/permissions";
 
 const navigation = [
   {
@@ -30,25 +31,25 @@ const navigation = [
         name: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
-        roles: ["Admin", "Manager"],
+        permissions: [], // Accessible to all authenticated users
       },
       {
         name: "Shipments",
         href: "/dashboard/shipments",
         icon: Ship,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_SHIPMENT],
       },
       {
         name: "Products",
         href: "/dashboard/products",
         icon: Package,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_PRODUCT],
       },
       {
         name: "Sales",
         href: "/dashboard/sales",
         icon: ShoppingCart,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_SALE],
       },
     ],
   },
@@ -59,37 +60,37 @@ const navigation = [
         name: "Exchange Rates",
         href: "/dashboard/exchange-rates",
         icon: ArrowRightLeft,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_EXCHANGERATE],
       },
       {
         name: "Currencies",
         href: "/dashboard/currencies",
         icon: Banknote,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_CURRENCY],
       },
       {
         name: "Payments",
         href: "/dashboard/payments",
         icon: CreditCard,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_PAYMENT],
       },
       {
         name: "Purchases",
         href: "/dashboard/purchases",
         icon: ShoppingBag,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_SUPPLIERPURCHASE],
       },
       {
         name: "Costs",
         href: "/dashboard/costs",
         icon: DollarSign,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_COSTLEDGER],
       },
       {
         name: "Logistics",
         href: "/dashboard/logistics",
         icon: Truck,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_LOGISTICSRECEIPT],
       },
     ],
   },
@@ -100,13 +101,13 @@ const navigation = [
         name: "Users",
         href: "/dashboard/users",
         icon: Users,
-        roles: ["Admin"],
+        permissions: [PERMISSIONS.VIEW_USER],
       },
       {
         name: "Settings",
         href: "/dashboard/settings",
         icon: Settings,
-        roles: ["Admin", "Manager"],
+        permissions: [PERMISSIONS.VIEW_USER], // Assuming settings is Admin only for now
       },
     ],
   },
@@ -144,7 +145,7 @@ export function Sidebar() {
       <nav className="flex-1 space-y-6 overflow-y-auto px-6 py-4 custom-scrollbar">
         {navigation.map((group) => {
           const filteredItems = group.items.filter(
-            (item) => !item.roles || item.roles.includes(userRole),
+            (item) => !item.permissions || item.permissions.length === 0 || item.permissions.some(p => hasPermission(user, p)),
           );
 
           if (filteredItems.length === 0) return null;

@@ -44,6 +44,8 @@ import { SaleForm } from "@/components/forms/SaleForm";
 import { ProductForm } from "@/components/forms/ProductForm";
 import { CategoryForm } from "@/components/forms/CategoryForm";
 
+import { PERMISSIONS, hasPermission } from "@/lib/permissions";
+
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -62,82 +64,90 @@ const item = {
 import { useAuth } from "@/components/providers/auth-provider";
 
 export default function DashboardPage() {
-  const { roleName, isAdmin } = useAuth();
+  const { user, isAdmin } = useAuth(); // Use user object for permission checks
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // Permission Flags
-  const canViewFinancials = isAdmin || roleName === "Finance Agent";
-  const canViewSales = isAdmin || roleName === "Sales Agent";
-  const canViewLogistics = isAdmin || roleName === "Logistics Agent" || roleName === "Mozambique Agent";
-  const canManageCatalog = isAdmin; // Only Admin can add products/categories
+  // Permission Checks
+  const canViewFinancials = hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
+  const canViewSales = hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
+  const canViewShipments = hasPermission(user, PERMISSIONS.VIEW_SHIPMENT) || isAdmin;
+  const canViewPayments = hasPermission(user, PERMISSIONS.VIEW_PAYMENT);
+  const canManageCatalog = hasPermission(user, PERMISSIONS.ADD_PRODUCT) || isAdmin;
+  const canViewExchangeRates = hasPermission(user, PERMISSIONS.VIEW_EXCHANGERATE);
 
-  // Dashboard Access Rules
-  // Viewer: Read Only (handled by hiding actions)
-  // Mozambique/Logistics: No Revenue/Profit/Payment data
-  // Sales: No Costs/Profit (Revenue OK?)
-
-  // Refined Flags for UI
-  const showRevenue = canViewFinancials || canViewSales;
-  const showPayments = canViewFinancials;
-  const showShipments = canViewLogistics || isAdmin || roleName === "Sales Agent" /* Sales need to see stock? */ || roleName === "Viewer";
+  // Specific Agent View Logic
+  // If user can view sales but NOT costs, they shouldn't see profit, but might see revenue.
+  // Implementation plan says Sales Agent = Revenue OK, Profit NO.
+  // We will assume `VIEW_SALE` grants access to Revenue stats.
 
   // Fetch Shipments
   const { data: shipments, isLoading: isLoadingShipments } = useQuery({
     queryKey: ["shipments"],
     queryFn: async () => {
+      if (!canViewShipments) return [];
       const response = await apiClient.get(API_ENDPOINTS.SHIPMENTS, {
-        params: { page_size: 1000 },
+        params: { page_size: 100 },
       });
       return response.data.results || response.data;
     },
+    enabled: canViewShipments,
   });
 
-  // Fetch Products
+  // Fetch Products (Everyone sees products usually, or check VIEW_PRODUCT)
+  const canViewProducts = hasPermission(user, PERMISSIONS.VIEW_PRODUCT) || isAdmin;
   const { data: products, isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
+      if (!canViewProducts) return [];
       const response = await apiClient.get(API_ENDPOINTS.PRODUCTS, {
-        params: { page_size: 1000 },
+        params: { page_size: 100 },
       });
       return response.data.results || response.data;
     },
+    enabled: canViewProducts,
   });
 
   // Fetch Sales
   const { data: sales, isLoading: isLoadingSales } = useQuery({
     queryKey: ["sales"],
     queryFn: async () => {
+      if (!canViewSales) return [];
       const response = await apiClient.get(API_ENDPOINTS.SALES, {
-        params: { page_size: 1000 },
+        params: { page_size: 100 },
       });
       return response.data.results || response.data;
     },
+    enabled: canViewSales,
   });
 
   // Fetch Exchange Rates
   const { data: exchangeRates } = useQuery({
     queryKey: ["exchange-rates"],
     queryFn: async () => {
+      if (!canViewExchangeRates) return [];
       const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
         params: {
-          page_size: 1000,
+          page_size: 100,
           to_currency__code: "KES",
           currencies: "USD,TZS,MZN,AED,CNY",
         },
       });
       return response.data.results || response.data;
     },
+    enabled: canViewExchangeRates,
   });
 
   // Fetch Payments
   const { data: payments, isLoading: isLoadingPayments } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
+      if (!canViewPayments) return [];
       const response = await apiClient.get(API_ENDPOINTS.PAYMENTS, {
-        params: { page_size: 1000 },
+        params: { page_size: 100 },
       });
       return response.data.results || response.data;
     },
+    enabled: canViewPayments,
   });
 
   // Calculate totals
@@ -191,7 +201,7 @@ export default function DashboardPage() {
       color: "text-primary",
       bgColor: "bg-primary/10",
       data: salesChartData,
-      hidden: !showRevenue,
+      hidden: !canViewSales,
     },
     {
       title: "Active Shipments",
@@ -206,7 +216,7 @@ export default function DashboardPage() {
       color: "text-secondary",
       bgColor: "bg-secondary/10",
       data: shipmentChartData,
-      hidden: !showShipments,
+      hidden: !canViewShipments,
     },
     {
       title: "Pending Payments",
@@ -220,7 +230,7 @@ export default function DashboardPage() {
       color: "text-amber-500",
       bgColor: "bg-amber-500/10",
       data: [45, 30, 55, 20, 40, 35, 30],
-      hidden: !showPayments,
+      hidden: !canViewPayments,
     },
     {
       title: "Total Products",
@@ -231,7 +241,7 @@ export default function DashboardPage() {
       color: "text-indigo-500",
       bgColor: "bg-indigo-500/10",
       data: [10, 20, 15, 25, 30, 28, 35],
-      hidden: false, // Everyone sees products
+      hidden: !canViewProducts,
     },
   ].filter(stat => !stat.hidden);
 
@@ -310,9 +320,9 @@ export default function DashboardPage() {
       </header>
 
       {/* Stats Grid */}
-      <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex flex-wrap gap-8">
         {stats.map((stat, idx) => (
-          <motion.div key={stat.title} variants={item}>
+          <motion.div key={stat.title} variants={item} className="flex-1 min-w-full sm:min-w-[280px] lg:min-w-[22%]">
             <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
               <CardContent className="p-0">
                 <div className="p-8 pb-4">
@@ -383,10 +393,12 @@ export default function DashboardPage() {
           </motion.div>
         ))}
       </div>
-      <div className="grid gap-8 grid-cols-1 lg:grid-cols-6">
+
+      {/* Main Content Area - Flex Layout for Fluidity */}
+      <div className="flex flex-col lg:flex-row gap-8 flex-wrap">
         {/* Performance Analytics */}
-        {showRevenue && (
-          <motion.div variants={item} className="lg:col-span-4">
+        {canViewSales && (
+          <motion.div variants={item} className="flex-[2] min-w-full lg:min-w-[700px]">
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] h-full overflow-hidden transition-all duration-500">
               <CardHeader className="border-b border-slate-50 p-8 pb-6">
                 <div className="flex items-center justify-between">
@@ -514,8 +526,8 @@ export default function DashboardPage() {
         )}
 
         {/* Live Feed */}
-        {showShipments && (
-          <motion.div variants={item} className="lg:col-span-2">
+        {canViewShipments && (
+          <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[350px]">
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
               {/* Decorative waves */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20" />
@@ -596,73 +608,75 @@ export default function DashboardPage() {
           </motion.div>
         )}
       </div>
-      <div className="grid gap-8 grid-cols-1 lg:grid-cols-6">
+
+      <div className="flex flex-col lg:flex-row gap-8 flex-wrap">
         {/* Regional Currency Watch */}
-        <motion.div variants={item} className="lg:col-span-3">
-          <Card className="border-none shadow-premium bg-white h-full">
-            <CardHeader className="border-b border-slate-50 pb-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-xl font-black tracking-tight flex items-center">
-                    <ArrowRightLeft className="h-5 w-5 mr-3 text-secondary" />
-                    Currency Watch
-                  </CardTitle>
-                  <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest">
-                    Regional Rates to KSH
-                  </p>
-                </div>
-                <div className="bg-secondary/10 px-3 py-1 rounded-full">
-                  <span className="text-[10px] font-black text-secondary tracking-widest">
-                    REAL-TIME
-                  </span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="space-y-1">
-                {kshRates.length > 0 ? (
-                  kshRates.map((curr: any) => (
-                    <div
-                      key={curr.code}
-                      className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs bg-slate-100">
-                          {curr.code}
-                        </div>
-                        <div>
-                          <p className="text-sm font-black text-slate-900">
-                            {curr.name}
-                          </p>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                            {curr.code} / KSH
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-black text-slate-900 tracking-tighter">
-                          {curr.rate}
-                        </p>
-                        <p className="text-[10px] font-bold text-slate-400">
-                          Current Unit Rate
-                        </p>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="py-20 text-center">
-                    <p className="text-slate-400 font-bold italic text-sm">
-                      No KSH pairs configured in Vault
+        {canViewExchangeRates && (
+          <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[400px]">
+            <Card className="border-none shadow-premium bg-white h-full">
+              <CardHeader className="border-b border-slate-50 pb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-xl font-black tracking-tight flex items-center">
+                      <ArrowRightLeft className="h-5 w-5 mr-3 text-secondary" />
+                      Currency Watch
+                    </CardTitle>
+                    <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest">
+                      Regional Rates to KSH
                     </p>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+                  <div className="bg-secondary/10 px-3 py-1 rounded-full">
+                    <span className="text-[10px] font-black text-secondary tracking-widest">
+                      REAL-TIME
+                    </span>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="space-y-1">
+                  {kshRates.length > 0 ? (
+                    kshRates.map((curr: any) => (
+                      <div
+                        key={curr.code}
+                        className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs bg-slate-100">
+                            {curr.code}
+                          </div>
+                          <div>
+                            <p className="text-sm font-black text-slate-900">
+                              {curr.name}
+                            </p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                              {curr.code} / KSH
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-black text-slate-900 tracking-tighter">
+                            {curr.rate}
+                          </p>
+                          <p className="text-[10px] font-bold text-slate-400">
+                            Current Unit Rate
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="py-20 text-center">
+                      <p className="text-slate-400 font-bold italic text-sm">
+                        No KSH pairs configured in Vault
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
         {/* System Health / Logistics Summary */}
-        <motion.div variants={item} className="lg:col-span-3">
+        <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[400px]">
           <Card className="border-none shadow-premium bg-primary text-white h-full relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mt-20 -mr-20" />
             <CardHeader>
@@ -719,7 +733,7 @@ export default function DashboardPage() {
       <motion.div variants={item}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Log Shipment Modal */}
-          {(canViewLogistics || isAdmin) && (
+          {(hasPermission(user, PERMISSIONS.ADD_SHIPMENT) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
                 <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-primary transition-all duration-500">
@@ -753,7 +767,7 @@ export default function DashboardPage() {
           )}
 
           {/* Record Sale Modal */}
-          {canViewSales && (
+          {(hasPermission(user, PERMISSIONS.ADD_SALE) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
                 <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-secondary transition-all duration-500">
@@ -855,6 +869,6 @@ export default function DashboardPage() {
           )}
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div >
   );
 }
