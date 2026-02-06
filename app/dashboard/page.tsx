@@ -674,6 +674,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </motion.div>
+        )}
 
         {/* System Health / Logistics Summary */}
         <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[400px]">
