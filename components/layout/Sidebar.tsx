@@ -18,10 +18,9 @@ import {
   Banknote,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
+
 import { PERMISSIONS, hasPermission } from "@/lib/permissions";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const navigation = [
   {
@@ -115,15 +114,9 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { user, isAdmin } = useAuth();
 
-  const { data: user } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.ME);
-      return response.data;
-    },
-  });
-
+  /* Redundant useQuery removed - using useAuth user instead */
   const userRole = user?.role_name || "Manager";
 
   return (
@@ -145,7 +138,7 @@ export function Sidebar() {
       <nav className="flex-1 space-y-6 overflow-y-auto px-6 py-4 custom-scrollbar">
         {navigation.map((group) => {
           const filteredItems = group.items.filter(
-            (item) => !item.permissions || item.permissions.length === 0 || item.permissions.some(p => hasPermission(user, p)),
+            (item) => !item.permissions || item.permissions.length === 0 || isAdmin || item.permissions.some(p => hasPermission(user, p)),
           );
 
           if (filteredItems.length === 0) return null;
