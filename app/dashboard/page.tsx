@@ -29,6 +29,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -82,6 +83,11 @@ import { useAuth } from "@/components/providers/auth-provider";
 export default function DashboardPage() {
   const { user, isAdmin } = useAuth(); // Use user object for permission checks
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [timeRange, setTimeRange] = useState("12M");
+  const [visibleSeries, setVisibleSeries] = useState({
+    shipments: true,
+    sales: true,
+  });
 
   // Permission Checks
   const canViewFinancials = hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
@@ -277,13 +283,29 @@ export default function DashboardPage() {
 
   // Combined chart data for analytics
   const chartData = useMemo(() => {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+
+    // Adjust mock data/labels based on timeRange
+    if (timeRange === "30D") {
+      months = ["Week 1", "Week 2", "Week 3", "Week 4"];
+    } else if (timeRange === "6M") {
+      months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    }
+
     return months.map((month, i) => ({
       month,
-      shipments: (shipmentChartData[i] || 0) * 10, // Mocked for scale
-      sales: (salesChartData[i] || 0) / 1000,      // Mocked for scale
+      shipments: visibleSeries.shipments ? (shipmentChartData[i] || 0) * (timeRange === "30D" ? 5 : 10) : 0,
+      sales: visibleSeries.sales ? (salesChartData[i] || 0) / (timeRange === "30D" ? 500 : 1000) : 0,
     }));
-  }, [salesChartData, shipmentChartData]);
+  }, [salesChartData, shipmentChartData, timeRange, visibleSeries]);
+
+  const toggleSeries = (entry: any) => {
+    const { dataKey } = entry;
+    setVisibleSeries(prev => ({
+      ...prev,
+      [dataKey]: !prev[dataKey as keyof typeof prev],
+    }));
+  };
 
   const handleExecutiveReport = () => {
     toast.promise(async () => {
@@ -511,7 +533,8 @@ export default function DashboardPage() {
                     {["12M", "6M", "30D"].map((t) => (
                       <button
                         key={t}
-                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest transition-all ${t === "12M" ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+                        onClick={() => setTimeRange(t)}
+                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest transition-all ${t === timeRange ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600 cursor-pointer"}`}
                       >
                         {t}
                       </button>
@@ -523,6 +546,20 @@ export default function DashboardPage() {
                 <div className="h-[400px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData}>
+                      <Legend
+                        onClick={toggleSeries}
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                        wrapperStyle={{
+                          paddingBottom: "20px",
+                          fontSize: "10px",
+                          fontWeight: "black",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.1em",
+                          cursor: "pointer"
+                        }}
+                      />
                       <defs>
                         <linearGradient
                           id="colorShipments"
@@ -603,6 +640,8 @@ export default function DashboardPage() {
                         fillOpacity={1}
                         fill="url(#colorShipments)"
                         name="Shipments"
+                        hide={!visibleSeries.shipments}
+                        activeDot={{ r: 8, strokeWidth: 0, fill: "#1a365d" }}
                       />
                       <Area
                         type="monotone"
@@ -612,6 +651,8 @@ export default function DashboardPage() {
                         fillOpacity={1}
                         fill="url(#colorSales)"
                         name="New Sales"
+                        hide={!visibleSeries.sales}
+                        activeDot={{ r: 8, strokeWidth: 0, fill: "#FF9A62" }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
