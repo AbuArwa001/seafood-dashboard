@@ -17,6 +17,9 @@ import {
   ArrowRightLeft,
   Layers,
   BarChart3,
+  FileSpreadsheet,
+  Download,
+  Star,
 } from "lucide-react";
 import {
   AreaChart,
@@ -43,6 +46,19 @@ import { ShipmentForm } from "@/components/forms/ShipmentForm";
 import { SaleForm } from "@/components/forms/SaleForm";
 import { ProductForm } from "@/components/forms/ProductForm";
 import { CategoryForm } from "@/components/forms/CategoryForm";
+import {
+  downloadIndividualReport,
+  downloadExecutiveReport
+} from "@/lib/utils/report-utils";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 import { PERMISSIONS, hasPermission } from "@/lib/permissions";
 
@@ -269,6 +285,26 @@ export default function DashboardPage() {
     }));
   }, [salesChartData, shipmentChartData]);
 
+  const handleExecutiveReport = () => {
+    toast.promise(async () => {
+      downloadExecutiveReport([
+        { sheetName: "Sales", data: sales || [] },
+        { sheetName: "Shipments", data: shipments || [] },
+        { sheetName: "Payments", data: payments || [] },
+        { sheetName: "Products", data: products || [] },
+      ]);
+    }, {
+      loading: 'Compiling executive business data...',
+      success: 'Executive Business Report generated successfully!',
+      error: 'Failed to generate report.',
+    });
+  };
+
+  const handleModuleReport = (type: string, data: any[]) => {
+    toast.message(`Generating ${type} report...`);
+    downloadIndividualReport(data, type, `${type}_Report`);
+  };
+
   return (
     <motion.div
       variants={container}
@@ -287,12 +323,72 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex space-x-3">
-          <Button
-            variant="outline"
-            className="rounded-2xl border-slate-200 font-bold hover:bg-slate-50 h-12 px-6 shadow-sm transition-all"
-          >
-            Generate Report
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="rounded-2xl border-slate-200 font-bold hover:bg-slate-50 h-12 px-6 shadow-sm transition-all flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" /> Generate Report
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-64 rounded-2xl p-2 shadow-2xl border-none bg-white/95 backdrop-blur-xl">
+              <DropdownMenuLabel className="font-black text-[10px] uppercase tracking-widest text-slate-400 p-3">
+                Select Report Type
+              </DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={handleExecutiveReport}
+                className="rounded-xl p-4 cursor-pointer hover:bg-primary/5 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-amber-100 rounded-lg group-hover:bg-amber-200 transition-colors">
+                    <Star className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Executive Report</p>
+                    <p className="text-[10px] text-slate-500 font-semibold italic">Integrated All-in-One</p>
+                  </div>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="my-2 bg-slate-100" />
+              <DropdownMenuItem
+                onClick={() => handleModuleReport("Sales", sales || [])}
+                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+              >
+                <div className="flex items-center gap-3">
+                  <FileSpreadsheet className="h-4 w-4 text-blue-500" />
+                  <span className="font-bold text-slate-700">Sales Report</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleModuleReport("Shipments", shipments || [])}
+                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+              >
+                <div className="flex items-center gap-3">
+                  <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
+                  <span className="font-bold text-slate-700">Shipments Report</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleModuleReport("Payments", payments || [])}
+                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+              >
+                <div className="flex items-center gap-3">
+                  <FileSpreadsheet className="h-4 w-4 text-amber-500" />
+                  <span className="font-bold text-slate-700">Payments Report</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleModuleReport("Products", products || [])}
+                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+              >
+                <div className="flex items-center gap-3">
+                  <FileSpreadsheet className="h-4 w-4 text-indigo-500" />
+                  <span className="font-bold text-slate-700">Product Assets Report</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {canManageCatalog && (
             <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
               <DialogTrigger asChild>
