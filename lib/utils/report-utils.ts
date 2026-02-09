@@ -21,7 +21,7 @@ export const downloadIndividualReport = (data: any[], sheetName: string, fileNam
     return acc;
   }, [] as number[]);
 
-  worksheet["!cols"] = maxWidths.map(w => ({ wch: w + 2 }));
+  worksheet["!cols"] = maxWidths.map((w: number) => ({ wch: w + 2 }));
 
   XLSX.writeFile(workbook, `${fileName}_${format(new Date(), "yyyyMMdd_HHmm")}.xlsx`);
 };
