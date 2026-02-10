@@ -52,6 +52,7 @@ const item = {
 export default function ExchangeRatesPage() {
   const [fromCurrency, setFromCurrency] = useState<string>("");
   const [toCurrency, setToCurrency] = useState<string>("");
+  const [amount, setAmount] = useState<string>("1.00");
   const [page, setPage] = useState(1);
 
   const {
@@ -154,13 +155,31 @@ export default function ExchangeRatesPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-7 items-center gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-9 items-center gap-6">
+              <div className="md:col-span-2 space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">
+                  Amount
+                </label>
+                <div className="relative group">
+                  <input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-white/20"
+                    placeholder="1.00"
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold select-none pointer-events-none group-focus-within:text-primary transition-colors">
+                    {currencies?.find((c: any) => c.id === fromCurrency)?.code || "---"}
+                  </div>
+                </div>
+              </div>
+
               <div className="md:col-span-3 space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">
                   Base Currency
                 </label>
                 <Select onValueChange={setFromCurrency} value={fromCurrency}>
-                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary">
+                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
                     <SelectValue placeholder="Select Base" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
@@ -178,9 +197,16 @@ export default function ExchangeRatesPage() {
               </div>
 
               <div className="flex justify-center">
-                <div className="bg-primary h-12 w-12 rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transform hover:rotate-180 transition-transform duration-500">
-                  <ArrowRight className="h-6 w-6" />
-                </div>
+                <button
+                  onClick={() => {
+                    const temp = fromCurrency;
+                    setFromCurrency(toCurrency);
+                    setToCurrency(temp);
+                  }}
+                  className="bg-primary hover:bg-primary/90 h-12 w-12 rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transform hover:rotate-180 active:scale-90 transition-all duration-500"
+                >
+                  <ArrowRightLeft className="h-5 w-5" />
+                </button>
               </div>
 
               <div className="md:col-span-3 space-y-2">
@@ -188,7 +214,7 @@ export default function ExchangeRatesPage() {
                   Target Currency
                 </label>
                 <Select onValueChange={setToCurrency} value={toCurrency}>
-                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary">
+                  <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
                     <SelectValue placeholder="Select Target" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
@@ -214,7 +240,7 @@ export default function ExchangeRatesPage() {
               >
                 <div className="flex items-center space-x-6">
                   <div className="text-4xl font-black tracking-tighter">
-                    1.00{" "}
+                    {parseFloat(amount || "0").toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
                       {
                         currencies?.find((c: any) => c.id === fromCurrency)
@@ -224,7 +250,7 @@ export default function ExchangeRatesPage() {
                   </div>
                   <ChevronRight className="h-6 w-6 text-primary" />
                   <div className="text-4xl font-black tracking-tighter text-secondary">
-                    {selectedRate.rate}{" "}
+                    {(parseFloat(amount || "0") * parseFloat(selectedRate.rate)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
                       {currencies?.find((c: any) => c.id === toCurrency)?.code}
                     </span>
