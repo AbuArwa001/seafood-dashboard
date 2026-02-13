@@ -874,8 +874,8 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SHIPMENT) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-primary transition-all duration-500">
-                  <div className="bg-primary/10 p-4 rounded-3xl group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-primary transition-all duration-500">
+                  <div className="bg-primary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
                     <Ship className="h-8 w-8 text-primary group-hover:text-white" />
                   </div>
                   <div>
@@ -908,8 +908,8 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SALE) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-secondary transition-all duration-500">
-                  <div className="bg-secondary/10 p-4 rounded-3xl group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-secondary transition-all duration-500">
+                  <div className="bg-secondary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
                     <Activity className="h-8 w-8 text-secondary group-hover:text-white" />
                   </div>
                   <div>
@@ -942,8 +942,8 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
-                  <div className="bg-slate-100 p-4 rounded-3xl group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
+                  <div className="bg-slate-100 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
                     <Package className="h-8 w-8 text-slate-900 group-hover:text-white" />
                   </div>
                   <div>
@@ -976,8 +976,8 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-[2rem] shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
-                  <div className="bg-emerald-50 p-4 rounded-3xl group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
+                  <div className="bg-emerald-50 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
                     <Layers className="h-8 w-8 text-emerald-600 group-hover:text-white" />
                   </div>
                   <div>
