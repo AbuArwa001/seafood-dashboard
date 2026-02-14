@@ -87,28 +87,91 @@ export default function ExchangeRatesPage() {
   });
   const currencies = currenciesData?.results || currenciesData || [];
 
+  // Get currency codes for the API call
+  const fromCode = useMemo(
+    () => currencies?.find((c: any) => c.id === fromCurrency)?.code,
+    [currencies, fromCurrency],
+  );
+
+  const toCode = useMemo(
+    () => currencies?.find((c: any) => c.id === toCurrency)?.code,
+    [currencies, toCurrency],
+  );
+
+  // Fetch specific rate for the selected pair
+  const { data: specificRateData, isFetching: isFetchingSpecificRate } =
+    useQuery({
+      queryKey: ["exchange-rate", fromCode, toCode],
+      queryFn: async () => {
+        if (!fromCode || !toCode) return null;
+        // Fetch direct pair
+        const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
+          params: {
+            from_currency__code: fromCode,
+            to_currency__code: toCode,
+          },
+        });
+        return response.data;
+      },
+      enabled: !!fromCode && !!toCode && fromCode !== toCode,
+    });
+
+  const { data: inverseRateData } = useQuery({
+    queryKey: ["exchange-rate", toCode, fromCode],
+    queryFn: async () => {
+      if (!fromCode || !toCode) return null;
+      // Fetch inverse pair if direct not found
+      const response = await apiClient.get(API_ENDPOINTS.EXCHANGE_RATES, {
+        params: {
+          from_currency__code: toCode,
+          to_currency__code: fromCode,
+        },
+      });
+      return response.data;
+    },
+    enabled:
+      !!fromCode &&
+      !!toCode &&
+      fromCode !== toCode &&
+      (!specificRateData?.results || specificRateData.results.length === 0),
+  });
+
   // Find the rate for the selected pair
   const selectedRate = useMemo(() => {
-    if (!fromCurrency || !toCurrency || !rates) return null;
+    if (!fromCurrency || !toCurrency) return null;
     if (fromCurrency === toCurrency) return { rate: "1.0000" };
 
-    // Direct match
+    // 1. Try specific direct rate from API
+    if (specificRateData?.results?.[0]) {
+      return specificRateData.results[0];
+    }
+
+    // 2. Try specific inverse rate from API
+    if (inverseRateData?.results?.[0]) {
+      const inverse = inverseRateData.results[0];
+      return { ...inverse, rate: (1 / parseFloat(inverse.rate)).toFixed(6) };
+    }
+
+    // 3. Fallback to list search (existing logic)
+    if (!rates) return null;
+
+    // Direct match in list
     const direct = rates.find(
       (r: any) =>
         r.from_currency.id === fromCurrency && r.to_currency.id === toCurrency,
     );
     if (direct) return direct;
 
-    // Indirect match (inverse)
+    // Indirect match (inverse) in list
     const inverse = rates.find(
       (r: any) =>
         r.from_currency.id === toCurrency && r.to_currency.id === fromCurrency,
     );
     if (inverse)
-      return { ...inverse, rate: (1 / parseFloat(inverse.rate)).toFixed(4) };
+      return { ...inverse, rate: (1 / parseFloat(inverse.rate)).toFixed(6) };
 
     return null;
-  }, [fromCurrency, toCurrency, rates]);
+  }, [fromCurrency, toCurrency, rates, specificRateData, inverseRateData]);
 
   return (
     <motion.div
@@ -169,7 +232,8 @@ export default function ExchangeRatesPage() {
                     placeholder="1.00"
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold select-none pointer-events-none group-focus-within:text-primary transition-colors">
-                    {currencies?.find((c: any) => c.id === fromCurrency)?.code || "---"}
+                    {currencies?.find((c: any) => c.id === fromCurrency)
+                      ?.code || "---"}
                   </div>
                 </div>
               </div>
@@ -240,7 +304,10 @@ export default function ExchangeRatesPage() {
               >
                 <div className="flex items-center space-x-6">
                   <div className="text-4xl font-black tracking-tighter">
-                    {parseFloat(amount || "0").toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
+                    {parseFloat(amount || "0").toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
                       {
                         currencies?.find((c: any) => c.id === fromCurrency)
@@ -250,7 +317,12 @@ export default function ExchangeRatesPage() {
                   </div>
                   <ChevronRight className="h-6 w-6 text-primary" />
                   <div className="text-4xl font-black tracking-tighter text-secondary">
-                    {(parseFloat(amount || "0") * parseFloat(selectedRate.rate)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}{" "}
+                    {(
+                      parseFloat(amount || "0") * parseFloat(selectedRate.rate)
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 4,
+                    })}{" "}
                     <span className="text-sm font-bold text-slate-500 ml-2">
                       {currencies?.find((c: any) => c.id === toCurrency)?.code}
                     </span>
