@@ -126,7 +126,7 @@ export function RoleManagementDialog({
             </div>
           </div>
 
-          <DialogFooter className="flex-col sm:justify-center gap-3 w-full">
+          <DialogFooter className="flex-col sm:flex-col sm:justify-center gap-3 w-full">
             <Button
               onClick={handleSave}
               disabled={
