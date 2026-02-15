@@ -24,7 +24,7 @@ export function VesselTrackingDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[800px] rounded-xl border-none shadow-2xl p-0 overflow-hidden bg-white">
         <div className="bg-[#1a365d] p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center animate-pulse">

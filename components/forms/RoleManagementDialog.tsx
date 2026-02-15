@@ -74,8 +74,8 @@ export function RoleManagementDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-premium p-0 overflow-hidden bg-white">
-        <div className="bg-slate-900 p-6 text-white text-center relative overflow-hidden">
+      <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-premium p-0 bg-white">
+        <div className="bg-slate-900 p-6 text-white text-center relative overflow-hidden rounded-t-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/20 rounded-full blur-3xl -mt-10 -mr-10" />
           <DialogHeader>
             <div className="mx-auto bg-white/10 p-4 rounded-2xl mb-4 w-fit">

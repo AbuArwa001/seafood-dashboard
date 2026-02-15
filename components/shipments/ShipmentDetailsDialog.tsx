@@ -26,7 +26,7 @@ export function ShipmentDetailsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[600px] rounded-xl border-none shadow-2xl p-0 overflow-hidden bg-white">
         <div className="bg-[#1a365d] p-8 pb-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20 pointer-events-none" />
           <div className="relative z-10 flex justify-between items-start">
