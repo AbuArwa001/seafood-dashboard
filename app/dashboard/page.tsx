@@ -49,7 +49,7 @@ import { ProductForm } from "@/components/forms/ProductForm";
 import { CategoryForm } from "@/components/forms/CategoryForm";
 import {
   downloadIndividualReport,
-  downloadExecutiveReport
+  downloadExecutiveReport,
 } from "@/lib/utils/report-utils";
 import { toast } from "sonner";
 import {
@@ -58,7 +58,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { PERMISSIONS, hasPermission } from "@/lib/permissions";
@@ -90,12 +90,18 @@ export default function DashboardPage() {
   });
 
   // Permission Checks
-  const canViewFinancials = hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
+  const canViewFinancials =
+    hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
   const canViewSales = hasPermission(user, PERMISSIONS.VIEW_SALE) || isAdmin;
-  const canViewShipments = hasPermission(user, PERMISSIONS.VIEW_SHIPMENT) || isAdmin;
+  const canViewShipments =
+    hasPermission(user, PERMISSIONS.VIEW_SHIPMENT) || isAdmin;
   const canViewPayments = hasPermission(user, PERMISSIONS.VIEW_PAYMENT);
-  const canManageCatalog = hasPermission(user, PERMISSIONS.ADD_PRODUCT) || isAdmin;
-  const canViewExchangeRates = hasPermission(user, PERMISSIONS.VIEW_EXCHANGERATE);
+  const canManageCatalog =
+    hasPermission(user, PERMISSIONS.ADD_PRODUCT) || isAdmin;
+  const canViewExchangeRates = hasPermission(
+    user,
+    PERMISSIONS.VIEW_EXCHANGERATE,
+  );
 
   // Specific Agent View Logic
   // If user can view sales but NOT costs, they shouldn't see profit, but might see revenue.
@@ -116,7 +122,8 @@ export default function DashboardPage() {
   });
 
   // Fetch Products (Everyone sees products usually, or check VIEW_PRODUCT)
-  const canViewProducts = hasPermission(user, PERMISSIONS.VIEW_PRODUCT) || isAdmin;
+  const canViewProducts =
+    hasPermission(user, PERMISSIONS.VIEW_PRODUCT) || isAdmin;
   const { data: products, isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -230,8 +237,8 @@ export default function DashboardPage() {
       value: isLoadingShipments
         ? "..."
         : (
-          shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
-        ).toString(),
+            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+          ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
@@ -265,7 +272,7 @@ export default function DashboardPage() {
       data: [10, 20, 15, 25, 30, 28, 35],
       hidden: !canViewProducts,
     },
-  ].filter(stat => !stat.hidden);
+  ].filter((stat) => !stat.hidden);
 
   // Helper for Currency Watch
   const kshRates = useMemo(() => {
@@ -294,32 +301,39 @@ export default function DashboardPage() {
 
     return months.map((month, i) => ({
       month,
-      shipments: visibleSeries.shipments ? (shipmentChartData[i] || 0) * (timeRange === "30D" ? 5 : 10) : 0,
-      sales: visibleSeries.sales ? (salesChartData[i] || 0) / (timeRange === "30D" ? 500 : 1000) : 0,
+      shipments: visibleSeries.shipments
+        ? (shipmentChartData[i] || 0) * (timeRange === "30D" ? 5 : 10)
+        : 0,
+      sales: visibleSeries.sales
+        ? (salesChartData[i] || 0) / (timeRange === "30D" ? 500 : 1000)
+        : 0,
     }));
   }, [salesChartData, shipmentChartData, timeRange, visibleSeries]);
 
   const toggleSeries = (entry: any) => {
     const { dataKey } = entry;
-    setVisibleSeries(prev => ({
+    setVisibleSeries((prev) => ({
       ...prev,
       [dataKey]: !prev[dataKey as keyof typeof prev],
     }));
   };
 
   const handleExecutiveReport = () => {
-    toast.promise(async () => {
-      downloadExecutiveReport([
-        { sheetName: "Sales", data: sales || [] },
-        { sheetName: "Shipments", data: shipments || [] },
-        { sheetName: "Payments", data: payments || [] },
-        { sheetName: "Products", data: products || [] },
-      ]);
-    }, {
-      loading: 'Compiling executive business data...',
-      success: 'Executive Business Report generated successfully!',
-      error: 'Failed to generate report.',
-    });
+    toast.promise(
+      async () => {
+        downloadExecutiveReport([
+          { sheetName: "Sales", data: sales || [] },
+          { sheetName: "Shipments", data: shipments || [] },
+          { sheetName: "Payments", data: payments || [] },
+          { sheetName: "Products", data: products || [] },
+        ]);
+      },
+      {
+        loading: "Compiling executive business data...",
+        success: "Executive Business Report generated successfully!",
+        error: "Failed to generate report.",
+      },
+    );
   };
 
   const handleModuleReport = (type: string, data: any[]) => {
@@ -341,7 +355,10 @@ export default function DashboardPage() {
           </h2>
           <p className="text-slate-500 font-semibold mt-3 text-lg">
             Welcome back. Your global seafood operations are{" "}
-            <span className="text-emerald-500 font-black underline decoration-emerald-200 decoration-4 underline-offset-4">running smoothly</span>.
+            <span className="text-emerald-500 font-black underline decoration-emerald-200 decoration-4 underline-offset-4">
+              running smoothly
+            </span>
+            .
           </p>
         </div>
         <div className="flex space-x-3">
@@ -368,7 +385,9 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900">Executive Report</p>
-                    <p className="text-[10px] text-slate-500 font-semibold italic">Integrated All-in-One</p>
+                    <p className="text-[10px] text-slate-500 font-semibold italic">
+                      Integrated All-in-One
+                    </p>
                   </div>
                 </div>
               </DropdownMenuItem>
@@ -388,7 +407,9 @@ export default function DashboardPage() {
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
-                  <span className="font-bold text-slate-700">Shipments Report</span>
+                  <span className="font-bold text-slate-700">
+                    Shipments Report
+                  </span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -397,7 +418,9 @@ export default function DashboardPage() {
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-amber-500" />
-                  <span className="font-bold text-slate-700">Payments Report</span>
+                  <span className="font-bold text-slate-700">
+                    Payments Report
+                  </span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -406,7 +429,9 @@ export default function DashboardPage() {
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-indigo-500" />
-                  <span className="font-bold text-slate-700">Product Assets Report</span>
+                  <span className="font-bold text-slate-700">
+                    Product Assets Report
+                  </span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -440,12 +465,18 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="flex flex-wrap gap-8">
         {stats.map((stat, idx) => (
-          <motion.div key={stat.title} variants={item} className="flex-1 min-w-full sm:min-w-[280px] lg:min-w-[22%]">
+          <motion.div
+            key={stat.title}
+            variants={item}
+            className="flex-1 min-w-full sm:min-w-[280px] lg:min-w-[22%]"
+          >
             <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
               <CardContent className="p-0">
                 <div className="p-8 pb-4">
                   <div className="flex items-center justify-between mb-6">
-                    <div className={`${stat.bgColor} p-4 rounded-[1.5rem] shadow-sm transform group-hover:rotate-6 transition-transform duration-500`}>
+                    <div
+                      className={`${stat.bgColor} p-4 rounded-[1.5rem] shadow-sm transform group-hover:rotate-6 transition-transform duration-500`}
+                    >
                       <stat.icon className={`h-7 w-7 ${stat.color}`} />
                     </div>
                     <div
@@ -516,14 +547,20 @@ export default function DashboardPage() {
       <div className="flex flex-col lg:flex-row gap-8 flex-wrap">
         {/* Performance Analytics */}
         {canViewSales && (
-          <motion.div variants={item} className="flex-[2] min-w-full lg:min-w-[700px]">
+          <motion.div
+            variants={item}
+            className="flex-[2] min-w-full lg:min-w-[700px]"
+          >
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] h-full overflow-hidden transition-all duration-500">
               <CardHeader className="border-b border-slate-50 p-8 pb-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-2xl font-black tracking-tight flex items-center text-slate-900">
                       <BarChart3 className="h-6 w-6 mr-3 text-secondary" />
-                      Performance <span className="text-[#1a365d] ml-1.5 italic">Analytics</span>
+                      Performance{" "}
+                      <span className="text-[#1a365d] ml-1.5 italic">
+                        Analytics
+                      </span>
                     </CardTitle>
                     <p className="text-sm font-semibold text-slate-400 mt-2 uppercase tracking-widest">
                       Year-over-year operational growth
@@ -557,7 +594,7 @@ export default function DashboardPage() {
                           fontWeight: "black",
                           textTransform: "uppercase",
                           letterSpacing: "0.1em",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                       />
                       <defs>
@@ -664,7 +701,10 @@ export default function DashboardPage() {
 
         {/* Live Feed */}
         {canViewShipments && (
-          <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[350px]">
+          <motion.div
+            variants={item}
+            className="flex-1 min-w-full lg:min-w-[350px]"
+          >
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
               {/* Decorative waves */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20" />
@@ -673,7 +713,8 @@ export default function DashboardPage() {
               <CardHeader className="relative z-10 border-b border-white/10 p-8 pb-6">
                 <CardTitle className="text-2xl font-black tracking-tight flex items-center text-white">
                   <Anchor className="h-6 w-6 mr-3 text-secondary" />
-                  Live <span className="text-secondary ml-1.5 italic">Feed</span>
+                  Live{" "}
+                  <span className="text-secondary ml-1.5 italic">Feed</span>
                 </CardTitle>
                 <p className="text-[10px] text-blue-200/60 font-black uppercase tracking-[0.25em] mt-2">
                   Global Logistics Stream
@@ -709,19 +750,25 @@ export default function DashboardPage() {
                               SHP#{shipment.id.substring(0, 6)}
                             </p>
                             <p className="text-[10px] text-blue-200/50 font-black uppercase tracking-widest mt-0.5">
-                              {shipment.country_origin} → {shipment.country_destination || "Global"}
+                              {shipment.country_origin} →{" "}
+                              {shipment.country_destination || "Global"}
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-xs font-black text-white px-3 py-1 bg-white/5 rounded-full border border-white/10 mb-2">
-                            {new Date(shipment.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                            {new Date(shipment.created_at).toLocaleDateString(
+                              undefined,
+                              { month: "short", day: "numeric" },
+                            )}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" || shipment.status === "COMPLETED"
-                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                              : "bg-secondary/20 text-secondary border border-secondary/20"
-                              }`}
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${
+                              shipment.status === "RECEIVED" ||
+                              shipment.status === "COMPLETED"
+                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                                : "bg-secondary/20 text-secondary border border-secondary/20"
+                            }`}
                           >
                             {shipment.status.replace("_", " ")}
                           </span>
@@ -737,7 +784,8 @@ export default function DashboardPage() {
                     </div>
                   )}
                   <Button className="w-full bg-white text-[#1a365d] font-black rounded-2xl hover:bg-white/90 h-14 mt-4 shadow-xl transition-all active:scale-95 group">
-                    EXPLORE REGISTRY <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    EXPLORE REGISTRY{" "}
+                    <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </CardContent>
@@ -749,7 +797,10 @@ export default function DashboardPage() {
       <div className="flex flex-col lg:flex-row gap-8 flex-wrap">
         {/* Regional Currency Watch */}
         {canViewExchangeRates && (
-          <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[400px]">
+          <motion.div
+            variants={item}
+            className="flex-1 min-w-full lg:min-w-[400px]"
+          >
             <Card className="border-none shadow-premium bg-white h-full">
               <CardHeader className="border-b border-slate-50 pb-6">
                 <div className="flex items-center justify-between">
@@ -814,7 +865,10 @@ export default function DashboardPage() {
         )}
 
         {/* System Health / Logistics Summary */}
-        <motion.div variants={item} className="flex-1 min-w-full lg:min-w-[400px]">
+        <motion.div
+          variants={item}
+          className="flex-1 min-w-full lg:min-w-[400px]"
+        >
           <Card className="border-none shadow-premium bg-primary text-white h-full relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mt-20 -mr-20" />
             <CardHeader>
@@ -874,15 +928,15 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SHIPMENT) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-primary transition-all duration-500">
-                  <div className="bg-primary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-primary transition-all duration-500">
+                  <div className="bg-primary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Ship className="h-8 w-8 text-primary group-hover:text-white" />
                   </div>
-                  <div>
-                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white truncate">
                       Log Shipment
                     </p>
-                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 line-clamp-1">
                       New seafood cargo
                     </p>
                   </div>
@@ -908,15 +962,15 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SALE) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-secondary transition-all duration-500">
-                  <div className="bg-secondary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-secondary transition-all duration-500">
+                  <div className="bg-secondary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Activity className="h-8 w-8 text-secondary group-hover:text-white" />
                   </div>
-                  <div>
-                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white truncate">
                       Record Sale
                     </p>
-                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 line-clamp-1">
                       Transaction data
                     </p>
                   </div>
@@ -942,15 +996,15 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
-                  <div className="bg-slate-100 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
+                  <div className="bg-slate-100 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Package className="h-8 w-8 text-slate-900 group-hover:text-white" />
                   </div>
-                  <div>
-                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white truncate">
                       Add Product
                     </p>
-                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 line-clamp-1">
                       Extend inventory
                     </p>
                   </div>
@@ -976,15 +1030,15 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-6 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
-                  <div className="bg-emerald-50 p-4 rounded-lg group-hover:bg-white/20 transition-colors">
+                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
+                  <div className="bg-emerald-50 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Layers className="h-8 w-8 text-emerald-600 group-hover:text-white" />
                   </div>
-                  <div>
-                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-lg font-black tracking-tight text-slate-900 group-hover:text-white truncate">
                       Add Category
                     </p>
-                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 text-nowrap">
+                    <p className="text-sm text-slate-500 font-bold group-hover:text-white/70 line-clamp-1">
                       Manage taxonomy
                     </p>
                   </div>
@@ -1007,6 +1061,6 @@ export default function DashboardPage() {
           )}
         </div>
       </motion.div>
-    </motion.div >
+    </motion.div>
   );
 }
