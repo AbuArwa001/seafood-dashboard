@@ -47,6 +47,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ShipmentForm } from "@/components/forms/ShipmentForm";
+import { ShipmentDetailsDialog } from "@/components/shipments/ShipmentDetailsDialog";
+import { VesselTrackingDialog } from "@/components/shipments/VesselTrackingDialog";
 
 const container = {
   hidden: { opacity: 0 },
@@ -67,6 +69,9 @@ export default function ShipmentsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [selectedShipment, setSelectedShipment] = useState<any>(null);
+  const [isViewCargoOpen, setIsViewCargoOpen] = useState(false);
+  const [isTrackVesselOpen, setIsTrackVesselOpen] = useState(false);
 
   const {
     data: shipmentsData,
@@ -115,7 +120,10 @@ export default function ShipmentsPage() {
           </h2>
           <p className="text-slate-500 font-semibold mt-3 text-lg">
             Real-time tracking of seafood shipments across{" "}
-            <span className="text-primary font-black underline decoration-primary/20 decoration-4 underline-offset-4">international waters</span>.
+            <span className="text-primary font-black underline decoration-primary/20 decoration-4 underline-offset-4">
+              international waters
+            </span>
+            .
           </p>
         </div>
         <div className="flex items-center space-x-3">
@@ -244,14 +252,18 @@ export default function ShipmentsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
-                  Global Fleet <span className="text-[#1a365d] italic">Tracking</span>
+                  Global Fleet{" "}
+                  <span className="text-[#1a365d] italic">Tracking</span>
                 </CardTitle>
                 <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest flex items-center gap-2">
                   <Activity className="h-3 w-3" />
                   Live Logistics Registry
                 </p>
               </div>
-              <Badge variant="outline" className="rounded-full px-4 py-1.5 border-slate-100 font-black text-[10px] text-slate-400 bg-slate-50/50 uppercase tracking-[0.1em]">
+              <Badge
+                variant="outline"
+                className="rounded-full px-4 py-1.5 border-slate-100 font-black text-[10px] text-slate-400 bg-slate-50/50 uppercase tracking-[0.1em]"
+              >
                 {totalCount} Entries Found
               </Badge>
             </div>
@@ -261,12 +273,24 @@ export default function ShipmentsPage() {
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-slate-50/50 h-16">
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">Reference ID</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Origin</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Currency</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Volume</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Status</TableHead>
-                    <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Actions</TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">
+                      Reference ID
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Origin
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Currency
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Volume
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Status
+                    </TableHead>
+                    <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -325,7 +349,11 @@ export default function ShipmentsPage() {
                         <TableCell className="text-right px-8">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-slate-100 h-10 w-10">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-xl hover:bg-slate-100 h-10 w-10"
+                              >
                                 <MoreVertical className="h-5 w-5 text-slate-400" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -333,11 +361,23 @@ export default function ShipmentsPage() {
                               align="end"
                               className="rounded-3xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
                             >
-                              <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all">
+                              <DropdownMenuItem
+                                className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all"
+                                onClick={() => {
+                                  setSelectedShipment(shipment);
+                                  setIsViewCargoOpen(true);
+                                }}
+                              >
                                 <ArrowRight className="h-4 w-4 mr-3 text-slate-300" />
                                 VIEW FULL CARGO
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-[#1a365d] focus:bg-[#1a365d]/5 focus:text-[#1a365d] transition-all">
+                              <DropdownMenuItem
+                                className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-[#1a365d] focus:bg-[#1a365d]/5 focus:text-[#1a365d] transition-all"
+                                onClick={() => {
+                                  setSelectedShipment(shipment);
+                                  setIsTrackVesselOpen(true);
+                                }}
+                              >
                                 <Anchor className="h-4 w-4 mr-3 text-[#1a365d]/40" />
                                 TRACK VESSEL
                               </DropdownMenuItem>
@@ -387,6 +427,18 @@ export default function ShipmentsPage() {
           </CardContent>
         </Card>
       </motion.div>
+
+      <ShipmentDetailsDialog
+        isOpen={isViewCargoOpen}
+        onClose={() => setIsViewCargoOpen(false)}
+        shipment={selectedShipment}
+      />
+
+      <VesselTrackingDialog
+        isOpen={isTrackVesselOpen}
+        onClose={() => setIsTrackVesselOpen(false)}
+        shipment={selectedShipment}
+      />
     </motion.div>
   );
 }
