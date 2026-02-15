@@ -88,11 +88,11 @@ const config: Config = {
         'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
       },
       borderRadius: {
-        xl: "1rem",
-        '2xl': "1.5rem",
-        '3xl': "2rem",
-        lg: "0.75rem",
-        md: "0.5rem",
+        xl: "0.75rem",
+        '2xl': "1rem",
+        '3xl': "1.5rem",
+        lg: "0.5rem",
+        md: "0.375rem",
         sm: "0.25rem",
       },
       keyframes: {
