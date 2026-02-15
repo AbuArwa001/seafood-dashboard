@@ -102,7 +102,7 @@ export function RoleManagementDialog({
                 defaultValue={user?.role?.id}
                 value={selectedRoleId}
               >
-                <SelectTrigger className="h-14 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white text-base font-bold">
+                <SelectTrigger className="h-14 w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white text-base font-bold">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-slate-100">

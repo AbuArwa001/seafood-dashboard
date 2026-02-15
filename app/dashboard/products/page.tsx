@@ -91,7 +91,10 @@ export default function ProductsPage() {
           </h2>
           <p className="text-slate-500 font-semibold mt-3 text-lg">
             Centralized management of your seafood inventory and{" "}
-            <span className="text-primary font-black underline decoration-primary/20 decoration-4 underline-offset-4">SKU registry</span>.
+            <span className="text-primary font-black underline decoration-primary/20 decoration-4 underline-offset-4">
+              SKU registry
+            </span>
+            .
           </p>
         </div>
         <div className="flex items-center space-x-3">
@@ -113,7 +116,7 @@ export default function ProductsPage() {
                 <Plus className="h-5 w-5 mr-3" /> ADD PRODUCT
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[550px] rounded-[3rem] border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+            <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
               <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                 <DialogTitle className="text-3xl font-black tracking-tight">
@@ -171,11 +174,21 @@ export default function ProductsPage() {
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-slate-50/50 h-16">
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">Product Details</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Category</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Unit Type</TableHead>
-                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Status</TableHead>
-                    <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Actions</TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">
+                      Product Details
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Category
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Unit Type
+                    </TableHead>
+                    <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Status
+                    </TableHead>
+                    <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -218,8 +231,12 @@ export default function ProductsPage() {
                         </TableCell>
                         <TableCell className="font-bold text-slate-600">
                           <div className="flex flex-col">
-                            <span className="text-slate-900 font-black">{product.unit?.name || "N/A"}</span>
-                            <span className="text-[10px] text-slate-400 font-bold">{product.unit?.code || "-"}</span>
+                            <span className="text-slate-900 font-black">
+                              {product.unit?.name || "N/A"}
+                            </span>
+                            <span className="text-[10px] text-slate-400 font-bold">
+                              {product.unit?.code || "-"}
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -237,7 +254,11 @@ export default function ProductsPage() {
                         <TableCell className="text-right px-8">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-slate-100 h-10 w-10">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-xl hover:bg-slate-100 h-10 w-10"
+                              >
                                 <MoreVertical className="h-5 w-5 text-slate-400" />
                               </Button>
                             </DropdownMenuTrigger>

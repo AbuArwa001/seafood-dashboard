@@ -119,7 +119,7 @@ export default function CostsPage() {
                   ADD COST RECORD
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+              <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
                 <div className="bg-destructive p-6 text-white text-center">
                   <DialogTitle className="text-2xl font-black">
                     Expense Ledger
@@ -219,80 +219,80 @@ export default function CostsPage() {
                 <TableBody>
                   {isLoading
                     ? [1, 2, 3, 4, 5].map((i) => (
-                      <TableRow key={i} className="border-slate-50">
-                        <TableCell className="px-8 py-6">
-                          <Skeleton className="h-6 w-32" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-24" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-24" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-24" />
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <Skeleton className="h-6 w-24 ml-auto" />
-                        </TableCell>
-                      </TableRow>
-                    ))
+                        <TableRow key={i} className="border-slate-50">
+                          <TableCell className="px-8 py-6">
+                            <Skeleton className="h-6 w-32" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-24" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-24" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-24" />
+                          </TableCell>
+                          <TableCell className="text-right px-8">
+                            <Skeleton className="h-6 w-24 ml-auto" />
+                          </TableCell>
+                        </TableRow>
+                      ))
                     : costs?.map((cost: any) => (
-                      <TableRow
-                        key={cost.id}
-                        className="hover:bg-slate-50/50 transition-colors border-slate-50 group"
-                      >
-                        <TableCell className="px-8 py-6">
-                          <div className="flex items-center space-x-3">
-                            <div className="bg-destructive/10 p-2.5 rounded-xl text-destructive">
-                              <Layers className="h-4 w-4" />
-                            </div>
-                            <div>
-                              <p className="text-sm font-black text-slate-900">
-                                {cost.cost_category}
-                              </p>
-                              {cost.other_category && (
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                                  {cost.other_category}
+                        <TableRow
+                          key={cost.id}
+                          className="hover:bg-slate-50/50 transition-colors border-slate-50 group"
+                        >
+                          <TableCell className="px-8 py-6">
+                            <div className="flex items-center space-x-3">
+                              <div className="bg-destructive/10 p-2.5 rounded-xl text-destructive">
+                                <Layers className="h-4 w-4" />
+                              </div>
+                              <div>
+                                <p className="text-sm font-black text-slate-900">
+                                  {cost.cost_category}
                                 </p>
-                              )}
+                                {cost.other_category && (
+                                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                                    {cost.other_category}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <span className="font-bold text-slate-600 text-sm">
-                            SHP-{cost.shipment?.substring(0, 8) || "N/A"}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center space-x-1.5">
-                            <span className="font-black text-slate-900">
-                              {cost.currency?.symbol || "$"}
-                              {parseFloat(cost.amount).toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-bold text-slate-600 text-sm">
+                              SHP-{cost.shipment?.substring(0, 8) || "N/A"}
                             </span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase">
-                              {cost.currency?.code}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-1.5">
+                              <span className="font-black text-slate-900">
+                                {cost.currency?.symbol || "$"}
+                                {parseFloat(cost.amount).toLocaleString()}
+                              </span>
+                              <span className="text-[10px] font-bold text-slate-400 uppercase">
+                                {cost.currency?.code}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <ArrowRight className="h-3 w-3 text-slate-300" />
+                              <span className="text-lg font-black text-destructive tracking-tighter">
+                                $
+                                {parseFloat(
+                                  cost.converted_amount,
+                                ).toLocaleString()}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right px-8">
+                            <span className="text-slate-500 font-bold text-sm">
+                              {formatDate(cost.created_at, "MMM d, yyyy")}
                             </span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center space-x-2">
-                            <ArrowRight className="h-3 w-3 text-slate-300" />
-                            <span className="text-lg font-black text-destructive tracking-tighter">
-                              $
-                              {parseFloat(
-                                cost.converted_amount,
-                              ).toLocaleString()}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <span className="text-slate-500 font-bold text-sm">
-                            {formatDate(cost.created_at, "MMM d, yyyy")}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                 </TableBody>
               </Table>
               <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">

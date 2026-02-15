@@ -110,7 +110,10 @@ export default function LogisticsPage() {
             </h2>
             <p className="text-slate-500 font-semibold mt-3 text-lg">
               Monitoring facility receipts and{" "}
-              <span className="text-emerald-600 font-black underline decoration-emerald-600/20 decoration-4 underline-offset-4">supply chain losses</span>.
+              <span className="text-emerald-600 font-black underline decoration-emerald-600/20 decoration-4 underline-offset-4">
+                supply chain losses
+              </span>
+              .
             </p>
           </div>
           <div className="flex items-center space-x-3">
@@ -132,7 +135,7 @@ export default function LogisticsPage() {
                   <Plus className="h-5 w-5 mr-3" /> RECORD RECEIPT
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-[3rem] border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -166,7 +169,10 @@ export default function LogisticsPage() {
                     Net Inventory Inbound
                   </p>
                   <p className="text-5xl font-black tracking-tighter">
-                    {totalNetWeight.toLocaleString()} <span className="text-sm font-black text-blue-300/40">KG</span>
+                    {totalNetWeight.toLocaleString()}{" "}
+                    <span className="text-sm font-black text-blue-300/40">
+                      KG
+                    </span>
                   </p>
                 </div>
                 <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
@@ -184,7 +190,10 @@ export default function LogisticsPage() {
                     Accumulated Losses
                   </p>
                   <p className="text-5xl font-black tracking-tighter text-destructive">
-                    {totalLosses.toLocaleString()} <span className="text-sm font-black text-destructive/40">KG</span>
+                    {totalLosses.toLocaleString()}{" "}
+                    <span className="text-sm font-black text-destructive/40">
+                      KG
+                    </span>
                   </p>
                 </div>
                 <div className="bg-destructive/5 p-5 rounded-3xl group-hover:bg-destructive/10 transition-colors">
@@ -214,7 +223,8 @@ export default function LogisticsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
-                    Receipt <span className="text-emerald-700 italic">Ledger</span>
+                    Receipt{" "}
+                    <span className="text-emerald-700 italic">Ledger</span>
                   </CardTitle>
                   <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest flex items-center gap-2">
                     <Truck className="h-4 w-4 text-emerald-600" />
@@ -228,61 +238,78 @@ export default function LogisticsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-slate-50/50 h-16">
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">Location Node</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Cargo Link</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Net Weight</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Loss Metrics (T / F)</TableHead>
-                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Log Date</TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">
+                        Location Node
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Cargo Link
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Net Weight
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Loss Metrics (T / F)
+                      </TableHead>
+                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Log Date
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {isLoading
                       ? [1, 2, 3, 4, 5].map((i) => (
-                        <TableRow key={i} className="border-slate-50 h-24">
-                          <TableCell colSpan={5} className="px-8">
-                            <Skeleton className="h-12 w-full rounded-2xl" />
-                          </TableCell>
-                        </TableRow>
-                      ))
+                          <TableRow key={i} className="border-slate-50 h-24">
+                            <TableCell colSpan={5} className="px-8">
+                              <Skeleton className="h-12 w-full rounded-2xl" />
+                            </TableCell>
+                          </TableRow>
+                        ))
                       : receipts?.map((receipt: any) => (
-                        <TableRow
-                          key={receipt.id}
-                          className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
-                        >
-                          <TableCell className="px-8 py-6">
-                            <div className="flex items-center space-x-4">
-                              <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                                <MapPin className="h-5 w-5" />
+                          <TableRow
+                            key={receipt.id}
+                            className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
+                          >
+                            <TableCell className="px-8 py-6">
+                              <div className="flex items-center space-x-4">
+                                <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                                  <MapPin className="h-5 w-5" />
+                                </div>
+                                <span className="font-black text-slate-900 text-lg tracking-tighter">
+                                  {receipt.facility_location}
+                                </span>
                               </div>
-                              <span className="font-black text-slate-900 text-lg tracking-tighter">
-                                {receipt.facility_location}
+                            </TableCell>
+                            <TableCell>
+                              <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
+                                SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
                               </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
-                              SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-black text-slate-900 text-lg tracking-tighter">
-                              {receipt.net_received_kg} <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">KG</span>
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-3 text-[11px] font-black">
-                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">T: {receipt.transport_loss_kg}</span>
-                              <ArrowRightLeft className="h-3 w-3 text-slate-300" />
-                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">F: {receipt.freezing_loss_kg}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
-                              {formatDate(receipt.created_at, "MMM d, yyyy")}
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+                            <TableCell>
+                              <span className="font-black text-slate-900 text-lg tracking-tighter">
+                                {receipt.net_received_kg}{" "}
+                                <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">
+                                  KG
+                                </span>
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center space-x-3 text-[11px] font-black">
+                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                  T: {receipt.transport_loss_kg}
+                                </span>
+                                <ArrowRightLeft className="h-3 w-3 text-slate-300" />
+                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                  F: {receipt.freezing_loss_kg}
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right px-8">
+                              <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
+                                {formatDate(receipt.created_at, "MMM d, yyyy")}
+                              </span>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </div>

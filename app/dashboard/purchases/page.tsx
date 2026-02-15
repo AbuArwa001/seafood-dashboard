@@ -119,7 +119,7 @@ export default function PurchasesPage() {
                   NEW PURCHASE
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+              <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
                 <div className="bg-blue-600 p-6 text-white text-center">
                   <DialogTitle className="text-2xl font-black">
                     Supplier Purchase
@@ -219,71 +219,72 @@ export default function PurchasesPage() {
                 <TableBody>
                   {isLoading
                     ? [1, 2, 3, 4, 5].map((i) => (
-                      <TableRow key={i} className="border-slate-50">
-                        <TableCell className="px-8 py-6">
-                          <Skeleton className="h-6 w-24" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-32" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-20" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-16" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-12" />
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <Skeleton className="h-6 w-24 ml-auto" />
-                        </TableCell>
-                      </TableRow>
-                    ))
+                        <TableRow key={i} className="border-slate-50">
+                          <TableCell className="px-8 py-6">
+                            <Skeleton className="h-6 w-24" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-32" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-20" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-16" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-6 w-12" />
+                          </TableCell>
+                          <TableCell className="text-right px-8">
+                            <Skeleton className="h-6 w-24 ml-auto" />
+                          </TableCell>
+                        </TableRow>
+                      ))
                     : purchases?.map((purchase: any) => (
-                      <TableRow
-                        key={purchase.id}
-                        className="hover:bg-slate-50/50 transition-colors border-slate-50 group"
-                      >
-                        <TableCell className="px-8 py-6">
-                          <span className="font-black text-slate-400 text-xs uppercase tracking-tighter">
-                            PUR-{purchase.id.substring(0, 8)}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center space-x-2">
-                            <Anchor className="h-4 w-4 text-slate-400" />
-                            <span className="font-bold text-slate-600">
-                              SHP-{purchase.shipment?.substring(0, 8) || "N/A"}
+                        <TableRow
+                          key={purchase.id}
+                          className="hover:bg-slate-50/50 transition-colors border-slate-50 group"
+                        >
+                          <TableCell className="px-8 py-6">
+                            <span className="font-black text-slate-400 text-xs uppercase tracking-tighter">
+                              PUR-{purchase.id.substring(0, 8)}
                             </span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <span className="font-black text-slate-900">
-                            {purchase.kg_purchased} KG
-                          </span>
-                        </TableCell>
-                        <TableCell className="font-bold text-slate-500 uppercase">
-                          {purchase.currency?.code || "USD"}
-                        </TableCell>
-                        <TableCell>
-                          {purchase.image_url ? (
-                            <button className="bg-blue-50 text-blue-600 p-2 rounded-xl hover:bg-blue-100 transition-colors">
-                              <ImageIcon className="h-4 w-4" />
-                            </button>
-                          ) : (
-                            <span className="text-slate-300 italic text-xs font-bold">
-                              No Image
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <Anchor className="h-4 w-4 text-slate-400" />
+                              <span className="font-bold text-slate-600">
+                                SHP-
+                                {purchase.shipment?.substring(0, 8) || "N/A"}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-black text-slate-900">
+                              {purchase.kg_purchased} KG
                             </span>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <span className="text-slate-500 font-bold text-sm">
-                            {formatDate(purchase.created_at, "MMM d, yyyy")}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          </TableCell>
+                          <TableCell className="font-bold text-slate-500 uppercase">
+                            {purchase.currency?.code || "USD"}
+                          </TableCell>
+                          <TableCell>
+                            {purchase.image_url ? (
+                              <button className="bg-blue-50 text-blue-600 p-2 rounded-xl hover:bg-blue-100 transition-colors">
+                                <ImageIcon className="h-4 w-4" />
+                              </button>
+                            ) : (
+                              <span className="text-slate-300 italic text-xs font-bold">
+                                No Image
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right px-8">
+                            <span className="text-slate-500 font-bold text-sm">
+                              {formatDate(purchase.created_at, "MMM d, yyyy")}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                 </TableBody>
               </Table>
               <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">
