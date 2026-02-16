@@ -43,9 +43,10 @@ const productSchema = z.object({
 
 interface ProductFormProps {
   onSuccess?: () => void;
+  product?: any;
 }
 
-export function ProductForm({ onSuccess }: ProductFormProps) {
+export function ProductForm({ onSuccess, product }: ProductFormProps) {
   const queryClient = useQueryClient();
 
   const { data: categories } = useQuery({
@@ -67,10 +68,10 @@ export function ProductForm({ onSuccess }: ProductFormProps) {
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      category: "",
-      unit: "",
-      description: "",
+      name: product?.name || "",
+      category: product?.category?.id || "",
+      unit: product?.unit?.id || "",
+      description: product?.description || "",
     },
   });
 
@@ -86,12 +87,29 @@ export function ProductForm({ onSuccess }: ProductFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || "Failed to add product");
+      toast.error(error.response?.data?.detail || "Failed to save product");
     },
   });
 
   function onSubmit(values: z.infer<typeof productSchema>) {
-    mutation.mutate(values);
+    if (product) {
+      // Update existing product
+      apiClient
+        .put(`${API_ENDPOINTS.PRODUCTS}${product.id}/`, values)
+        .then(() => {
+          toast.success("Product updated successfully");
+          queryClient.invalidateQueries({ queryKey: ["products"] });
+          onSuccess?.();
+        })
+        .catch((error) => {
+          toast.error(
+            error.response?.data?.detail || "Failed to update product",
+          );
+        });
+    } else {
+      // Create new product
+      mutation.mutate(values);
+    }
   }
 
   return (
@@ -232,7 +250,7 @@ export function ProductForm({ onSuccess }: ProductFormProps) {
           ) : (
             <Package className="mr-2 h-5 w-5" />
           )}
-          ADD TO INVENTORY
+          {product ? "UPDATE ASSET" : "ADD TO INVENTORY"}
         </Button>
       </form>
     </Form>

@@ -27,6 +27,7 @@ import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,6 +62,8 @@ const item = {
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const {
     data: products,
@@ -128,6 +131,28 @@ export default function ProductsPage() {
               </div>
               <div className="p-8">
                 <ProductForm onSuccess={() => setIsAddModalOpen(false)} />
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
+                <DialogTitle className="text-3xl font-black tracking-tight">
+                  Edit Asset
+                </DialogTitle>
+                <p className="text-blue-100/70 text-[11px] font-black mt-2 uppercase tracking-[0.2em]">
+                  Update catalog entry
+                </p>
+              </div>
+              <div className="p-8">
+                {selectedProduct && (
+                  <ProductForm
+                    product={selectedProduct}
+                    onSuccess={() => setIsEditModalOpen(false)}
+                  />
+                )}
               </div>
             </DialogContent>
           </Dialog>
@@ -266,11 +291,34 @@ export default function ProductsPage() {
                               align="end"
                               className="rounded-3xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
                             >
-                              <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all">
+                              <DropdownMenuItem
+                                className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setIsEditModalOpen(true);
+                                }}
+                              >
                                 <Edit2 className="h-4 w-4 mr-3 text-slate-300" />
                                 EDIT ASSET
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-destructive focus:bg-destructive/5 focus:text-destructive transition-all">
+                              <DropdownMenuItem
+                                className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-destructive focus:bg-destructive/5 focus:text-destructive transition-all"
+                                onClick={() => {
+                                  toast.promise(
+                                    apiClient.delete(
+                                      `${API_ENDPOINTS.PRODUCTS}${product.id}/`,
+                                    ),
+                                    {
+                                      loading: "Archiving product...",
+                                      success: () => {
+                                        refetch();
+                                        return "Product archived successfully";
+                                      },
+                                      error: "Failed to archive product",
+                                    },
+                                  );
+                                }}
+                              >
                                 <Trash2 className="h-4 w-4 mr-3 opacity-40" />
                                 ARCHIVE PRODUCT
                               </DropdownMenuItem>
