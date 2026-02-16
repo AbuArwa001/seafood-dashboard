@@ -472,7 +472,7 @@ export default function DashboardPage() {
           >
             <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
               <CardContent className="p-0">
-                <div className="p-8 pb-4">
+                <div className="p-6 pb-4">
                   <div className="flex items-center justify-between mb-6">
                     <div
                       className={`${stat.bgColor} p-4 rounded-[1.5rem] shadow-sm transform group-hover:rotate-6 transition-transform duration-500`}
@@ -494,7 +494,7 @@ export default function DashboardPage() {
                     <p className="text-[10px] font-black text-slate-400/80 uppercase tracking-[0.2em]">
                       {stat.title}
                     </p>
-                    <div className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#1a365d] transition-colors duration-500">
+                    <div className="text-2xl xl:text-3xl 2xl:text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#1a365d] transition-colors duration-500 truncate">
                       {stat.value}
                     </div>
                   </div>
