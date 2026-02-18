@@ -502,13 +502,13 @@ export default function ExchangeRatesPage() {
               for export markets.
             </p>
             <div className="flex space-x-4">
-              <div className="bg-white/5 border border-white/10 p-4 rounded-3xl flex-1">
+              <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   Base Currency
                 </p>
                 <p className="text-xl font-black">USD</p>
               </div>
-              <div className="bg-white/5 border border-white/10 p-4 rounded-3xl flex-1">
+              <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   Reference
                 </p>

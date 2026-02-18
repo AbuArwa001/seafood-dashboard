@@ -175,7 +175,7 @@ export default function LogisticsPage() {
                     </span>
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
                   <Scale className="h-8 w-8 text-emerald-400" />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function LogisticsPage() {
                     </span>
                   </p>
                 </div>
-                <div className="bg-destructive/5 p-5 rounded-3xl group-hover:bg-destructive/10 transition-colors">
+                <div className="bg-destructive/5 p-5 rounded-xl group-hover:bg-destructive/10 transition-colors">
                   <Flame className="h-8 w-8 text-destructive" />
                 </div>
               </div>
@@ -258,58 +258,58 @@ export default function LogisticsPage() {
                   <TableBody>
                     {isLoading
                       ? [1, 2, 3, 4, 5].map((i) => (
-                          <TableRow key={i} className="border-slate-50 h-24">
-                            <TableCell colSpan={5} className="px-8">
-                              <Skeleton className="h-12 w-full rounded-2xl" />
-                            </TableCell>
-                          </TableRow>
-                        ))
+                        <TableRow key={i} className="border-slate-50 h-24">
+                          <TableCell colSpan={5} className="px-8">
+                            <Skeleton className="h-12 w-full rounded-2xl" />
+                          </TableCell>
+                        </TableRow>
+                      ))
                       : receipts?.map((receipt: any) => (
-                          <TableRow
-                            key={receipt.id}
-                            className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
-                          >
-                            <TableCell className="px-8 py-6">
-                              <div className="flex items-center space-x-4">
-                                <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                                  <MapPin className="h-5 w-5" />
-                                </div>
-                                <span className="font-black text-slate-900 text-lg tracking-tighter">
-                                  {receipt.facility_location}
-                                </span>
+                        <TableRow
+                          key={receipt.id}
+                          className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
+                        >
+                          <TableCell className="px-8 py-6">
+                            <div className="flex items-center space-x-4">
+                              <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                                <MapPin className="h-5 w-5" />
                               </div>
-                            </TableCell>
-                            <TableCell>
-                              <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
-                                SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
-                              </span>
-                            </TableCell>
-                            <TableCell>
                               <span className="font-black text-slate-900 text-lg tracking-tighter">
-                                {receipt.net_received_kg}{" "}
-                                <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">
-                                  KG
-                                </span>
+                                {receipt.facility_location}
                               </span>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center space-x-3 text-[11px] font-black">
-                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
-                                  T: {receipt.transport_loss_kg}
-                                </span>
-                                <ArrowRightLeft className="h-3 w-3 text-slate-300" />
-                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
-                                  F: {receipt.freezing_loss_kg}
-                                </span>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right px-8">
-                              <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
-                                {formatDate(receipt.created_at, "MMM d, yyyy")}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
+                              SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-black text-slate-900 text-lg tracking-tighter">
+                              {receipt.net_received_kg}{" "}
+                              <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">
+                                KG
                               </span>
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-3 text-[11px] font-black">
+                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                T: {receipt.transport_loss_kg}
+                              </span>
+                              <ArrowRightLeft className="h-3 w-3 text-slate-300" />
+                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                F: {receipt.freezing_loss_kg}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right px-8">
+                            <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
+                              {formatDate(receipt.created_at, "MMM d, yyyy")}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </div>

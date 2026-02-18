@@ -163,7 +163,7 @@ export default function PaymentsPage() {
                     })}
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
                   <CheckCircle2 className="h-8 w-8 text-white" />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function PaymentsPage() {
                     })}
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
                   <Clock className="h-8 w-8 text-white" />
                 </div>
               </div>

@@ -180,7 +180,7 @@ export default function ShipmentsPage() {
                   {totalCount}
                 </p>
               </div>
-              <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
+              <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
                 <Anchor className="h-8 w-8 text-white" />
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function ShipmentsPage() {
                     .length || 0}
                 </p>
               </div>
-              <div className="bg-amber-50 p-5 rounded-3xl group-hover:bg-amber-100 transition-colors">
+              <div className="bg-amber-50 p-5 rounded-xl group-hover:bg-amber-100 transition-colors">
                 <Truck className="h-8 w-8 text-amber-500" />
               </div>
             </div>
@@ -218,7 +218,7 @@ export default function ShipmentsPage() {
                     .length || 0}
                 </p>
               </div>
-              <div className="bg-emerald-50 p-5 rounded-3xl group-hover:bg-emerald-100 transition-colors">
+              <div className="bg-emerald-50 p-5 rounded-xl group-hover:bg-emerald-100 transition-colors">
                 <Box className="h-8 w-8 text-emerald-500" />
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function ShipmentsPage() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                               align="end"
-                              className="rounded-3xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
+                              className="rounded-xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
                             >
                               <DropdownMenuItem
                                 className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all"

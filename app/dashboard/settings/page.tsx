@@ -96,7 +96,7 @@ export default function SettingsPage() {
           <motion.div key={index} variants={item}>
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100">
               <CardHeader className="p-8 pb-0 flex flex-row items-start justify-between">
-                <div className={`${category.bg} p-5 rounded-3xl group-hover:scale-110 transition-transform duration-500`}>
+                <div className={`${category.bg} p-5 rounded-xl group-hover:scale-110 transition-transform duration-500`}>
                   <category.icon className={`h-8 w-8 ${category.color}`} />
                 </div>
                 <ChevronRight className="h-6 w-6 text-slate-200 group-hover:translate-x-2 transition-transform duration-500 group-hover:text-slate-400" />
