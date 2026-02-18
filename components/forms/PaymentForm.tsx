@@ -87,7 +87,22 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || "Failed to record payment");
+      const errorData = error.response?.data;
+      let errorMessage = "Failed to record payment";
+
+      if (errorData) {
+        if (typeof errorData === 'string') {
+          errorMessage = errorData;
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        } else {
+          errorMessage = Object.entries(errorData)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .join(" | ");
+        }
+      }
+
+      toast.error(errorMessage);
     },
   });
 

@@ -101,7 +101,22 @@ export function CostForm({ onSuccess }: CostFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || "Failed to add cost record");
+      const errorData = error.response?.data;
+      let errorMessage = "Failed to add cost record";
+
+      if (errorData) {
+        if (typeof errorData === 'string') {
+          errorMessage = errorData;
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        } else {
+          errorMessage = Object.entries(errorData)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .join(" | ");
+        }
+      }
+
+      toast.error(errorMessage);
     },
   });
 
