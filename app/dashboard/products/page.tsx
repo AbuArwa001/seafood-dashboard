@@ -331,7 +331,7 @@ export default function ProductsPage() {
                     <TableRow>
                       <TableCell colSpan={5} className="h-64 text-center">
                         <div className="flex flex-col items-center justify-center space-y-6">
-                          <div className="bg-slate-50 p-10 rounded-[3rem]">
+                          <div className="bg-slate-50 p-10 rounded-xl">
                             <Package className="h-16 w-16 text-slate-200" />
                           </div>
                           <p className="text-slate-400 font-black italic uppercase tracking-widest text-xs">

@@ -203,7 +203,7 @@ export default function ExchangeRatesPage() {
 
       {/* Interactive Converter Section */}
       <motion.div variants={item}>
-        <div className="bg-slate-900 p-8 rounded-[3rem] text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-slate-900 p-8 rounded-xl text-white shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -mt-32 -mr-32" />
           <div className="relative z-10">
             <div className="flex items-center space-x-3 mb-8">
