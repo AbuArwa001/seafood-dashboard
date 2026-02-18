@@ -53,8 +53,8 @@ export function Header() {
               <Menu className="h-6 w-6 text-slate-700" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-80 border-none">
-            <Sidebar />
+          <SheetContent side="left" className="p-0 w-80 border-none bg-white/80 backdrop-blur-3xl">
+            <Sidebar isMobile />
           </SheetContent>
         </Sheet>
 

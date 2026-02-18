@@ -44,6 +44,7 @@ import { SaleForm } from "@/components/forms/SaleForm";
 import { formatDate } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
+import { SalesCard } from "@/components/dashboard/SalesCard";
 
 const container = {
   hidden: { opacity: 0 },
@@ -153,27 +154,10 @@ export default function SalesPage() {
           variants={item}
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-slate-900 text-white rounded-[2.5rem] overflow-hidden relative group">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-secondary/10 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-secondary/20 transition-colors duration-700" />
-            <CardContent className="p-8 relative z-10">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-                    Accumulated Revenue
-                  </p>
-                  <p className="text-5xl font-black tracking-tighter">
-                    $
-                    {totalSalesVolume.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                    })}
-                  </p>
-                </div>
-                <div className="bg-white/10 p-5 rounded-3xl backdrop-blur-md">
-                  <TrendingUp className="h-8 w-8 text-secondary" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <SalesCard
+            totalSalesVolume={totalSalesVolume}
+            salesData={sales}
+          />
         </motion.div>
 
         {/* Content Area */}

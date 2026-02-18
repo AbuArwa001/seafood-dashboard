@@ -112,7 +112,12 @@ const navigation = [
   },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  className?: string;
+  isMobile?: boolean;
+}
+
+export function Sidebar({ className, isMobile = false }: SidebarProps) {
   const pathname = usePathname();
   const { user, isAdmin } = useAuth();
 
@@ -120,7 +125,15 @@ export function Sidebar() {
   const userRole = user?.role_name || "Manager";
 
   return (
-    <div className="flex h-screen w-72 flex-col border-r border-slate-200/60 bg-gradient-to-b from-white to-slate-50/50 backdrop-blur-xl z-20 transition-all duration-300">
+    <div
+      className={cn(
+        "flex flex-col transition-all duration-300",
+        isMobile
+          ? "h-full w-full bg-transparent p-0"
+          : "h-screen w-72 border-r border-slate-200/60 bg-gradient-to-b from-white to-slate-50/50 backdrop-blur-xl z-20",
+        className
+      )}
+    >
       {/* Logo Section */}
       <div className="flex h-24 items-center px-8 mb-4">
         <Link href="/dashboard" className="flex items-center space-x-4 group">
