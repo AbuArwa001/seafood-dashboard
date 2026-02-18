@@ -100,13 +100,13 @@ export default function ProductsPage() {
             .
           </p>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Button
             variant="outline"
             size="icon"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="rounded-2xl border-slate-200 h-12 w-12 hover:bg-slate-50 shadow-sm transition-all"
+            className="rounded-2xl border-slate-200 h-12 w-12 hover:bg-slate-50 shadow-sm transition-all flex-none"
           >
             <RefreshCw
               className={`h-5 w-5 text-slate-600 ${isFetching ? "animate-spin" : ""}`}
@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="rounded-2xl font-black bg-[#1a365d] hover:bg-[#2c5282] h-12 px-8 shadow-xl shadow-[#1a365d]/20 transition-all active:scale-95">
+              <Button className="rounded-2xl font-black bg-[#1a365d] hover:bg-[#2c5282] h-12 px-6 md:px-8 shadow-xl shadow-[#1a365d]/20 transition-all active:scale-95 flex-1 md:flex-none justify-center whitespace-nowrap">
                 <Plus className="h-5 w-5 mr-3" /> ADD PRODUCT
               </Button>
             </DialogTrigger>

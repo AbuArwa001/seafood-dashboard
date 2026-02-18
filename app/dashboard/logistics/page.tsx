@@ -116,13 +116,13 @@ export default function LogisticsPage() {
               .
             </p>
           </div>
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Button
               variant="outline"
               size="icon"
               onClick={() => refetch()}
               disabled={isFetching}
-              className="rounded-2xl border-slate-200 h-12 w-12 hover:bg-slate-50 shadow-sm transition-all"
+              className="rounded-2xl border-slate-200 h-12 w-12 hover:bg-slate-50 shadow-sm transition-all flex-none"
             >
               <RefreshCw
                 className={`h-5 w-5 text-slate-600 ${isFetching ? "animate-spin" : ""}`}
@@ -131,7 +131,7 @@ export default function LogisticsPage() {
 
             <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
               <DialogTrigger asChild>
-                <Button className="rounded-2xl font-black bg-emerald-600 hover:bg-emerald-700 h-12 px-8 shadow-xl shadow-emerald-600/20 transition-all active:scale-95 text-white">
+                <Button className="rounded-2xl font-black bg-emerald-600 hover:bg-emerald-700 h-12 px-6 md:px-8 shadow-xl shadow-emerald-600/20 transition-all active:scale-95 text-white flex-1 md:flex-none justify-center whitespace-nowrap">
                   <Plus className="h-5 w-5 mr-3" /> RECORD RECEIPT
                 </Button>
               </DialogTrigger>
