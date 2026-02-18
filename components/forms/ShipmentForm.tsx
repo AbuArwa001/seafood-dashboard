@@ -58,7 +58,9 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof shipmentSchema>) => {
-      const response = await apiClient.post(API_ENDPOINTS.SHIPMENTS, values);
+      // Backend requires 'items' field even if empty
+      const payload = { ...values, items: [] };
+      const response = await apiClient.post(API_ENDPOINTS.SHIPMENTS, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -68,9 +70,23 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(
-        error.response?.data?.detail || "Failed to register shipment",
-      );
+      const errorData = error.response?.data;
+      let errorMessage = "Failed to register shipment";
+
+      if (errorData) {
+        if (typeof errorData === 'string') {
+          errorMessage = errorData;
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        } else {
+          // Flatten nested DRF errors: { "items": ["This field is required."] }
+          errorMessage = Object.entries(errorData)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .join(" | ");
+        }
+      }
+
+      toast.error(errorMessage);
     },
   });
 

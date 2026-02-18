@@ -69,8 +69,8 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name || "",
-      category: product?.category?.id || "",
-      unit: product?.unit?.id || "",
+      category: typeof product?.category === "object" ? product.category.id : (product?.category || ""),
+      unit: typeof product?.unit === "object" ? product.unit.id : (product?.unit || ""),
       description: product?.description || "",
     },
   });
@@ -87,7 +87,23 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || "Failed to save product");
+      const errorData = error.response?.data;
+      let errorMessage = "Failed to save product";
+
+      if (errorData) {
+        if (typeof errorData === 'string') {
+          errorMessage = errorData;
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        } else {
+          // Flatten nested DRF errors: { "name": ["error..."] }
+          errorMessage = Object.entries(errorData)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .join(" | ");
+        }
+      }
+
+      toast.error(errorMessage);
     },
   });
 
