@@ -154,7 +154,7 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                         <Plus className="h-4 w-4" />
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+                    <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
                       <div className="bg-emerald-600 p-6 text-white">
                         <DialogTitle className="text-2xl font-black flex items-center">
                           <Plus className="mr-3 h-6 w-6" /> Add Category

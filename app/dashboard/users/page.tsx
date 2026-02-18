@@ -124,7 +124,7 @@ export default function UsersPage() {
                   PROVISION USER
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+              <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
                 <div className="bg-indigo-600 p-6 text-white text-center">
                   <DialogTitle className="text-2xl font-black">
                     New Team Member
@@ -221,98 +221,98 @@ export default function UsersPage() {
                 <TableBody>
                   {isLoading
                     ? [1, 2, 3, 4, 5].map((i) => (
-                        <TableRow key={i} className="border-slate-50">
-                          <TableCell className="px-8 py-6">
-                            <div className="flex items-center space-x-4">
-                              <Skeleton className="h-10 w-10 rounded-full" />
-                              <div className="space-y-2">
-                                <Skeleton className="h-4 w-32" />
-                                <Skeleton className="h-3 w-40" />
-                              </div>
+                      <TableRow key={i} className="border-slate-50">
+                        <TableCell className="px-8 py-6">
+                          <div className="flex items-center space-x-4">
+                            <Skeleton className="h-10 w-10 rounded-full" />
+                            <div className="space-y-2">
+                              <Skeleton className="h-4 w-32" />
+                              <Skeleton className="h-3 w-40" />
                             </div>
-                          </TableCell>
-                          <TableCell>
-                            <Skeleton className="h-6 w-24 rounded-lg" />
-                          </TableCell>
-                          <TableCell>
-                            <Skeleton className="h-6 w-24 rounded-lg" />
-                          </TableCell>
-                          <TableCell>
-                            <Skeleton className="h-6 w-20 rounded-lg" />
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <Skeleton className="h-8 w-8 ml-auto" />
-                          </TableCell>
-                        </TableRow>
-                      ))
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-6 w-24 rounded-lg" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-6 w-24 rounded-lg" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-6 w-20 rounded-lg" />
+                        </TableCell>
+                        <TableCell className="text-right px-8">
+                          <Skeleton className="h-8 w-8 ml-auto" />
+                        </TableCell>
+                      </TableRow>
+                    ))
                     : users?.map((user: any) => (
-                        <TableRow
-                          key={user.id}
-                          className="hover:bg-slate-50/50 transition-colors border-slate-50"
-                        >
-                          <TableCell className="px-8 py-6">
-                            <div className="flex items-center space-x-4">
-                              <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-400 text-xs">
-                                {user.full_name.charAt(0)}
+                      <TableRow
+                        key={user.id}
+                        className="hover:bg-slate-50/50 transition-colors border-slate-50"
+                      >
+                        <TableCell className="px-8 py-6">
+                          <div className="flex items-center space-x-4">
+                            <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-400 text-xs">
+                              {user.full_name.charAt(0)}
+                            </div>
+                            <div>
+                              <p className="text-sm font-black text-slate-900">
+                                {user.full_name}
+                              </p>
+                              <div className="flex items-center text-[10px] text-slate-400 font-bold uppercase">
+                                <Mail className="h-2 w-2 mr-1" /> {user.email}
                               </div>
-                              <div>
-                                <p className="text-sm font-black text-slate-900">
-                                  {user.full_name}
-                                </p>
-                                <div className="flex items-center text-[10px] text-slate-400 font-bold uppercase">
-                                  <Mail className="h-2 w-2 mr-1" /> {user.email}
-                                </div>
-                              </div>
                             </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-2">
-                              <Shield className="h-3 w-3 text-indigo-500" />
-                              <span className="font-black text-slate-600 text-xs uppercase tracking-wider">
-                                {user.role?.role_name || "Staff"}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center text-slate-500 font-bold text-sm">
-                              <MapPin className="h-4 w-4 mr-2 opacity-50" />
-                              {user.location}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              variant="outline"
-                              className={`rounded-full px-3 py-1 font-black text-[10px] uppercase tracking-wider ${user.is_active ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-slate-50 text-slate-400 border-slate-100"}`}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Shield className="h-3 w-3 text-indigo-500" />
+                            <span className="font-black text-slate-600 text-xs uppercase tracking-wider">
+                              {user.role?.role_name || "Staff"}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center text-slate-500 font-bold text-sm">
+                            <MapPin className="h-4 w-4 mr-2 opacity-50" />
+                            {user.location}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className={`rounded-full px-3 py-1 font-black text-[10px] uppercase tracking-wider ${user.is_active ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-slate-50 text-slate-400 border-slate-100"}`}
+                          >
+                            {user.is_active ? "Active" : "Disabled"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right px-8">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <button className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                                <MoreVertical className="h-5 w-5 text-slate-400" />
+                              </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                              align="end"
+                              className="w-48 rounded-xl border-slate-100 p-2"
                             >
-                              {user.is_active ? "Active" : "Disabled"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <button className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                                  <MoreVertical className="h-5 w-5 text-slate-400" />
-                                </button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                align="end"
-                                className="w-48 rounded-xl border-slate-100 p-2"
+                              <DropdownMenuItem
+                                className="font-bold text-slate-600 focus:bg-indigo-50 focus:text-indigo-600 rounded-lg py-2 cursor-pointer"
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  setIsRoleModalOpen(true);
+                                }}
                               >
-                                <DropdownMenuItem
-                                  className="font-bold text-slate-600 focus:bg-indigo-50 focus:text-indigo-600 rounded-lg py-2 cursor-pointer"
-                                  onClick={() => {
-                                    setSelectedUser(user);
-                                    setIsRoleModalOpen(true);
-                                  }}
-                                >
-                                  <Shield className="h-4 w-4 mr-2" />
-                                  Manage Role
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                                <Shield className="h-4 w-4 mr-2" />
+                                Manage Role
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
               <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">

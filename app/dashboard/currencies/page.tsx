@@ -92,7 +92,7 @@ export default function CurrenciesPage() {
     onError: (error: any) => {
       toast.error(
         error.response?.data?.detail ||
-          "Delete failed. This currency might be in use.",
+        "Delete failed. This currency might be in use.",
       );
     },
   });
@@ -131,7 +131,7 @@ export default function CurrenciesPage() {
                 NEW CURRENCY
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+            <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
               <div className="bg-primary p-6 text-white text-center">
                 <DialogTitle className="text-2xl font-black">
                   Register Currency
@@ -205,60 +205,60 @@ export default function CurrenciesPage() {
               <TableBody>
                 {isLoading
                   ? [1, 2, 3].map((i) => (
-                      <TableRow key={i} className="border-slate-50">
-                        <TableCell className="px-8 py-6">
-                          <Skeleton className="h-6 w-16" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-40" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-6 w-8 mx-auto" />
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <Skeleton className="h-8 w-8 ml-auto" />
-                        </TableCell>
-                      </TableRow>
-                    ))
+                    <TableRow key={i} className="border-slate-50">
+                      <TableCell className="px-8 py-6">
+                        <Skeleton className="h-6 w-16" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-40" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-8 mx-auto" />
+                      </TableCell>
+                      <TableCell className="text-right px-8">
+                        <Skeleton className="h-8 w-8 ml-auto" />
+                      </TableCell>
+                    </TableRow>
+                  ))
                   : currencies?.map((curr: any) => (
-                      <TableRow
-                        key={curr.id}
-                        className="hover:bg-slate-50/50 transition-colors border-slate-50"
-                      >
-                        <TableCell className="px-8 py-6">
-                          <div className="bg-primary/10 text-primary font-black px-3 py-1 rounded-lg text-center inline-block">
-                            {curr.code}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-bold text-slate-700">
-                          {curr.name}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <span className="bg-slate-100 p-2 rounded-xl font-black text-slate-500 w-10 inline-block text-center">
-                            {curr.symbol || "-"}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right px-8">
-                          <div className="flex items-center justify-end space-x-2">
-                            <button
-                              onClick={() => setEditingCurrency(curr)}
-                              className="p-2 text-slate-400 hover:text-primary transition-colors"
-                            >
-                              <Edit2 className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => {
-                                if (confirm("Delete this currency?"))
-                                  deleteMutation.mutate(curr.id);
-                              }}
-                              className="p-2 text-slate-400 hover:text-red-500 transition-colors"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow
+                      key={curr.id}
+                      className="hover:bg-slate-50/50 transition-colors border-slate-50"
+                    >
+                      <TableCell className="px-8 py-6">
+                        <div className="bg-primary/10 text-primary font-black px-3 py-1 rounded-lg text-center inline-block">
+                          {curr.code}
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-bold text-slate-700">
+                        {curr.name}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span className="bg-slate-100 p-2 rounded-xl font-black text-slate-500 w-10 inline-block text-center">
+                          {curr.symbol || "-"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right px-8">
+                        <div className="flex items-center justify-end space-x-2">
+                          <button
+                            onClick={() => setEditingCurrency(curr)}
+                            className="p-2 text-slate-400 hover:text-primary transition-colors"
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm("Delete this currency?"))
+                                deleteMutation.mutate(curr.id);
+                            }}
+                            className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
             <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">

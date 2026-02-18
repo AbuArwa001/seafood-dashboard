@@ -237,8 +237,8 @@ export default function DashboardPage() {
       value: isLoadingShipments
         ? "..."
         : (
-            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
-          ).toString(),
+          shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+        ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
@@ -527,7 +527,7 @@ export default function DashboardPage() {
                   <Plus className="h-5 w-5 mr-3" /> REGISTER ASSET
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-3xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -847,12 +847,11 @@ export default function DashboardPage() {
                             )}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${
-                              shipment.status === "RECEIVED" ||
-                              shipment.status === "COMPLETED"
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" ||
+                                shipment.status === "COMPLETED"
                                 ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
                                 : "bg-secondary/20 text-secondary border border-secondary/20"
-                            }`}
+                              }`}
                           >
                             {shipment.status.replace("_", " ")}
                           </span>
