@@ -12,92 +12,89 @@ interface SalesCardProps {
 
 export function SalesCard({ totalSalesVolume, salesData }: SalesCardProps) {
     // Process data for the chart
-    // We want to show a trend, so we'll take the last 7 sales or group by date if possible.
-    // For simplicity and visual effect, let's map the last 10 sales in reverse order (oldest to newest)
-    // assuming salesData is sorted new -> old.
     const chartData = [...salesData]
         .reverse()
-        .slice(-20) // Take last 20 records for a decent trend line
+        .slice(-20)
         .map((sale) => ({
             amount: parseFloat(sale.total_sale_amount),
             date: sale.created_at,
         }));
 
-    // Calculate percentage change (mock logic or real if data allows)
-    // For now, let's just show a positive trend visual
-    const isPositive = true;
-
     return (
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] bg-slate-900 text-white rounded-[2rem] overflow-hidden relative group h-full min-h-[280px]">
+        <Card className="border-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] bg-slate-900 text-white rounded-xl overflow-hidden relative group w-full">
             {/* Background Gradients & Effects */}
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-secondary/20 rounded-full blur-[100px] -mt-20 -mr-20 group-hover:bg-secondary/30 transition-colors duration-700 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-blue-500/10 rounded-full blur-[80px] -mb-10 -ml-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[120px] -mt-40 -mr-40 group-hover:bg-secondary/25 transition-all duration-1000 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[100px] -mb-20 -ml-20 pointer-events-none" />
 
-            <CardContent className="p-0 h-full flex flex-col justify-between relative z-10">
-                <div className="p-6 md:p-8 pb-0">
-                    <div className="flex items-start justify-between mb-8">
-                        <div>
-                            <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
-                                Accumulated Revenue
-                            </p>
-                            <div className="flex items-baseline gap-2">
-                                <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-white break-all">
-                                    ${totalSalesVolume.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
-                                </h3>
+            <CardContent className="p-8 md:p-10 relative z-10">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+                    <div className="space-y-6 flex-1">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl">
+                                <TrendingUp className="h-6 w-6 text-secondary" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
+                                    Revenue Performance
+                                </p>
+                                <h4 className="text-sm font-bold text-slate-500 mt-1 uppercase tracking-widest">Global Accumulated Stream</h4>
                             </div>
                         </div>
-                        <div className="bg-white/10 p-3 md:p-4 rounded-2xl backdrop-blur-md border border-white/5 shadow-inner hidden xs:block">
-                            <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-secondary" />
+
+                        <div className="space-y-1">
+                            <h3 className="text-5xl md:text-7xl font-black tracking-tighter text-white">
+                                ${totalSalesVolume.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </h3>
+                            <div className="flex items-center gap-4 pt-2">
+                                <div className="flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
+                                    <ArrowUpRight className="w-4 h-4 text-emerald-400" />
+                                    <span className="text-sm font-black text-emerald-400">+12.5%</span>
+                                </div>
+                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Growth vs Prev Cycle</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-3 md:gap-4">
-                        <div className="flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/20 rounded-full px-3 py-1">
-                            <ArrowUpRight className="w-3 h-3 text-emerald-400" />
-                            <span className="text-xs font-bold text-emerald-400">+12.5%</span>
-                        </div>
-                        <span className="text-xs font-medium text-slate-500 self-center">vs last month</span>
+                    {/* Chart Area - Flexible container */}
+                    <div className="w-full lg:w-[45%] h-[180px] md:h-[220px] relative group/chart">
+                        <div className="absolute inset-0 bg-white/[0.02] rounded-3xl border border-white/[0.05] -m-4 transition-all group-hover/chart:bg-white/[0.04]" />
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={chartData}>
+                                <defs>
+                                    <linearGradient id="colorRevenueProfessional" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#FB923C" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#FB923C" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                <Tooltip
+                                    content={({ active, payload }) => {
+                                        if (active && payload && payload.length) {
+                                            return (
+                                                <div className="bg-slate-900/95 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-3xl ring-1 ring-white/10">
+                                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Registry Value</p>
+                                                    <p className="text-xl font-black text-white">
+                                                        ${payload[0].value?.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                    </p>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    }}
+                                />
+                                <Area
+                                    type="monotone"
+                                    dataKey="amount"
+                                    stroke="#FB923C"
+                                    strokeWidth={4}
+                                    fillOpacity={1}
+                                    fill="url(#colorRevenueProfessional)"
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
-                </div>
-
-                {/* Chart Area */}
-                <div className="h-[100px] md:h-[120px] w-full mt-4">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={chartData}>
-                            <defs>
-                                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                                </linearGradient>
-                            </defs>
-                            <Tooltip
-                                content={({ active, payload }) => {
-                                    if (active && payload && payload.length) {
-                                        return (
-                                            <div className="bg-slate-800/90 backdrop-blur-md border border-slate-700 p-3 rounded-xl shadow-xl">
-                                                <p className="text-xs font-semibold text-slate-300 mb-1">Sale Amount</p>
-                                                <p className="text-lg font-black text-white">
-                                                    ${payload[0].value?.toLocaleString()}
-                                                </p>
-                                            </div>
-                                        );
-                                    }
-                                    return null;
-                                }}
-                            />
-                            <Area
-                                type="monotone"
-                                dataKey="amount"
-                                stroke="#10b981"
-                                strokeWidth={3}
-                                fillOpacity={1}
-                                fill="url(#colorRevenue)"
-                            />
-                        </AreaChart>
-                    </ResponsiveContainer>
                 </div>
             </CardContent>
         </Card>

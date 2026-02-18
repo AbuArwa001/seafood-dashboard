@@ -150,10 +150,7 @@ export default function SalesPage() {
         </header>
 
         {/* Analytics Summary */}
-        <motion.div
-          variants={item}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
+        <motion.div variants={item}>
           <SalesCard
             totalSalesVolume={totalSalesVolume}
             salesData={sales}
