@@ -60,25 +60,31 @@ const item = {
 };
 
 export default function ProductsPage() {
+  const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const {
-    data: products,
+    data,
     isLoading,
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["products", searchQuery],
+    queryKey: ["products", searchQuery, page],
     queryFn: async () => {
       const response = await apiClient.get(API_ENDPOINTS.PRODUCTS, {
-        params: { search: searchQuery },
+        params: { search: searchQuery, page },
       });
-      return response.data.results || response.data;
+      return response.data;
     },
   });
+
+  const products = data?.results || [];
+  const count = data?.count || 0;
+  const hasNext = !!data?.next;
+  const hasPrevious = !!data?.previous;
 
   return (
     <motion.div
@@ -167,7 +173,10 @@ export default function ProductsPage() {
             <Input
               placeholder="Search products by name or category..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setPage(1); // Reset to page 1 on search
+              }}
               className="pl-14 h-16 rounded-[1.5rem] border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-[#1a365d]/10 transition-all text-lg font-semibold placeholder:text-slate-300"
             />
           </div>
@@ -189,7 +198,7 @@ export default function ProductsPage() {
                 </CardTitle>
                 <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest flex items-center gap-2">
                   <Package className="h-4 w-4" />
-                  {products?.length || 0} Products Identified
+                  {count} Products Identified
                 </p>
               </div>
             </div>
@@ -350,6 +359,33 @@ export default function ProductsPage() {
                   )}
                 </TableBody>
               </Table>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="p-8 border-t border-slate-50 flex items-center justify-between">
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
+                Page {page}
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={!hasPrevious || isFetching}
+                  className="rounded-xl font-bold text-xs px-4"
+                >
+                  PREVIOUS
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={!hasNext || isFetching}
+                  className="rounded-xl font-bold text-xs px-4"
+                >
+                  NEXT
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
