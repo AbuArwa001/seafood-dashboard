@@ -18,6 +18,9 @@ import {
   Trash2,
   Edit2,
   MoreVertical,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
 } from "lucide-react";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
@@ -60,6 +63,35 @@ export default function CurrenciesPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingCurrency, setEditingCurrency] = useState<any>(null);
   const [page, setPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState<{
+    field: string | null;
+    direction: "asc" | "desc" | null;
+  }>({ field: "code", direction: "asc" });
+
+  const toggleSort = (field: string) => {
+    setSortConfig((prev) => {
+      if (prev.field === field) {
+        if (prev.direction === "asc") return { field, direction: "desc" };
+        if (prev.direction === "desc") return { field: null, direction: null };
+      }
+      return { field, direction: "asc" };
+    });
+    setPage(1);
+  };
+
+  const getSortIcon = (field: string) => {
+    if (sortConfig.field !== field)
+      return <ChevronsUpDown className="h-4 w-4 ml-2 opacity-20" />;
+    if (sortConfig.direction === "asc")
+      return <ChevronUp className="h-4 w-4 ml-2 text-primary" />;
+    return <ChevronDown className="h-4 w-4 ml-2 text-primary" />;
+  };
+
+  const ordering = sortConfig.field
+    ? sortConfig.direction === "desc"
+      ? `-${sortConfig.field}`
+      : sortConfig.field
+    : undefined;
 
   const {
     data: currencyData,
@@ -67,10 +99,10 @@ export default function CurrenciesPage() {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["currencies", page],
+    queryKey: ["currencies", page, ordering],
     queryFn: async () => {
       const response = await apiClient.get(API_ENDPOINTS.CURRENCIES, {
-        params: { page },
+        params: { page, ordering },
       });
       return response.data;
     },
@@ -188,14 +220,29 @@ export default function CurrenciesPage() {
             <Table>
               <TableHeader className="bg-slate-50/50">
                 <TableRow className="hover:bg-transparent border-slate-50">
-                  <TableHead className="font-black text-slate-900 px-8 h-14">
-                    CODE
+                  <TableHead
+                    className="font-black text-slate-900 px-8 h-14 cursor-pointer hover:bg-slate-100/50 transition-colors"
+                    onClick={() => toggleSort("code")}
+                  >
+                    <div className="flex items-center">
+                      CODE {getSortIcon("code")}
+                    </div>
                   </TableHead>
-                  <TableHead className="font-black text-slate-900 h-14">
-                    NAME
+                  <TableHead
+                    className="font-black text-slate-900 h-14 cursor-pointer hover:bg-slate-100/50 transition-colors"
+                    onClick={() => toggleSort("name")}
+                  >
+                    <div className="flex items-center">
+                      NAME {getSortIcon("name")}
+                    </div>
                   </TableHead>
-                  <TableHead className="font-black text-slate-900 h-14 text-center">
-                    SYMBOL
+                  <TableHead
+                    className="font-black text-slate-900 h-14 text-center cursor-pointer hover:bg-slate-100/50 transition-colors"
+                    onClick={() => toggleSort("symbol")}
+                  >
+                    <div className="flex items-center justify-center">
+                      SYMBOL {getSortIcon("symbol")}
+                    </div>
                   </TableHead>
                   <TableHead className="font-black text-slate-900 h-14 text-right px-8">
                     ACTIONS

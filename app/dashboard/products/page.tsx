@@ -266,7 +266,7 @@ export default function ProductsPage() {
                         <TableCell className="font-bold text-slate-600">
                           <div className="flex flex-col">
                             <span className="text-slate-900 font-black">
-                              {product.unit?.name || "N/A"}
+                              {product.unit?.description || "N/A"}
                             </span>
                             <span className="text-[10px] text-slate-400 font-bold">
                               {product.unit?.code || "-"}
