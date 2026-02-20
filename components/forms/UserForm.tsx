@@ -20,25 +20,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { toast } from "sonner";
-import { UserPlus, Loader2 } from "lucide-react";
+import { Users, Loader2, Save } from "lucide-react";
 
 const userSchema = z.object({
-  email: z.string().email("Invalid email address"),
   full_name: z.string().min(2, "Full name is required"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters").optional().or(z.literal("")),
+  role_id: z.string().uuid("Please select a role"),
   location: z.string().min(2, "Location is required"),
-  role: z.string().uuid("Please select a role"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  is_active: z.boolean().default(true),
 });
 
 interface UserFormProps {
   onSuccess?: () => void;
+  user?: any;
 }
 
-export function UserForm({ onSuccess }: UserFormProps) {
+export function UserForm({ onSuccess, user }: UserFormProps) {
   const queryClient = useQueryClient();
 
   const { data: roles } = useQuery({
@@ -52,27 +55,47 @@ export function UserForm({ onSuccess }: UserFormProps) {
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      email: "",
-      full_name: "",
-      location: "",
-      role: "",
+      full_name: user?.full_name || "",
+      email: user?.email || "",
       password: "",
+      role_id: user?.role?.id || "",
+      location: user?.location || "Headquarters",
+      is_active: user?.is_active ?? true,
     },
   });
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof userSchema>) => {
-      const response = await apiClient.post(API_ENDPOINTS.USERS, values);
-      return response.data;
+      const payload = { ...values };
+      if (user && !payload.password) {
+        delete payload.password;
+      }
+
+      if (user) {
+        const response = await apiClient.put(`${API_ENDPOINTS.USERS}${user.id}/`, payload);
+        return response.data;
+      } else {
+        const response = await apiClient.post(API_ENDPOINTS.USERS, payload);
+        return response.data;
+      }
     },
     onSuccess: () => {
-      toast.success("User provisioned successfully");
+      toast.success(user ? "User updated successfully" : "User created successfully");
       queryClient.invalidateQueries({ queryKey: ["users"] });
       form.reset();
       onSuccess?.();
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || "Failed to provision user");
+      const errorData = error.response?.data;
+      let errorMessage = "Failed to save user";
+
+      if (errorData) {
+        errorMessage = Object.entries(errorData)
+          .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+          .join(" | ");
+      }
+
+      toast.error(errorMessage);
     },
   });
 
@@ -83,62 +106,15 @@ export function UserForm({ onSuccess }: UserFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="full_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Full Name
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="John Doe"
-                  {...field}
-                  className="h-12 rounded-xl border-slate-100 bg-slate-50/50"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Email Address
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="john@example.com"
-                  type="email"
-                  {...field}
-                  className="h-12 rounded-xl border-slate-100 bg-slate-50/50"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
-            name="location"
+            name="full_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                  Location
-                </FormLabel>
+                <FormLabel className="font-bold text-slate-700">Full Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Nairobi"
-                    {...field}
-                    className="h-12 rounded-xl border-slate-100 bg-slate-50/50"
-                  />
+                  <Input placeholder="John Doe" {...field} className="rounded-xl border-slate-200" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -147,28 +123,51 @@ export function UserForm({ onSuccess }: UserFormProps) {
 
           <FormField
             control={form.control}
-            name="role"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                  System Role
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <FormLabel className="font-bold text-slate-700">Email Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="john@example.com" {...field} className="rounded-xl border-slate-200" disabled={!!user} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {!user && (
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-slate-700">Initial Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="••••••••" {...field} className="rounded-xl border-slate-200" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="role_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-slate-700">System Role</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="h-12 rounded-xl border-slate-100 bg-slate-50/50">
+                    <SelectTrigger className="rounded-xl border-slate-200">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-2xl border-none shadow-2xl">
+                  <SelectContent className="rounded-xl">
                     {roles?.map((role: any) => (
-                      <SelectItem
-                        key={role.id}
-                        value={role.id}
-                        className="rounded-xl mt-1"
-                      >
+                      <SelectItem key={role.id} value={role.id}>
                         {role.role_name}
                       </SelectItem>
                     ))}
@@ -178,40 +177,49 @@ export function UserForm({ onSuccess }: UserFormProps) {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-slate-700">Operational Location</FormLabel>
+                <FormControl>
+                  <Input placeholder="Headquarters" {...field} className="rounded-xl border-slate-200" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <FormField
           control={form.control}
-          name="password"
+          name="is_active"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Password
-              </FormLabel>
+            <FormItem className="flex flex-row items-center justify-between rounded-xl border border-slate-100 p-4 bg-slate-50/30">
+              <div className="space-y-0.5">
+                <FormLabel className="text-base font-bold text-slate-900">Active Status</FormLabel>
+                <p className="text-xs text-slate-500 font-medium">Allow this user to sign in to the platform.</p>
+              </div>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  {...field}
-                  className="h-12 rounded-xl border-slate-100 bg-slate-50/50"
-                />
+                <Switch checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
 
         <Button
           type="submit"
-          className="w-full h-14 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black shadow-xl shadow-indigo-600/20 transition-all active:scale-[0.98]"
           disabled={mutation.isPending}
+          className="w-full rounded-xl font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (
-            <UserPlus className="mr-2 h-5 w-5" />
+            <Save className="mr-2 h-5 w-5" />
           )}
-          {mutation.isPending ? "PROVISIONING..." : "PROVISION USER"}
+          {user ? "UPDATE ACCOUNT" : "CREATE ACCOUNT"}
         </Button>
       </form>
     </Form>
