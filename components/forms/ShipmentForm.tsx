@@ -35,6 +35,7 @@ const shipmentSchema = z.object({
     quantity: z.number().min(1, "Quantity must be at least 1"),
     price_at_shipping: z.number().min(0, "Price must be positive"),
   })).min(1, "At least one item is required"),
+  estimated_transit_days: z.number().min(1, "Estimated transit days must be at least 1").optional(),
 });
 
 interface ShipmentFormProps {
@@ -67,6 +68,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
       currency: "",
       status: "CREATED",
       items: [{ product: "", quantity: 1, price_at_shipping: 0 }],
+      estimated_transit_days: undefined,
     },
   });
 
@@ -278,29 +280,51 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
           )}
         </div>
 
-        <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-bold text-slate-700">Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-slate-700">Status</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="rounded-xl border-slate-200 h-12 shadow-sm">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="rounded-xl shadow-2xl border-none p-2">
+                    <SelectItem value="CREATED" className="rounded-lg py-3 focus:bg-slate-50">Created</SelectItem>
+                    <SelectItem value="IN_TRANSIT" className="rounded-lg py-3 focus:bg-slate-50">In Transit</SelectItem>
+                    <SelectItem value="RECEIVED" className="rounded-lg py-3 focus:bg-slate-50">Received</SelectItem>
+                    <SelectItem value="COMPLETED" className="rounded-lg py-3 focus:bg-slate-50">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="estimated_transit_days"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-slate-700">Estimated Transit (Days)</FormLabel>
                 <FormControl>
-                  <SelectTrigger className="rounded-xl border-slate-200 h-12 shadow-sm">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
+                  <Input
+                    type="number"
+                    placeholder="e.g. 5"
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                    className="rounded-xl border-slate-200 h-12 shadow-sm"
+                  />
                 </FormControl>
-                <SelectContent className="rounded-xl shadow-2xl border-none p-2">
-                  <SelectItem value="CREATED" className="rounded-lg py-3 focus:bg-slate-50">Created</SelectItem>
-                  <SelectItem value="IN_TRANSIT" className="rounded-lg py-3 focus:bg-slate-50">In Transit</SelectItem>
-                  <SelectItem value="RECEIVED" className="rounded-lg py-3 focus:bg-slate-50">Received</SelectItem>
-                  <SelectItem value="COMPLETED" className="rounded-lg py-3 focus:bg-slate-50">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <Button
           type="submit"

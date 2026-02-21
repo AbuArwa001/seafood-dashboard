@@ -8,7 +8,13 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Box, Package, Info, MapPin, Calendar, DollarSign } from "lucide-react";
+import {
+  Box, Package, Info, MapPin,
+  Clock,
+  CheckCircle2,
+  Calendar,
+  DollarSign
+} from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface ShipmentDetailsDialogProps {
@@ -77,6 +83,33 @@ export function ShipmentDetailsDialog({
               </div>
             </div>
           </div>
+
+          {/* Tracking Info */}
+          {(shipment.estimated_transit_days || shipment.actual_arrival_date) && (
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {shipment.estimated_transit_days && (
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary-foreground/60 mb-1 flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> Est. Arrival
+                  </p>
+                  <p className="font-bold text-sm">
+                    {new Date(new Date(shipment.created_at).getTime() + (shipment.estimated_transit_days * 24 * 60 * 60 * 1000)).toLocaleDateString()}
+                  </p>
+                  <p className="text-[10px] text-primary-foreground/40 mt-1">({shipment.estimated_transit_days} days transit)</p>
+                </div>
+              )}
+              {shipment.actual_arrival_date && (
+                <div className="bg-emerald-500/20 p-4 rounded-xl border border-emerald-500/30">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> Arrived On
+                  </p>
+                  <p className="font-bold text-sm text-emerald-50">
+                    {new Date(shipment.actual_arrival_date).toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="p-8 pt-6">

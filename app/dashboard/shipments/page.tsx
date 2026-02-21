@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
@@ -28,7 +28,9 @@ import {
   Box,
   Activity,
   ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
+import { toast } from "sonner";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { motion } from "framer-motion";
@@ -66,6 +68,7 @@ const item = {
 };
 
 export default function ShipmentsPage() {
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -92,6 +95,22 @@ export default function ShipmentsPage() {
   const totalCount = shipmentsData?.count || 0;
   const hasNext = !!shipmentsData?.next;
   const hasPrev = !!shipmentsData?.previous;
+
+  const arriveMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiClient.patch(`${API_ENDPOINTS.SHIPMENTS}${id}/`, {
+        status: "RECEIVED",
+        actual_arrival_date: new Date().toISOString().split("T")[0],
+      });
+    },
+    onSuccess: () => {
+      toast.success("Shipment marked as arrived");
+      queryClient.invalidateQueries({ queryKey: ["shipments"] });
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.detail || "Failed to update shipment");
+    },
+  });
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -381,6 +400,19 @@ export default function ShipmentsPage() {
                                 <Anchor className="h-4 w-4 mr-3 text-[#1a365d]/40" />
                                 TRACK VESSEL
                               </DropdownMenuItem>
+                              {shipment.status !== "RECEIVED" && shipment.status !== "COMPLETED" && (
+                                <DropdownMenuItem
+                                  className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-emerald-600 focus:bg-emerald-50 focus:text-emerald-700 transition-all"
+                                  onClick={() => {
+                                    if (confirm("Mark this shipment as arrived?")) {
+                                      arriveMutation.mutate(shipment.id);
+                                    }
+                                  }}
+                                >
+                                  <CheckCircle2 className="h-4 w-4 mr-3 text-emerald-300" />
+                                  MARK AS ARRIVED
+                                </DropdownMenuItem>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
