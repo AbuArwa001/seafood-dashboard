@@ -99,17 +99,17 @@ export function ShipmentDetailsDialog({
                       </div>
                       <div>
                         <p className="font-bold text-slate-900">
-                          {item.product_name || "Unknown Product"}
+                          {item.product_details?.name || "Unknown Product"}
                         </p>
                         <p className="text-xs text-slate-500 font-medium">
                           {item.quantity} units
                         </p>
                       </div>
                     </div>
-                    {item.price && (
+                    {item.price_at_shipping !== undefined && (
                       <div className="text-right">
                         <p className="font-black text-slate-900">
-                          ${item.price}
+                          {shipment.currency?.symbol || "$"}{item.price_at_shipping}
                         </p>
                         <p className="text-[10px] text-slate-400 uppercase font-bold">
                           Value
