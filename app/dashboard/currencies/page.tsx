@@ -108,10 +108,11 @@ export default function CurrenciesPage() {
     },
   });
 
-  const currencies = currencyData?.results || [];
-  const totalCount = currencyData?.count || 0;
-  const hasNext = !!currencyData?.next;
-  const hasPrev = !!currencyData?.previous;
+  const isArray = Array.isArray(currencyData);
+  const currencies = isArray ? currencyData : (currencyData?.results || []);
+  const totalCount = isArray ? currencyData.length : (currencyData?.count || 0);
+  const hasNext = !isArray && !!currencyData?.next;
+  const hasPrev = !isArray && !!currencyData?.previous;
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {

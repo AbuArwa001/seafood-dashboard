@@ -81,10 +81,11 @@ export default function ProductsPage() {
     },
   });
 
-  const products = data?.results || [];
-  const count = data?.count || 0;
-  const hasNext = !!data?.next;
-  const hasPrevious = !!data?.previous;
+  const isArray = Array.isArray(data);
+  const products = isArray ? data : (data?.results || []);
+  const count = isArray ? data.length : (data?.count || 0);
+  const hasNext = !isArray && !!data?.next;
+  const hasPrevious = !isArray && !!data?.previous;
 
   return (
     <motion.div

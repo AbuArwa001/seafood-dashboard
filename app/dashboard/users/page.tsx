@@ -83,10 +83,11 @@ export default function UsersPage() {
     },
   });
 
-  const users = userData?.results || [];
-  const totalCount = userData?.count || 0;
-  const hasNext = !!userData?.next;
-  const hasPrev = !!userData?.previous;
+  const isArray = Array.isArray(userData);
+  const users = isArray ? userData : (userData?.results || []);
+  const totalCount = isArray ? userData.length : (userData?.count || 0);
+  const hasNext = !isArray && !!userData?.next;
+  const hasPrev = !isArray && !!userData?.previous;
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
