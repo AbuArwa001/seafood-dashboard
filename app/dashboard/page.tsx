@@ -79,8 +79,10 @@ const item = {
 };
 
 import { useAuth } from "@/components/providers/auth-provider";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { user, isAdmin } = useAuth(); // Use user object for permission checks
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [timeRange, setTimeRange] = useState("12M");
@@ -237,8 +239,8 @@ export default function DashboardPage() {
       value: isLoadingShipments
         ? "..."
         : (
-          shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
-        ).toString(),
+            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+          ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
@@ -452,7 +454,8 @@ export default function DashboardPage() {
                 variant="outline"
                 className="rounded-2xl border-slate-200 font-bold hover:bg-slate-50 h-12 px-4 md:px-6 shadow-sm transition-all flex items-center gap-2 flex-1 md:flex-none justify-center"
               >
-                <Download className="h-4 w-4" /> <span className="whitespace-nowrap">Generate Report</span>
+                <Download className="h-4 w-4" />{" "}
+                <span className="whitespace-nowrap">Generate Report</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-64 rounded-2xl p-2 shadow-2xl border-none bg-white/95 backdrop-blur-xl">
@@ -847,11 +850,12 @@ export default function DashboardPage() {
                             )}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" ||
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${
+                              shipment.status === "RECEIVED" ||
                               shipment.status === "COMPLETED"
-                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                              : "bg-secondary/20 text-secondary border border-secondary/20"
-                              }`}
+                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                                : "bg-secondary/20 text-secondary border border-secondary/20"
+                            }`}
                           >
                             {shipment.status.replace("_", " ")}
                           </span>
@@ -866,7 +870,10 @@ export default function DashboardPage() {
                       </p>
                     </div>
                   )}
-                  <Button className="w-full bg-white text-[#1a365d] font-black rounded-2xl hover:bg-white/90 h-14 mt-4 shadow-xl transition-all active:scale-95 group">
+                  <Button
+                    onClick={() => router.push("/dashboard/shipments")}
+                    className="w-full bg-white text-[#1a365d] font-black rounded-2xl hover:bg-white/90 h-14 mt-4 shadow-xl transition-all active:scale-95 group"
+                  >
                     EXPLORE REGISTRY{" "}
                     <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
