@@ -1,6 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -140,10 +142,12 @@ export function Header() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-slate-100/80 mx-2 my-2" />
             <div className="grid grid-cols-1 gap-1">
-              <DropdownMenuItem className="rounded-2xl p-4 cursor-pointer focus:bg-slate-50 focus:text-[#1a365d] transition-all group">
-                <User className="mr-4 h-5 w-5 text-slate-400 group-focus:text-[#1a365d] transition-colors" />
-                <span className="font-bold text-sm">Security & Access</span>
-              </DropdownMenuItem>
+              <Link href="/dashboard/security" className="block w-full">
+                <DropdownMenuItem className="rounded-2xl p-4 cursor-pointer focus:bg-slate-50 focus:text-[#1a365d] transition-all group">
+                  <User className="mr-4 h-5 w-5 text-slate-400 group-focus:text-[#1a365d] transition-colors" />
+                  <span className="font-bold text-sm">Security &amp; Access</span>
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem
                 onClick={handleLogout}
                 className="rounded-2xl p-4 cursor-pointer focus:bg-red-50 focus:text-red-600 text-red-500 transition-all group"
