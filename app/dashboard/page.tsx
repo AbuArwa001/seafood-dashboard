@@ -50,6 +50,8 @@ import { CategoryForm } from "@/components/forms/CategoryForm";
 import {
   downloadIndividualReport,
   downloadExecutiveReport,
+  downloadProfessionalPDF,
+  downloadExecutivePDF,
 } from "@/lib/utils/report-utils";
 import { toast } from "sonner";
 import {
@@ -405,24 +407,28 @@ export default function DashboardPage() {
   const handleExecutiveReport = () => {
     toast.promise(
       async () => {
-        downloadExecutiveReport([
+        downloadExecutivePDF([
           { sheetName: "Sales", data: sales || [] },
           { sheetName: "Shipments", data: shipments || [] },
           { sheetName: "Payments", data: payments || [] },
           { sheetName: "Products", data: products || [] },
-        ]);
+        ], (user as any)?.full_name || (user as any)?.email);
       },
       {
-        loading: "Compiling executive business data...",
-        success: "Executive Business Report generated successfully!",
+        loading: "Compiling professional executive report...",
+        success: "Executive Business Report (PDF) generated successfully!",
         error: "Failed to generate report.",
       },
     );
   };
 
-  const handleModuleReport = (type: string, data: any[]) => {
-    toast.message(`Generating ${type} report...`);
-    downloadIndividualReport(data, type, `${type}_Report`);
+  const handleModuleReport = (type: string, data: any[], format: 'pdf' | 'excel' = 'pdf') => {
+    toast.message(`Generating ${type} ${format.toUpperCase()} report...`);
+    if (format === 'pdf') {
+      downloadProfessionalPDF(data, `${type} Report`, `${type}_Report`, (user as any)?.full_name || (user as any)?.email);
+    } else {
+      downloadIndividualReport(data, type, `${type}_Report`);
+    }
   };
 
   return (
@@ -477,45 +483,55 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuSeparator className="my-2 bg-slate-100" />
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Sales", sales || [])}
+                onClick={() => handleModuleReport("Sales", sales || [], 'pdf')}
                 className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-blue-500" />
-                  <span className="font-bold text-slate-700">Sales Report</span>
+                  <span className="font-bold text-slate-700">Sales Report (PDF)</span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Shipments", shipments || [])}
+                onClick={() => handleModuleReport("Shipments", shipments || [], 'pdf')}
                 className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
                   <span className="font-bold text-slate-700">
-                    Shipments Report
+                    Shipments Report (PDF)
                   </span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Payments", payments || [])}
+                onClick={() => handleModuleReport("Payments", payments || [], 'pdf')}
                 className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-amber-500" />
                   <span className="font-bold text-slate-700">
-                    Payments Report
+                    Payments Report (PDF)
                   </span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Products", products || [])}
+                onClick={() => handleModuleReport("Products", products || [], 'pdf')}
                 className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-indigo-500" />
                   <span className="font-bold text-slate-700">
-                    Product Assets Report
+                    Product Assets Report (PDF)
                   </span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="my-2 bg-slate-100" />
+              <DropdownMenuItem
+                onClick={() => handleModuleReport("Sales", sales || [], 'excel')}
+                className="rounded-xl p-2 cursor-pointer hover:bg-slate-50 opacity-60"
+              >
+                <div className="flex items-center gap-3">
+                  <Download className="h-3 w-3" />
+                  <span className="text-xs font-semibold">Sales Data (Excel)</span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>

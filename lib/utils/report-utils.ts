@@ -1,5 +1,8 @@
 import * as XLSX from "xlsx";
 import { format } from "date-fns";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { REPORT_STYLES, TABLE_STYLES } from "./report-templates";
 
 /**
  * Helper to flatten nested objects for report generation.
@@ -65,6 +68,81 @@ export const downloadIndividualReport = (
     workbook,
     `${fileName}_${format(new Date(), "yyyyMMdd_HHmm")}.xlsx`,
   );
+};
+
+/**
+ * Generates and downloads a professional PDF report.
+ */
+export const downloadProfessionalPDF = (
+  data: any[],
+  title: string,
+  fileName: string,
+  preparedBy: string = "System Administrator",
+) => {
+  const doc = new jsPDF();
+  const flattenedData = flattenData(data);
+
+  // 1. Header & Logo Placeholder
+  // Since we don't have the real logo as a base64 yet, we use a placeholder or stylized text
+  doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.rect(15, 10, 8, 8, "F");
+  doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text("apexsolutions", 25, 17);
+
+  // 2. Report Title
+  doc.setFontSize(24);
+  doc.text(title.toUpperCase(), 15, 35);
+
+  // 3. Metadata
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Prepared by: ${preparedBy}`, 15, 45);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Date: ${format(new Date(), "MMMM dd, yyyy")}`, 15, 52);
+
+  // 4. Section Heading
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text("Report Overview", 15, 65);
+
+  // 5. Data Table
+  if (flattenedData.length > 0) {
+    const headers = Object.keys(flattenedData[0]).map(h =>
+      h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    );
+    const body = flattenedData.map(row => Object.values(row));
+
+    autoTable(doc, {
+      startY: 70,
+      head: [headers],
+      body: body as any[][],
+      ...TABLE_STYLES,
+    });
+  }
+
+  // 6. Approval Section (Bottom)
+  const finalY = (doc as any).lastAutoTable.finalY + 20;
+  if (finalY < 250) {
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Approval", 15, finalY);
+
+    doc.setDrawColor(REPORT_STYLES.colors.border[0], REPORT_STYLES.colors.border[1], REPORT_STYLES.colors.border[2]);
+    doc.line(15, finalY + 15, 80, finalY + 15);
+    doc.line(115, finalY + 15, 180, finalY + 15);
+
+    doc.setFontSize(10);
+    doc.text(preparedBy, 15, finalY + 22);
+    doc.text("Operations Manager", 115, finalY + 22);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(format(new Date(), "MMMM dd, yyyy"), 15, finalY + 28);
+    doc.text(format(new Date(), "MMMM dd, yyyy"), 115, finalY + 28);
+  }
+
+  doc.save(`${fileName}_${format(new Date(), "yyyyMMdd_HHmm")}.pdf`);
 };
 
 /**
@@ -147,4 +225,91 @@ export const downloadExecutiveReport = (
     workbook,
     `Executive_Business_Report_${format(new Date(), "yyyyMMdd_HHmm")}.xlsx`,
   );
+};
+
+/**
+ * Generates and downloads a professional Executive PDF report.
+ */
+export const downloadExecutivePDF = (
+  reports: { sheetName: string; data: any[] }[],
+  preparedBy: string = "System Administrator",
+) => {
+  const doc = new jsPDF();
+
+  // 1. Cover Page / Summary
+  doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.rect(15, 10, 8, 8, "F");
+  doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text("apexsolutions", 25, 17);
+
+  doc.setFontSize(28);
+  doc.text("EXECUTIVE BUSINESS REPORT", 15, 40);
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Generated on: ${format(new Date(), "PPP HH:mm")}`, 15, 50);
+  doc.text(`Prepared by: ${preparedBy}`, 15, 57);
+
+  // Financial Highlights Section
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "bold");
+  doc.text("Financial Highlights", 15, 75);
+
+  const executiveSummary = reports.reduce(
+    (summary: any, report) => {
+      if (report.sheetName === "Sales") {
+        summary.totalRevenue = report.data.reduce(
+          (sum, s) => sum + parseFloat(s.total_sale_amount || 0),
+          0,
+        );
+      } else if (report.sheetName === "Payments") {
+        summary.totalPaid = report.data.reduce(
+          (sum, p) => sum + parseFloat(p.amount_paid || 0),
+          0,
+        );
+      }
+      return summary;
+    },
+    { totalRevenue: 0, totalPaid: 0 },
+  );
+
+  autoTable(doc, {
+    startY: 80,
+    head: [["Metric", "Value"]],
+    body: [
+      ["Total Revenue", `$${executiveSummary.totalRevenue.toLocaleString()}`],
+      ["Total Collected", `$${executiveSummary.totalPaid.toLocaleString()}`],
+      ["Outstanding Balance", `$${(executiveSummary.totalRevenue - executiveSummary.totalPaid).toLocaleString()}`],
+    ],
+    ...TABLE_STYLES,
+    theme: 'grid',
+  });
+
+  // 2. Add Detailed Pages for each module
+  reports.forEach((report) => {
+    doc.addPage();
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+    doc.text(`${report.sheetName} Detailed Report`, 15, 20);
+
+    const flattenedData = flattenData(report.data);
+    if (flattenedData.length > 0) {
+      const headers = Object.keys(flattenedData[0]).map(h =>
+        h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+      );
+      const body = flattenedData.map(row => Object.values(row));
+
+      autoTable(doc, {
+        startY: 30,
+        head: [headers],
+        body: body as any[][],
+        ...TABLE_STYLES,
+      });
+    }
+  });
+
+  doc.save(`Executive_Business_Report_${format(new Date(), "yyyyMMdd_HHmm")}.pdf`);
 };
