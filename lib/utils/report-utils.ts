@@ -14,12 +14,7 @@ const flattenData = (data: any[]): any[] => {
     Object.keys(item).forEach((key) => {
       const value = item[key];
 
-      // Shorten UUIDs for 'id' fields or values that look like UUIDs
-      if ((key.toLowerCase() === "id" || key.toLowerCase().endsWith("_id")) &&
-        typeof value === "string" &&
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
-        flatItem[key] = `#${value.substring(0, 8)}`;
-      } else if (typeof value === "object" && value !== null) {
+      if (typeof value === "object" && value !== null) {
         // Check for common display properties in order of preference
         if ("full_name" in value) {
           flatItem[key] = value.full_name;
@@ -31,10 +26,16 @@ const flattenData = (data: any[]): any[] => {
           flatItem[key] = value.username;
         } else if ("email" in value) {
           flatItem[key] = value.email;
+        } else if ("id" in value && typeof value.id === "string") {
+          // If it's a nested object with just an ID, shorten it
+          flatItem[key] = value.id.substring(0, 8).startsWith("#") ? value.id : `#${value.id.substring(0, 8)}`;
         } else {
           // Fallback to JSON string if no common display property exists
           flatItem[key] = JSON.stringify(value);
         }
+      } else if (typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+        // Shorten UUID strings even if they aren't in an 'id' field
+        flatItem[key] = `#${value.substring(0, 8)}`;
       } else {
         flatItem[key] = value;
       }
@@ -115,8 +116,8 @@ export const downloadProfessionalPDF = (
 
   // 5. Data Table
   if (flattenedData.length > 0) {
-    // Exclude large text fields from the table to keep it clean, show them in Notes section instead
-    const excludeFields = ["notes", "comments", "description", "remarks"];
+    // Exclude IDs and large text fields from the table to keep it clean
+    const excludeFields = ["id", "notes", "comments", "description", "remarks"];
     const tableData = flattenedData.map(row => {
       const filteredRow: any = {};
       Object.keys(row).forEach(key => {
