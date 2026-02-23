@@ -30,7 +30,14 @@ import { Users, Loader2, Save } from "lucide-react";
 const userSchema = z.object({
   full_name: z.string().min(2, "Full name is required"),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters").optional(),
+  // Allow empty string when editing (means "don't change password")
+  // Require ≥6 chars only when a value is actually provided
+  password: z
+    .string()
+    .optional()
+    .refine((val) => !val || val.length >= 6, {
+      message: "Password must be at least 6 characters",
+    }),
   role_id: z.string().uuid("Please select a role"),
   location: z.string().min(2, "Location is required"),
   is_active: z.boolean(),
