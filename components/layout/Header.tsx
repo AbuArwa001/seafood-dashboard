@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Bell, LogOut, User, Search } from "lucide-react";
+import { LogOut, User, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Menu } from "lucide-react";
+import { NotificationsPanel } from "@/components/layout/NotificationsPanel";
 
 export function Header() {
   const router = useRouter();
@@ -71,14 +72,7 @@ export function Header() {
 
       <div className="flex items-center space-x-6 lg:space-x-8">
         {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative hover:bg-slate-100/80 rounded-2xl h-12 w-12 transition-all duration-300 group shadow-sm bg-white/50"
-        >
-          <Bell className="h-5 w-5 text-slate-600 group-hover:rotate-12 group-hover:text-[#1a365d]" />
-          <span className="absolute right-3.5 top-3.5 h-2.5 w-2.5 rounded-full bg-blue-500 border-2 border-white shadow-sm ring-2 ring-blue-500/20 active-pulse" />
-        </Button>
+        <NotificationsPanel />
 
         <div className="h-10 w-[1px] bg-slate-200/60 mx-1 hidden sm:block" />
 

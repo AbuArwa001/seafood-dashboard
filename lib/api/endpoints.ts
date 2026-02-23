@@ -11,6 +11,9 @@ export const API_ENDPOINTS = {
   ROLES: "/api/v1/roles/",
   CHANGE_PASSWORD: "/api/v1/users/change_password/",
 
+  // Notifications
+  NOTIFICATIONS: "/api/v1/notifications/",
+
   // Products
   PRODUCTS: "/api/v1/products/",
   CATEGORIES: "/api/v1/productcategories/",
