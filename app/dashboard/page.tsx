@@ -183,6 +183,34 @@ export default function DashboardPage() {
     enabled: canViewPayments,
   });
 
+  // Fetch All Currencies (for lookups)
+  const { data: allCurrencies } = useQuery({
+    queryKey: ["all-currencies"],
+    queryFn: async () => {
+      const response = await apiClient.get(API_ENDPOINTS.CURRENCIES, {
+        params: { page_size: 100 },
+      });
+      return response.data.results || response.data;
+    },
+  });
+
+  // Construct lookup maps for reports
+  const currenciesLookup = useMemo(() => {
+    const lookup: Record<string, string> = {};
+    allCurrencies?.forEach((c: any) => {
+      lookup[c.id] = c.code;
+    });
+    return lookup;
+  }, [allCurrencies]);
+
+  const shipmentsLookup = useMemo(() => {
+    const lookup: Record<string, string> = {};
+    shipments?.forEach((s: any) => {
+      lookup[s.id] = `#${s.id.substring(0, 8)}`;
+    });
+    return lookup;
+  }, [shipments]);
+
   // Calculate totals
   const totalRevenue = useMemo(
     () =>
@@ -241,8 +269,8 @@ export default function DashboardPage() {
       value: isLoadingShipments
         ? "..."
         : (
-            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
-          ).toString(),
+          shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+        ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
@@ -414,7 +442,10 @@ export default function DashboardPage() {
           { sheetName: "Shipments", data: shipments || [] },
           { sheetName: "Payments", data: payments || [] },
           { sheetName: "Products", data: products || [] },
-        ], (user as any)?.full_name || (user as any)?.email);
+        ], (user as any)?.full_name || (user as any)?.email, {
+          currencies: currenciesLookup,
+          shipments: shipmentsLookup
+        });
       },
       {
         loading: "Compiling professional executive report...",
@@ -427,7 +458,10 @@ export default function DashboardPage() {
   const handleModuleReport = (type: string, data: any[], format: 'pdf' | 'excel' = 'pdf') => {
     toast.message(`Generating ${type} ${format.toUpperCase()} report...`);
     if (format === 'pdf') {
-      downloadProfessionalPDF(data, `${type} Report`, `${type}_Report`, (user as any)?.full_name || (user as any)?.email);
+      downloadProfessionalPDF(data, `${type} Report`, `${type}_Report`, (user as any)?.full_name || (user as any)?.email, {
+        currencies: currenciesLookup,
+        shipments: shipmentsLookup
+      });
     } else {
       downloadIndividualReport(data, type, `${type}_Report`);
     }
@@ -866,12 +900,11 @@ export default function DashboardPage() {
                             )}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${
-                              shipment.status === "RECEIVED" ||
-                              shipment.status === "COMPLETED"
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" ||
+                                shipment.status === "COMPLETED"
                                 ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
                                 : "bg-secondary/20 text-secondary border border-secondary/20"
-                            }`}
+                              }`}
                           >
                             {shipment.status.replace("_", " ")}
                           </span>

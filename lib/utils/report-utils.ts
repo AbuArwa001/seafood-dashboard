@@ -8,13 +8,24 @@ import { REPORT_STYLES, TABLE_STYLES } from "./report-templates";
  * Helper to flatten nested objects for report generation.
  * extracted logic to be shared between individual and executive reports.
  */
-const flattenData = (data: any[]): any[] => {
+const flattenData = (data: any[], lookups?: any): any[] => {
   return data.map((item) => {
     const flatItem: any = {};
     Object.keys(item).forEach((key) => {
-      const value = item[key];
+      let value = item[key];
 
-      if (typeof value === "object" && value !== null) {
+      // 0. Use lookup map if available (for resolving UUIDs to codes)
+      if (lookups && typeof value === "string") {
+        if (key.toLowerCase().includes("currency") && lookups.currencies?.[value]) {
+          value = lookups.currencies[value];
+        } else if (key.toLowerCase().includes("shipment") && lookups.shipments?.[value]) {
+          value = lookups.shipments[value];
+        }
+      }
+
+      if (value instanceof Date) {
+        flatItem[key] = format(value, "MMM dd, yyyy HH:mm");
+      } else if (typeof value === "object" && value !== null) {
         // Check for common display properties in order of preference
         if ("code" in value && value.code) {
           flatItem[key] = value.code;
@@ -28,26 +39,28 @@ const flattenData = (data: any[]): any[] => {
           flatItem[key] = value.email;
         } else if ("id" in value && typeof value.id === "string") {
           // If it's a nested object with just an ID, shorten it
-          flatItem[key] = value.id.substring(0, 8).startsWith("#") ? value.id : `#${value.id.substring(0, 8)}`;
+          const id = value.id.trim();
+          flatItem[key] = id.length > 8 ? `#${id.substring(0, 8)}` : id;
         } else {
           // Fallback to JSON string if no common display property exists
           flatItem[key] = JSON.stringify(value);
         }
       } else if (typeof value === "string") {
-        // Check if it's an ISO date string
-        if (value.includes("T") && value.includes("-") && value.length >= 10) {
-          const date = parseISO(value);
+        const valStr = value.trim();
+        // 1. Check if it's an ISO date string
+        if (valStr.includes("-") && (valStr.includes("T") || valStr.length === 10)) {
+          const date = parseISO(valStr);
           if (isValid(date)) {
             flatItem[key] = format(date, "MMM dd, yyyy HH:mm");
             return;
           }
         }
 
-        // Shorten UUID strings even if they aren't in an 'id' field
-        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
-          flatItem[key] = `#${value.substring(0, 8)}`;
+        // 2. Shorten UUID strings even if they aren't in an 'id' field
+        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(valStr)) {
+          flatItem[key] = `#${valStr.substring(0, 8)}`;
         } else {
-          flatItem[key] = value;
+          flatItem[key] = valStr;
         }
       } else {
         flatItem[key] = value;
@@ -59,9 +72,6 @@ const flattenData = (data: any[]): any[] => {
 
 /**
  * Generates and downloads a professional Excel report.
- * @param data Array of objects to be exported.
- * @param sheetName Name of the Excel sheet.
- * @param fileName Base name for the downloaded file.
  */
 export const downloadIndividualReport = (
   data: any[],
@@ -73,7 +83,7 @@ export const downloadIndividualReport = (
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-  // Auto-size columns (rough implementation)
+  // Auto-size columns
   const maxWidths = flattenedData.reduce((acc, row) => {
     Object.keys(row).forEach((key, i) => {
       const val = String(row[key] || "");
@@ -98,9 +108,10 @@ export const downloadProfessionalPDF = (
   title: string,
   fileName: string,
   preparedBy: string = "System Administrator",
+  lookups?: { currencies?: Record<string, string>; shipments?: Record<string, string> },
 ) => {
   const doc = new jsPDF();
-  const flattenedData = flattenData(data);
+  const flattenedData = flattenData(data, lookups);
 
   // 1. Header & Logo Placeholder
   // Since we don't have the real logo as a base64 yet, we use a placeholder or stylized text
@@ -313,6 +324,7 @@ export const downloadExecutiveReport = (
 export const downloadExecutivePDF = (
   reports: { sheetName: string; data: any[] }[],
   preparedBy: string = "System Administrator",
+  lookups?: { currencies?: Record<string, string>; shipments?: Record<string, string> },
 ) => {
   const doc = new jsPDF();
 
@@ -412,7 +424,7 @@ export const downloadExecutivePDF = (
     doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
     doc.text(`${report.sheetName} Detailed Report`, 15, 20);
 
-    const flattenedData = flattenData(report.data);
+    const flattenedData = flattenData(report.data, lookups);
     if (flattenedData.length > 0) {
       const headers = Object.keys(flattenedData[0]).map(h =>
         h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
