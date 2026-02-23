@@ -182,47 +182,10 @@ export const downloadProfessionalPDF = (
   // 4. Section Heading
   doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
-  doc.text("Report Overview", 15, 65);
+  doc.text("Detailed Logistics Breakdown", 15, 65);
 
   let currentY = 70;
 
-  // 4.5 Shipment Movement Summary (Specific to Shipments)
-  const isShipmentReport = title.toLowerCase().includes("shipment") && data.length > 0 && Array.isArray(data[0].items);
-  if (isShipmentReport) {
-    const totalShipments = data.length;
-    let totalWeight = 0;
-    let totalValue = 0;
-
-    data.forEach(shipment => {
-      shipment.items?.forEach((item: any) => {
-        const qty = parseFloat(item.quantity || 0);
-        totalWeight += qty;
-        totalValue += qty * parseFloat(item.price_at_shipping || 0);
-      });
-    });
-
-    doc.setFontSize(12);
-    doc.text("Movement Summary", 15, currentY);
-
-    autoTable(doc, {
-      startY: currentY + 5,
-      head: [["Metric", "Total Volume"]],
-      body: [
-        ["Total Shipments", totalShipments.toString()],
-        ["Total Weight (KG)", `${totalWeight.toLocaleString()} KG`],
-        ["Total Estimated Value", `$${totalValue.toLocaleString()}`],
-      ],
-      margin: { left: 15 },
-      tableWidth: 100, // Compact summary table
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: REPORT_STYLES.colors.secondary as [number, number, number] },
-      theme: 'grid'
-    });
-
-    currentY = (doc as any).lastAutoTable.finalY + 15;
-    doc.setFontSize(14);
-    doc.text("Detailed Logistics Breakdown", 15, currentY - 5);
-  }
 
   // 5. Data Table
   if (flattenedData.length > 0) {
@@ -267,8 +230,49 @@ export const downloadProfessionalPDF = (
     });
   }
 
-  // 5.5 Notes/Comments Section
-  currentY = (doc as any).lastAutoTable?.finalY || 70;
+  // 5.5 Shipment Movement Summary (Now after Detailed Breakdown)
+  const isShipmentReport = title.toLowerCase().includes("shipment") && data.length > 0 && Array.isArray(data[0].items);
+  if (isShipmentReport) {
+    const totalShipments = data.length;
+    let totalWeight = 0;
+    let totalValue = 0;
+
+    data.forEach(shipment => {
+      shipment.items?.forEach((item: any) => {
+        const qty = parseFloat(item.quantity || 0);
+        totalWeight += qty;
+        totalValue += qty * parseFloat(item.price_at_shipping || 0);
+      });
+    });
+
+    currentY = (doc as any).lastAutoTable?.finalY || currentY;
+    currentY += 15;
+    if (currentY > 240) { doc.addPage(); currentY = 20; }
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Movement Summary", 15, currentY);
+
+    autoTable(doc, {
+      startY: currentY + 5,
+      head: [["Metric", "Total Volume"]],
+      body: [
+        ["Total Shipments", totalShipments.toString()],
+        ["Total Weight (KG)", `${totalWeight.toLocaleString()} KG`],
+        ["Total Estimated Value", `$${totalValue.toLocaleString()}`],
+      ],
+      margin: { left: 15 },
+      tableWidth: 100, // Compact summary table
+      styles: { fontSize: 9, cellPadding: 2 },
+      headStyles: { fillColor: REPORT_STYLES.colors.primary as [number, number, number] },
+      theme: 'grid'
+    });
+
+    currentY = (doc as any).lastAutoTable.finalY + 15;
+  }
+
+  // 6. Notes/Comments Section
+  currentY = (doc as any).lastAutoTable?.finalY || currentY;
   const notes = data.map(item => item.notes || item.comments || item.description || item.remarks).filter(Boolean);
 
   if (notes.length > 0) {
