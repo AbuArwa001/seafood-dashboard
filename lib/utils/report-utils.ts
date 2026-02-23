@@ -230,45 +230,86 @@ export const downloadProfessionalPDF = (
     });
   }
 
-  // 5.5 Shipment Movement Summary (Now after Detailed Breakdown)
-  const isShipmentReport = title.toLowerCase().includes("shipment") && data.length > 0 && Array.isArray(data[0].items);
-  if (isShipmentReport) {
-    const totalShipments = data.length;
-    let totalWeight = 0;
-    let totalValue = 0;
+  // 5.5 Module Summaries (Now after Detailed Breakdown)
+  const reportTitleLower = title.toLowerCase();
+  const hasData = data.length > 0;
 
-    data.forEach(shipment => {
-      shipment.items?.forEach((item: any) => {
-        const qty = parseFloat(item.quantity || 0);
-        totalWeight += qty;
-        totalValue += qty * parseFloat(item.price_at_shipping || 0);
+  if (hasData) {
+    let summaryTitle = "";
+    let summaryBody: string[][] = [];
+
+    // --- SHIPMENT SUMMARY ---
+    if (reportTitleLower.includes("shipment")) {
+      let totalWeight = 0;
+      let totalValue = 0;
+      data.forEach(shipment => {
+        shipment.items?.forEach((item: any) => {
+          const qty = parseFloat(item.quantity || 0);
+          totalWeight += qty;
+          totalValue += qty * parseFloat(item.price_at_shipping || 0);
+        });
       });
-    });
 
-    currentY = (doc as any).lastAutoTable?.finalY || currentY;
-    currentY += 15;
-    if (currentY > 240) { doc.addPage(); currentY = 20; }
-
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text("Movement Summary", 15, currentY);
-
-    autoTable(doc, {
-      startY: currentY + 5,
-      head: [["Metric", "Total Volume"]],
-      body: [
-        ["Total Shipments", totalShipments.toString()],
+      summaryTitle = "Movement Summary";
+      summaryBody = [
+        ["Total Shipments", data.length.toString()],
         ["Total Weight (KG)", `${totalWeight.toLocaleString()} KG`],
         ["Total Estimated Value", `$${totalValue.toLocaleString()}`],
-      ],
-      margin: { left: 15 },
-      tableWidth: 100, // Compact summary table
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: REPORT_STYLES.colors.primary as [number, number, number] },
-      theme: 'grid'
-    });
+      ];
+    }
+    // --- SALES SUMMARY ---
+    else if (reportTitleLower.includes("sales")) {
+      const totalRev = data.reduce((sum, s) => sum + parseFloat(s.total_sale_amount || 0), 0);
+      summaryTitle = "Sales Performance Summary";
+      summaryBody = [
+        ["Total Sales Recorded", data.length.toString()],
+        ["Total Revenue", `$${totalRev.toLocaleString()}`],
+        ["Avg Sale Value", `$${(data.length > 0 ? totalRev / data.length : 0).toLocaleString()}`],
+      ];
+    }
+    // --- PAYMENTS SUMMARY ---
+    else if (reportTitleLower.includes("payment")) {
+      const totalPaid = data.reduce((sum, p) => sum + parseFloat(p.amount_paid || 0), 0);
+      summaryTitle = "Payment Transaction Summary";
+      summaryBody = [
+        ["Total Payments", data.length.toString()],
+        ["Total Collected", `$${totalPaid.toLocaleString()}`],
+        ["Avg Payment Amount", `$${(data.length > 0 ? totalPaid / data.length : 0).toLocaleString()}`],
+      ];
+    }
+    // --- PRODUCTS SUMMARY ---
+    else if (reportTitleLower.includes("product")) {
+      const totalWeight = data.reduce((sum, p) => sum + parseFloat(p.kg_purchased || p.kg_sold || 0), 0);
+      summaryTitle = "Inventory Asset Summary";
+      summaryBody = [
+        ["Total Products", data.length.toString()],
+        ["Combined Volume (KG)", `${totalWeight.toLocaleString()} KG`],
+      ];
+    }
 
-    currentY = (doc as any).lastAutoTable.finalY + 15;
+    if (summaryTitle && summaryBody.length > 0) {
+      currentY = (doc as any).lastAutoTable?.finalY || currentY;
+      currentY += 15;
+      if (currentY > 240) { doc.addPage(); currentY = 20; }
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+      doc.text(summaryTitle, 15, currentY);
+
+      autoTable(doc, {
+        startY: currentY + 5,
+        head: [["Metric", "Summary"]],
+        body: summaryBody,
+        margin: { left: 15 },
+        tableWidth: 100, // Compact summary table
+        styles: { fontSize: 9, cellPadding: 2 },
+        headStyles: { fillColor: REPORT_STYLES.colors.primary as [number, number, number] },
+        theme: 'grid'
+      });
+
+      currentY = (doc as any).lastAutoTable.finalY + 15;
+    }
   }
 
   // 6. Notes/Comments Section
