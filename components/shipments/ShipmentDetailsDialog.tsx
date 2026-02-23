@@ -78,7 +78,7 @@ export function ShipmentDetailsDialog({
                   Currency
                 </p>
                 <p className="font-bold text-slate-900">
-                  {shipment.currency?.code || "USD"}
+                  {shipment.currency_code || "USD"}
                 </p>
               </div>
             </div>
@@ -142,7 +142,7 @@ export function ShipmentDetailsDialog({
                     {item.price_at_shipping !== undefined && (
                       <div className="text-right">
                         <p className="font-black text-slate-900">
-                          {shipment.currency?.symbol || "$"}{item.price_at_shipping}
+                          {shipment.currency_symbol || "$"}{item.price_at_shipping}
                         </p>
                         <p className="text-[10px] text-slate-400 uppercase font-bold">
                           Value

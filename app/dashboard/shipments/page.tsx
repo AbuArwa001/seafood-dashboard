@@ -346,7 +346,7 @@ export default function ShipmentsPage() {
                           </div>
                         </TableCell>
                         <TableCell className="font-black text-slate-400 text-sm">
-                          {shipment.currency?.code || "USD"}
+                          {shipment.currency_code || "USD"}
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-col">
