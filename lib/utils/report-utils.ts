@@ -5,6 +5,29 @@ import autoTable from "jspdf-autotable";
 import { REPORT_STYLES, TABLE_STYLES } from "./report-templates";
 
 /**
+ * Common field name mappings to shorter, professional header labels
+ * to prevent column squashing in dense reports.
+ */
+const HEADER_MAP: Record<string, string> = {
+  estimated_transit_days: "Est. Transit",
+  actual_arrival_date: "Arrival Date",
+  country_origin: "Origin",
+  total_sale_amount: "Total Val",
+  kg_purchased: "KG",
+  kg_sold: "KG Sold",
+  created_at: "Created",
+  unit_price: "Price",
+  selling_price: "Price",
+  converted_amount: "Converted",
+  entered_by: "User",
+};
+
+const getReadableHeader = (key: string): string => {
+  if (HEADER_MAP[key]) return HEADER_MAP[key];
+  return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
+/**
  * Helper to flatten nested objects for report generation.
  * extracted logic to be shared between individual and executive reports.
  */
@@ -25,6 +48,21 @@ const flattenData = (data: any[], lookups?: any): any[] => {
 
       if (value instanceof Date) {
         flatItem[key] = format(value, "MMM dd, yyyy HH:mm");
+      } else if (Array.isArray(value)) {
+        // Summarize arrays (e.g., items in a shipment)
+        if (value.length === 0) {
+          flatItem[key] = "None";
+        } else if (typeof value[0] === "object") {
+          // Format based on known item structures
+          flatItem[key] = value.map(i => {
+            const name = i.product_details?.name || i.product?.name || i.name || "Item";
+            const qty = i.quantity || "";
+            const unit = i.unit?.code || i.unit || "";
+            return qty ? `${name} (${qty}${unit})` : name;
+          }).join(", ");
+        } else {
+          flatItem[key] = value.join(", ");
+        }
       } else if (typeof value === "object" && value !== null) {
         // Check for common display properties in order of preference
         if ("code" in value && value.code) {
@@ -38,16 +76,13 @@ const flattenData = (data: any[], lookups?: any): any[] => {
         } else if ("email" in value) {
           flatItem[key] = value.email;
         } else if ("id" in value && typeof value.id === "string") {
-          // If it's a nested object with just an ID, shorten it
           const id = value.id.trim();
           flatItem[key] = id.length > 8 ? `#${id.substring(0, 8)}` : id;
         } else {
-          // Fallback to JSON string if no common display property exists
           flatItem[key] = JSON.stringify(value);
         }
       } else if (typeof value === "string") {
         const valStr = value.trim();
-        // 1. Check if it's an ISO date string
         if (valStr.includes("-") && (valStr.includes("T") || valStr.length === 10)) {
           const date = parseISO(valStr);
           if (isValid(date)) {
@@ -56,7 +91,6 @@ const flattenData = (data: any[], lookups?: any): any[] => {
           }
         }
 
-        // 2. Shorten UUID strings even if they aren't in an 'id' field
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(valStr)) {
           flatItem[key] = `#${valStr.substring(0, 8)}`;
         } else {
@@ -66,6 +100,12 @@ const flattenData = (data: any[], lookups?: any): any[] => {
         flatItem[key] = value;
       }
     });
+
+    // Handle Redundancy: if both "currency" and "currency_code" exist, prefer "currency" if it's resolved
+    if (flatItem.currency && flatItem.currency_code) {
+      delete flatItem.currency_code;
+    }
+
     return flatItem;
   });
 };
@@ -141,20 +181,18 @@ export const downloadProfessionalPDF = (
   // 5. Data Table
   if (flattenedData.length > 0) {
     // Exclude IDs and large text fields from the table to keep it clean
-    const excludeFields = ["id", "notes", "comments", "description", "remarks"];
+    const excludeFields = ["id", "notes", "comments", "description", "remarks", "entered_by"];
     const tableData = flattenedData.map(row => {
       const filteredRow: any = {};
       Object.keys(row).forEach(key => {
-        if (!excludeFields.includes(key.toLowerCase())) {
+        if (!excludeFields.includes(key.toLowerCase()) && !key.toLowerCase().endsWith("_id")) {
           filteredRow[key] = row[key];
         }
       });
       return filteredRow;
     });
 
-    const headers = Object.keys(tableData[0]).map(h =>
-      h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-    );
+    const headers = Object.keys(tableData[0]).map(getReadableHeader);
     const body = tableData.map(row => Object.values(row));
 
     autoTable(doc, {
@@ -162,6 +200,24 @@ export const downloadProfessionalPDF = (
       head: [headers],
       body: body as any[][],
       ...TABLE_STYLES,
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak',
+      },
+      headStyles: {
+        ...TABLE_STYLES.headStyles,
+        fontSize: 8,
+        fontStyle: 'bold',
+      },
+      columnStyles: {
+        ...Object.keys(tableData[0]).reduce((acc: any, key, index) => {
+          if (key.toLowerCase() === 'items') {
+            acc[index] = { cellWidth: 'auto', minCellWidth: 40 };
+          }
+          return acc;
+        }, {}),
+      },
     });
   }
 
@@ -426,16 +482,43 @@ export const downloadExecutivePDF = (
 
     const flattenedData = flattenData(report.data, lookups);
     if (flattenedData.length > 0) {
-      const headers = Object.keys(flattenedData[0]).map(h =>
-        h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-      );
-      const body = flattenedData.map(row => Object.values(row));
+      // Exclude IDs and large text fields
+      const excludeFields = ["id", "notes", "comments", "description", "remarks", "entered_by"];
+      const tableData = flattenedData.map(row => {
+        const filteredRow: any = {};
+        Object.keys(row).forEach(key => {
+          if (!excludeFields.includes(key.toLowerCase()) && !key.toLowerCase().endsWith("_id")) {
+            filteredRow[key] = row[key];
+          }
+        });
+        return filteredRow;
+      });
+
+      const headers = Object.keys(tableData[0]).map(getReadableHeader);
+      const body = tableData.map(row => Object.values(row));
 
       autoTable(doc, {
         startY: 30,
         head: [headers],
         body: body as any[][],
         ...TABLE_STYLES,
+        styles: {
+          fontSize: 8,
+          cellPadding: 2,
+          overflow: 'linebreak',
+        },
+        headStyles: {
+          ...TABLE_STYLES.headStyles,
+          fontSize: 8,
+        },
+        columnStyles: {
+          ...Object.keys(tableData[0]).reduce((acc: any, key, index) => {
+            if (key.toLowerCase() === 'items') {
+              acc[index] = { cellWidth: 'auto', minCellWidth: 40 };
+            }
+            return acc;
+          }, {}),
+        },
       });
     }
   });
