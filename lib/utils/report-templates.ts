@@ -1,7 +1,7 @@
 export const REPORT_STYLES = {
     colors: {
-        primary: [26, 54, 93] as [number, number, number], // #1a365d (Navy/Purple)
-        secondary: [255, 154, 98] as [number, number, number], // #FF9A62 (Secondary Orange)
+        primary: [15, 82, 186] as [number, number, number], // #0F52BA (Deep Sapphire)
+        secondary: [16, 185, 129] as [number, number, number], // #10B981 (Emerald Reef)
         text: [51, 65, 85] as [number, number, number], // Slate 700
         muted: [148, 163, 184] as [number, number, number], // Slate 400
         white: [255, 255, 255] as [number, number, number],
