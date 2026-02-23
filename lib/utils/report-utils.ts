@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import { format } from "date-fns";
+import { format, parseISO, isValid } from "date-fns";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { REPORT_STYLES, TABLE_STYLES } from "./report-templates";
@@ -16,12 +16,12 @@ const flattenData = (data: any[]): any[] => {
 
       if (typeof value === "object" && value !== null) {
         // Check for common display properties in order of preference
-        if ("full_name" in value) {
+        if ("code" in value && value.code) {
+          flatItem[key] = value.code;
+        } else if ("full_name" in value) {
           flatItem[key] = value.full_name;
         } else if ("name" in value) {
           flatItem[key] = value.name;
-        } else if ("code" in value) {
-          flatItem[key] = value.code;
         } else if ("username" in value) {
           flatItem[key] = value.username;
         } else if ("email" in value) {
@@ -33,9 +33,22 @@ const flattenData = (data: any[]): any[] => {
           // Fallback to JSON string if no common display property exists
           flatItem[key] = JSON.stringify(value);
         }
-      } else if (typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+      } else if (typeof value === "string") {
+        // Check if it's an ISO date string
+        if (value.includes("T") && value.includes("-") && value.length >= 10) {
+          const date = parseISO(value);
+          if (isValid(date)) {
+            flatItem[key] = format(date, "MMM dd, yyyy HH:mm");
+            return;
+          }
+        }
+
         // Shorten UUID strings even if they aren't in an 'id' field
-        flatItem[key] = `#${value.substring(0, 8)}`;
+        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+          flatItem[key] = `#${value.substring(0, 8)}`;
+        } else {
+          flatItem[key] = value;
+        }
       } else {
         flatItem[key] = value;
       }
