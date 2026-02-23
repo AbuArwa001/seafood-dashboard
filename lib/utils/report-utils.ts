@@ -153,14 +153,20 @@ export const downloadProfessionalPDF = (
   const doc = new jsPDF();
   const flattenedData = flattenData(data, lookups);
 
-  // 1. Header & Logo Placeholder
-  // Since we don't have the real logo as a base64 yet, we use a placeholder or stylized text
-  doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
-  doc.rect(15, 10, 8, 8, "F");
+  // 1. Header & Logo Integration
+  try {
+    // Add real company logo
+    doc.addImage("/logo.png", "PNG", 15, 10, 30, 10);
+  } catch (e) {
+    // Fallback if logo fails to load
+    doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+    doc.rect(15, 10, 8, 8, "F");
+  }
+
   doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text("apexsolutions", 25, 17);
+  doc.setFontSize(12);
+  doc.text("SeaFood Registry", 15, 25);
 
   // 2. Report Title
   doc.setFontSize(24);
@@ -424,13 +430,18 @@ export const downloadExecutivePDF = (
 ) => {
   const doc = new jsPDF();
 
-  // 1. Cover Page / Summary
-  doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
-  doc.rect(15, 10, 8, 8, "F");
+  // 1. Header & Logo Integration
+  try {
+    doc.addImage("/logo.png", "PNG", 15, 10, 45, 15);
+  } catch (e) {
+    doc.setFillColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+    doc.rect(15, 10, 8, 8, "F");
+  }
+
   doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.text("apexsolutions", 25, 17);
+  doc.text("SeaFood Registry", 15, 30);
 
   doc.setFontSize(28);
   doc.text("EXECUTIVE BUSINESS REPORT", 15, 40);
