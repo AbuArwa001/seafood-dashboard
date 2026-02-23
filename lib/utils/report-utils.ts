@@ -178,6 +178,46 @@ export const downloadProfessionalPDF = (
   doc.setFont("helvetica", "bold");
   doc.text("Report Overview", 15, 65);
 
+  let currentY = 70;
+
+  // 4.5 Shipment Movement Summary (Specific to Shipments)
+  const isShipmentReport = title.toLowerCase().includes("shipment") && data.length > 0 && Array.isArray(data[0].items);
+  if (isShipmentReport) {
+    const totalShipments = data.length;
+    let totalWeight = 0;
+    let totalValue = 0;
+
+    data.forEach(shipment => {
+      shipment.items?.forEach((item: any) => {
+        const qty = parseFloat(item.quantity || 0);
+        totalWeight += qty;
+        totalValue += qty * parseFloat(item.price_at_shipping || 0);
+      });
+    });
+
+    doc.setFontSize(12);
+    doc.text("Movement Summary", 15, currentY);
+
+    autoTable(doc, {
+      startY: currentY + 5,
+      head: [["Metric", "Total Volume"]],
+      body: [
+        ["Total Shipments", totalShipments.toString()],
+        ["Total Weight (KG)", `${totalWeight.toLocaleString()} KG`],
+        ["Total Estimated Value", `$${totalValue.toLocaleString()}`],
+      ],
+      margin: { left: 15 },
+      tableWidth: 100, // Compact summary table
+      styles: { fontSize: 9, cellPadding: 2 },
+      headStyles: { fillColor: REPORT_STYLES.colors.secondary as [number, number, number] },
+      theme: 'grid'
+    });
+
+    currentY = (doc as any).lastAutoTable.finalY + 15;
+    doc.setFontSize(14);
+    doc.text("Detailed Logistics Breakdown", 15, currentY - 5);
+  }
+
   // 5. Data Table
   if (flattenedData.length > 0) {
     // Exclude IDs and large text fields from the table to keep it clean
@@ -196,7 +236,7 @@ export const downloadProfessionalPDF = (
     const body = tableData.map(row => Object.values(row));
 
     autoTable(doc, {
-      startY: 70,
+      startY: currentY,
       head: [headers],
       body: body as any[][],
       ...TABLE_STYLES,
@@ -222,7 +262,7 @@ export const downloadProfessionalPDF = (
   }
 
   // 5.5 Notes/Comments Section
-  let currentY = (doc as any).lastAutoTable?.finalY || 70;
+  currentY = (doc as any).lastAutoTable?.finalY || 70;
   const notes = data.map(item => item.notes || item.comments || item.description || item.remarks).filter(Boolean);
 
   if (notes.length > 0) {
@@ -409,18 +449,23 @@ export const downloadExecutivePDF = (
     (summary: any, report) => {
       if (report.sheetName === "Sales") {
         summary.totalRevenue = report.data.reduce(
-          (sum, s) => sum + parseFloat(s.total_sale_amount || 0),
+          (sum: number, s: any) => sum + parseFloat(s.total_sale_amount || 0),
           0,
         );
       } else if (report.sheetName === "Payments") {
         summary.totalPaid = report.data.reduce(
-          (sum, p) => sum + parseFloat(p.amount_paid || 0),
+          (sum: number, p: any) => sum + parseFloat(p.amount_paid || 0),
+          0,
+        );
+      } else if (report.sheetName === "Shipments") {
+        summary.totalWeight = report.data.reduce(
+          (sum: number, s: any) => sum + (s.items?.reduce((s2: number, i: any) => s2 + parseFloat(i.quantity || 0), 0) || 0),
           0,
         );
       }
       return summary;
     },
-    { totalRevenue: 0, totalPaid: 0 },
+    { totalRevenue: 0, totalPaid: 0, totalWeight: 0 },
   );
 
   autoTable(doc, {
@@ -430,6 +475,7 @@ export const downloadExecutivePDF = (
       ["Total Revenue", `$${executiveSummary.totalRevenue.toLocaleString()}`],
       ["Total Collected", `$${executiveSummary.totalPaid.toLocaleString()}`],
       ["Outstanding Balance", `$${(executiveSummary.totalRevenue - executiveSummary.totalPaid).toLocaleString()}`],
+      ["Total Weight (Logistics)", `${executiveSummary.totalWeight.toLocaleString()} KG`],
     ],
     ...TABLE_STYLES,
     theme: 'grid',
