@@ -13,7 +13,13 @@ const flattenData = (data: any[]): any[] => {
     const flatItem: any = {};
     Object.keys(item).forEach((key) => {
       const value = item[key];
-      if (typeof value === "object" && value !== null) {
+
+      // Shorten UUIDs for 'id' fields or values that look like UUIDs
+      if ((key.toLowerCase() === "id" || key.toLowerCase().endsWith("_id")) &&
+        typeof value === "string" &&
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+        flatItem[key] = `#${value.substring(0, 8)}`;
+      } else if (typeof value === "object" && value !== null) {
         // Check for common display properties in order of preference
         if ("full_name" in value) {
           flatItem[key] = value.full_name;
@@ -109,10 +115,22 @@ export const downloadProfessionalPDF = (
 
   // 5. Data Table
   if (flattenedData.length > 0) {
-    const headers = Object.keys(flattenedData[0]).map(h =>
+    // Exclude large text fields from the table to keep it clean, show them in Notes section instead
+    const excludeFields = ["notes", "comments", "description", "remarks"];
+    const tableData = flattenedData.map(row => {
+      const filteredRow: any = {};
+      Object.keys(row).forEach(key => {
+        if (!excludeFields.includes(key.toLowerCase())) {
+          filteredRow[key] = row[key];
+        }
+      });
+      return filteredRow;
+    });
+
+    const headers = Object.keys(tableData[0]).map(h =>
       h.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
     );
-    const body = flattenedData.map(row => Object.values(row));
+    const body = tableData.map(row => Object.values(row));
 
     autoTable(doc, {
       startY: 70,
@@ -122,25 +140,73 @@ export const downloadProfessionalPDF = (
     });
   }
 
-  // 6. Approval Section (Bottom)
-  const finalY = (doc as any).lastAutoTable.finalY + 20;
-  if (finalY < 250) {
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Approval", 15, finalY);
+  // 5.5 Notes/Comments Section
+  let currentY = (doc as any).lastAutoTable?.finalY || 70;
+  const notes = data.map(item => item.notes || item.comments || item.description || item.remarks).filter(Boolean);
 
-    doc.setDrawColor(REPORT_STYLES.colors.border[0], REPORT_STYLES.colors.border[1], REPORT_STYLES.colors.border[2]);
-    doc.line(15, finalY + 15, 80, finalY + 15);
-    doc.line(115, finalY + 15, 180, finalY + 15);
+  if (notes.length > 0) {
+    currentY += 15;
+    if (currentY > 260) { doc.addPage(); currentY = 20; }
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+    doc.text("COMMENTS / NOTES", 15, currentY);
 
     doc.setFontSize(10);
-    doc.text(preparedBy, 15, finalY + 22);
-    doc.text("Operations Manager", 115, finalY + 22);
-
     doc.setFont("helvetica", "normal");
-    doc.text(format(new Date(), "MMMM dd, yyyy"), 15, finalY + 28);
-    doc.text(format(new Date(), "MMMM dd, yyyy"), 115, finalY + 28);
+    doc.setTextColor(REPORT_STYLES.colors.text[0], REPORT_STYLES.colors.text[1], REPORT_STYLES.colors.text[2]);
+
+    // Show unique notes
+    const uniqueNotes = Array.from(new Set(notes));
+    uniqueNotes.forEach((note, index) => {
+      const lines = doc.splitTextToSize(`• ${note}`, 180);
+      doc.text(lines, 15, currentY + 7 + (index * 5));
+      currentY += (lines.length * 5);
+    });
   }
+
+  // 6. Approval Section (Bottom)
+  currentY += 25;
+  if (currentY > 240) {
+    doc.addPage();
+    currentY = 30;
+  }
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.text("APPROVAL & VERIFICATION", 15, currentY);
+
+  const colWidth = 60;
+  const startX = 15;
+  const lineY = currentY + 15;
+
+  doc.setDrawColor(REPORT_STYLES.colors.border[0], REPORT_STYLES.colors.border[1], REPORT_STYLES.colors.border[2]);
+
+  // 1. Prepared By
+  doc.line(startX, lineY, startX + colWidth - 5, lineY);
+  doc.setFontSize(9);
+  doc.text("PREPARED BY", startX, lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text(preparedBy, startX, lineY + 10);
+  doc.text(format(new Date(), "PP"), startX, lineY + 15);
+
+  // 2. Reviewed By
+  doc.line(startX + colWidth, lineY, startX + (colWidth * 2) - 5, lineY);
+  doc.setFont("helvetica", "bold");
+  doc.text("REVIEWED BY", startX + colWidth, lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text("Project Manager / Lead", startX + colWidth, lineY + 10);
+  doc.text("Date: ____/____/2026", startX + colWidth, lineY + 15);
+
+  // 3. Approved By
+  doc.line(startX + (colWidth * 2), lineY, startX + (colWidth * 3), lineY);
+  doc.setFont("helvetica", "bold");
+  doc.text("APPROVED BY", startX + (colWidth * 2), lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text("Director / CEO", startX + (colWidth * 2), lineY + 10);
+  doc.text("Date: ____/____/2026", startX + (colWidth * 2), lineY + 15);
 
   doc.save(`${fileName}_${format(new Date(), "yyyyMMdd_HHmm")}.pdf`);
 };
@@ -286,6 +352,43 @@ export const downloadExecutivePDF = (
     ...TABLE_STYLES,
     theme: 'grid',
   });
+
+  // 1.5 Approval Section on Cover Page
+  let currentY = (doc as any).lastAutoTable?.finalY + 25;
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(REPORT_STYLES.colors.primary[0], REPORT_STYLES.colors.primary[1], REPORT_STYLES.colors.primary[2]);
+  doc.text("EXECUTIVE APPROVAL", 15, currentY);
+
+  const colWidth = 60;
+  const startX = 15;
+  const lineY = currentY + 15;
+
+  doc.setDrawColor(REPORT_STYLES.colors.border[0], REPORT_STYLES.colors.border[1], REPORT_STYLES.colors.border[2]);
+
+  // 1. Prepared By
+  doc.line(startX, lineY, startX + colWidth - 5, lineY);
+  doc.setFontSize(9);
+  doc.text("PREPARED BY", startX, lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text(preparedBy, startX, lineY + 10);
+  doc.text(format(new Date(), "PP"), startX, lineY + 15);
+
+  // 2. Reviewed By
+  doc.line(startX + colWidth, lineY, startX + (colWidth * 2) - 5, lineY);
+  doc.setFont("helvetica", "bold");
+  doc.text("REVIEWED BY", startX + colWidth, lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text("Board of Directors", startX + colWidth, lineY + 10);
+  doc.text("Date: ____/____/2026", startX + colWidth, lineY + 15);
+
+  // 3. Approved By
+  doc.line(startX + (colWidth * 2), lineY, startX + (colWidth * 3), lineY);
+  doc.setFont("helvetica", "bold");
+  doc.text("APPROVED BY", startX + (colWidth * 2), lineY + 5);
+  doc.setFont("helvetica", "normal");
+  doc.text("CEO / Managing Director", startX + (colWidth * 2), lineY + 10);
+  doc.text("Date: ____/____/2026", startX + (colWidth * 2), lineY + 15);
 
   // 2. Add Detailed Pages for each module
   reports.forEach((report) => {
