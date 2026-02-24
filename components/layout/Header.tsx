@@ -79,17 +79,19 @@ export function Header() {
 
       <div className="flex items-center space-x-6 lg:space-x-8">
         {/* Notifications (Knock) */}
-        <div className="relative">
-          <NotificationIconButton
-            ref={notifButtonRef}
-            onClick={() => setIsVisible(!isVisible)}
-          />
-          <NotificationFeedPopover
-            buttonRef={notifButtonRef}
-            isVisible={isVisible}
-            onClose={() => setIsVisible(false)}
-          />
-        </div>
+        {user && (
+          <div className="relative">
+            <NotificationIconButton
+              ref={notifButtonRef}
+              onClick={() => setIsVisible(!isVisible)}
+            />
+            <NotificationFeedPopover
+              buttonRef={notifButtonRef}
+              isVisible={isVisible}
+              onClose={() => setIsVisible(false)}
+            />
+          </div>
+        )}
 
         <div className="h-10 w-[1px] bg-slate-200/60 mx-1 hidden sm:block" />
 
