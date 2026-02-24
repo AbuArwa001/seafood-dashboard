@@ -18,7 +18,7 @@ export function AppKnockProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <KnockProvider apiKey={knockPublicKey} userId={user.id}>
+        <KnockProvider apiKey={knockPublicKey} userId={user.id.toString()}>
             <KnockFeedProvider feedId={knockFeedId}>
                 {children}
             </KnockFeedProvider>

@@ -22,9 +22,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut, User, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "@/lib/api/client";
-import { API_ENDPOINTS } from "@/lib/api/endpoints";
+import { useAuth } from "@/components/providers/auth-provider";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Menu } from "lucide-react";
@@ -34,13 +32,7 @@ export function Header() {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { data: user } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const response = await apiClient.get(API_ENDPOINTS.ME);
-      return response.data;
-    },
-  });
+  const { user } = useAuth();
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
