@@ -1,6 +1,8 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 
+import { AppKnockProvider } from "@/components/providers/KnockAppProvider";
+
 export default function DashboardLayout({
   children,
 }: {
@@ -12,8 +14,10 @@ export default function DashboardLayout({
         <Sidebar />
       </div>
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-y-auto bg-accent p-6">{children}</main>
+        <AppKnockProvider>
+          <Header />
+          <main className="flex-1 overflow-y-auto bg-accent p-6">{children}</main>
+        </AppKnockProvider>
       </div>
     </div>
   );

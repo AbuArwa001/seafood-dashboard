@@ -1,7 +1,13 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  NotificationIconButton,
+  NotificationFeedPopover,
+} from "@knocklabs/react";
+import "@knocklabs/react/dist/index.css";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,10 +28,11 @@ import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Menu } from "lucide-react";
-import { NotificationsPanel } from "@/components/layout/NotificationsPanel";
 
 export function Header() {
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+  const notifButtonRef = useRef<HTMLButtonElement>(null);
 
   const { data: user } = useQuery({
     queryKey: ["me"],
@@ -71,8 +78,18 @@ export function Header() {
       </div>
 
       <div className="flex items-center space-x-6 lg:space-x-8">
-        {/* Notifications */}
-        <NotificationsPanel />
+        {/* Notifications (Knock) */}
+        <div className="relative">
+          <NotificationIconButton
+            ref={notifButtonRef}
+            onClick={() => setIsVisible(!isVisible)}
+          />
+          <NotificationFeedPopover
+            buttonRef={notifButtonRef}
+            isVisible={isVisible}
+            onClose={() => setIsVisible(false)}
+          />
+        </div>
 
         <div className="h-10 w-[1px] bg-slate-200/60 mx-1 hidden sm:block" />
 
