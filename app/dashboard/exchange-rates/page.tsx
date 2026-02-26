@@ -11,7 +11,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { ExchangeRateFilter } from "@/components/filters/ExchangeRateFilter";
+import { MarginConfigDialog } from "@/components/forms/MarginConfigDialog";
 import {
   Select,
   SelectContent,
@@ -529,9 +530,8 @@ export default function ExchangeRatesPage() {
               converted using the prevailing daily rate at 12:00 AM UTC.
             </p>
           </div>
-          <button className="bg-white text-primary font-black py-4 rounded-2xl w-full mt-8 hover:bg-slate-50 transition-colors">
-            CONFIGURE MARGINS
-          </button>
+
+          <MarginConfigDialog />
         </div>
       </motion.div>
     </motion.div>
