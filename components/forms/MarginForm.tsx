@@ -25,7 +25,6 @@ import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { toast } from "sonner";
 import { Loader2, Percent, Check } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
 
 const marginSchema = z.object({
     from_currency: z.string().uuid("Please select a base currency"),
@@ -173,15 +172,22 @@ export function MarginForm({ onSuccess, initialData }: MarginFormProps) {
                     control={form.control}
                     name="is_active"
                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 bg-slate-50 rounded-2xl">
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0 p-4 bg-slate-50 rounded-2xl cursor-pointer"
+                            onClick={() => field.onChange(!field.value)}
+                        >
                             <FormControl>
-                                <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
+                                <div className={`h-5 w-5 rounded flex items-center justify-center border-2 transition-colors ${field.value ? 'bg-primary border-primary' : 'bg-white border-slate-300'}`}>
+                                    {field.value && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+                                    <input
+                                        type="checkbox"
+                                        className="sr-only"
+                                        checked={field.value}
+                                        onChange={() => field.onChange(!field.value)}
+                                    />
+                                </div>
                             </FormControl>
-                            <div className="space-y-1 leading-none">
-                                <FormLabel className="font-bold text-slate-700">Active</FormLabel>
+                            <div className="space-y-1 leading-none select-none">
+                                <FormLabel className="font-bold text-slate-700 cursor-pointer">Active</FormLabel>
                                 <p className="text-xs text-slate-500 font-medium">
                                     Apply this margin to all future conversions for this pair.
                                 </p>
