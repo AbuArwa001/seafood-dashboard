@@ -30,7 +30,7 @@ const marginSchema = z.object({
     from_currency: z.string().uuid("Please select a base currency"),
     to_currency: z.string().uuid("Please select a target currency"),
     margin_percentage: z.number().min(0, "Margin must be at least 0"),
-    is_active: z.boolean().default(true),
+    is_active: z.boolean(),
 });
 
 interface MarginFormProps {
