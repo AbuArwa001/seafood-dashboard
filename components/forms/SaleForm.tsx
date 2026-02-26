@@ -125,7 +125,7 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
                 <SelectContent className="rounded-xl">
                   {shipments?.map((shp: any) => (
                     <SelectItem key={shp.id} value={shp.id}>
-                      Shipment #{shp.id.substring(0, 8)} ({shp.country_origin})
+                      Shipment {shp.id.substring(0, 8).toUpperCase()} - {shp.country_origin} ({shp.status})
                     </SelectItem>
                   ))}
                 </SelectContent>

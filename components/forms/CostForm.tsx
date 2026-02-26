@@ -148,7 +148,8 @@ export function CostForm({ onSuccess }: CostFormProps) {
                       value={shipment.id}
                       className="rounded-xl mt-1"
                     >
-                      {shipment.shipment_number} - {shipment.origin}
+                      Shipment {shipment.id.substring(0, 8).toUpperCase()} - {shipment.country_origin} (
+                      {shipment.status})
                     </SelectItem>
                   ))}
                 </SelectContent>
