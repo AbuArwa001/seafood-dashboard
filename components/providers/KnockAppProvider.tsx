@@ -10,10 +10,10 @@ export function AppKnockProvider({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
 
     // Replace with actual keys via environment variables for production
-    const knockPublicKey = process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY || "pk_test_placeholder";
-    const knockFeedId = process.env.NEXT_PUBLIC_KNOCK_FEED_ID || "feed_id_placeholder";
+    const knockPublicKey = process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY || "";
+    const knockFeedId = process.env.NEXT_PUBLIC_KNOCK_FEED_ID || "";
 
-    if (!user) {
+    if (!user || !knockPublicKey || !knockFeedId) {
         return <>{children}</>;
     }
 
