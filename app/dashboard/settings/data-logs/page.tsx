@@ -27,6 +27,7 @@ import {
     ArrowLeft,
     Clock,
     User,
+    Users,
     Tag,
     ChevronRight,
     Cpu,
