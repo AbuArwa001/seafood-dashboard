@@ -106,7 +106,7 @@ const navigation = [
         name: "Settings",
         href: "/dashboard/settings",
         icon: Settings,
-        permissions: [PERMISSIONS.VIEW_USER], // Assuming settings is Admin only for now
+        permissions: [PERMISSIONS.VIEW_USER, PERMISSIONS.VIEW_PAYMENT], // Admin and Finance see Settings
       },
     ],
   },

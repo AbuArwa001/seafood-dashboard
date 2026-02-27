@@ -262,7 +262,7 @@ export default function DashboardPage() {
       color: "text-primary",
       bgColor: "bg-primary/10",
       data: salesChartData,
-      hidden: !canViewSales,
+      hidden: !canViewFinancials,
     },
     {
       title: "Active Shipments",
@@ -901,9 +901,9 @@ export default function DashboardPage() {
                           </p>
                           <span
                             className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" ||
-                                shipment.status === "COMPLETED"
-                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                                : "bg-secondary/20 text-secondary border border-secondary/20"
+                              shipment.status === "COMPLETED"
+                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                              : "bg-secondary/20 text-secondary border border-secondary/20"
                               }`}
                           >
                             {shipment.status.replace("_", " ")}
