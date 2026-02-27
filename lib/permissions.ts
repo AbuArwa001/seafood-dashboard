@@ -8,36 +8,51 @@ export const PERMISSIONS = {
   ADD_SHIPMENT: "add_shipment",
   CHANGE_SHIPMENT: "change_shipment",
   DELETE_SHIPMENT: "delete_shipment",
-  
+
   // Products
   VIEW_PRODUCT: "view_product",
   ADD_PRODUCT: "add_product",
   CHANGE_PRODUCT: "change_product",
-  
+
   // Sales
   VIEW_SALE: "view_sale",
   ADD_SALE: "add_sale",
-  
+
   // Payments
   VIEW_PAYMENT: "view_payment",
   ADD_PAYMENT: "add_payment",
-  
+
   // Supplier Purchases (Mozambique Agent)
   VIEW_SUPPLIERPURCHASE: "view_supplierpurchase",
   ADD_SUPPLIERPURCHASE: "add_supplierpurchase",
-  
+
   // Costs (Logistics Agent)
   VIEW_COSTLEDGER: "view_costledger",
   ADD_COSTLEDGER: "add_costledger",
-  
+
   // Logistics Receipts (Logistics Agent)
   VIEW_LOGISTICSRECEIPT: "view_logisticsreceipt",
   ADD_LOGISTICSRECEIPT: "add_logisticsreceipt",
-  
+
   // Users (Admin)
   VIEW_USER: "view_user",
   ADD_USER: "add_user",
-  
+
+  // Roles (Admin)
+  VIEW_ROLE: "view_role",
+  ADD_ROLE: "add_role",
+  CHANGE_ROLE: "change_role",
+  DELETE_ROLE: "delete_role",
+
+  // System Parameters (Admin)
+  VIEW_SYSTEMPARAMETER: "view_systemparameter",
+  ADD_SYSTEMPARAMETER: "add_systemparameter",
+  CHANGE_SYSTEMPARAMETER: "change_systemparameter",
+  DELETE_SYSTEMPARAMETER: "delete_systemparameter",
+
+  // Audit Logs (Admin)
+  VIEW_AUDITLOG: "view_auditlog",
+
   // Financials
   VIEW_EXCHANGERATE: "view_exchangerate",
   VIEW_CURRENCY: "view_currency",
@@ -54,11 +69,11 @@ export type PermissionCodename = typeof PERMISSIONS[keyof typeof PERMISSIONS];
  */
 export function hasPermission(user: User | null | undefined, codename: PermissionCodename | string): boolean {
   if (!user || !user.role) return false;
-  
+
   // Admin usually has all permissions, but relying on explicit list is safer if backend handles it.
   // However, often Admins are superusers. Let's assume strict permission check from the loaded user object.
   // If the user object from API includes a flat list of permissions in the role:
-  
+
   const permissions = user.role.permissions || [];
   return permissions.some((p: Permission) => p.codename === codename);
 }
