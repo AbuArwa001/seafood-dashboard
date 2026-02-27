@@ -23,6 +23,7 @@ import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { Role } from "@/types/models";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useState } from "react";
+import { RolePermissionsDialog } from "@/components/forms/RolePermissionsDialog";
 
 // ─── Animations ───────────────────────────────────────────────────────────────
 const container = {
@@ -75,6 +76,8 @@ function formatPermission(codename: string) {
 export default function AccessControlPage() {
     const { isAdmin } = useAuth();
     const [search, setSearch] = useState("");
+    const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { data: roles, isLoading, error, refetch } = useQuery<Role[]>({
         queryKey: ["roles"],
@@ -170,7 +173,15 @@ export default function AccessControlPage() {
                     </div>
                 ) : (
                     filteredRoles?.map((role) => (
-                        <motion.div key={role.id} variants={item}>
+                        <motion.div
+                            key={role.id}
+                            variants={item}
+                            onClick={() => {
+                                setSelectedRole(role);
+                                setIsDialogOpen(true);
+                            }}
+                            className="cursor-pointer"
+                        >
                             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)] bg-white rounded-[2.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 border border-transparent hover:border-indigo-100 flex flex-col h-full group">
                                 <CardHeader className="p-8 pb-4">
                                     <div className="flex items-start justify-between">
@@ -220,6 +231,15 @@ export default function AccessControlPage() {
                     ))
                 )}
             </div>
+
+            <RolePermissionsDialog
+                isOpen={isDialogOpen}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                    setSelectedRole(null);
+                }}
+                role={selectedRole}
+            />
         </motion.div>
     );
 }

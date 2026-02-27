@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
   USERS: "/api/v1/users/",
   ME: "/api/v1/users/me/",
   ROLES: "/api/v1/roles/",
+  PERMISSIONS: "/api/v1/permissions/",
   CHANGE_PASSWORD: "/api/v1/users/change_password/",
 
   // Notifications
