@@ -63,8 +63,11 @@ export default function SystemParametersPage() {
     const { data: parameters, isLoading, error, refetch } = useQuery<SystemParameter[]>({
         queryKey: ["system-parameters"],
         queryFn: async () => {
-            const response = await apiClient.get(API_ENDPOINTS.SYSTEM_PARAMETERS);
-            return response.data;
+            const response = await apiClient.get(API_ENDPOINTS.SYSTEM_PARAMETERS, {
+                params: { page_size: 100 }
+            });
+            // Handle both paginated ({results: [...]}) and plain array responses
+            return Array.isArray(response.data) ? response.data : (response.data.results ?? []);
         },
         enabled: isAdmin,
     });
