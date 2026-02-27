@@ -101,8 +101,8 @@ export default function DataLogsPage() {
                     <button
                         onClick={() => setView("logs")}
                         className={`flex items-center px-6 py-2.5 rounded-xl font-black transition-all ${view === "logs"
-                                ? "bg-white text-primary shadow-sm"
-                                : "text-slate-500 hover:text-slate-700"
+                            ? "bg-white text-primary shadow-sm"
+                            : "text-slate-500 hover:text-slate-700"
                             }`}
                     >
                         <History className="h-4 w-4 mr-2" />
@@ -111,8 +111,8 @@ export default function DataLogsPage() {
                     <button
                         onClick={() => setView("stats")}
                         className={`flex items-center px-6 py-2.5 rounded-xl font-black transition-all ${view === "stats"
-                                ? "bg-white text-primary shadow-sm"
-                                : "text-slate-500 hover:text-slate-700"
+                            ? "bg-white text-primary shadow-sm"
+                            : "text-slate-500 hover:text-slate-700"
                             }`}
                     >
                         <Activity className="h-4 w-4 mr-2" />
@@ -203,7 +203,7 @@ export default function DataLogsPage() {
                                                         <div className="flex items-center text-slate-500">
                                                             <Clock className="h-3 w-3 mr-1.5 opacity-40" />
                                                             <span className="text-xs font-bold">
-                                                                {format(new Error(log.timestamp), "MMM dd, HH:mm")}
+                                                                {format(new Date(log.timestamp), "MMM dd, HH:mm")}
                                                             </span>
                                                         </div>
                                                     </TableCell>
