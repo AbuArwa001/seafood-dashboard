@@ -124,6 +124,16 @@ export default function SettingsPage() {
             );
           }
 
+          if (category.title === "Data & Logs") {
+            return (
+              <motion.div key={index} variants={item}>
+                <Link href="/dashboard/settings/data-logs">
+                  {cardContent}
+                </Link>
+              </motion.div>
+            );
+          }
+
           return (
             <motion.div key={index} variants={item}>
               {cardContent}

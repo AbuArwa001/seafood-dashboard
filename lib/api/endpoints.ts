@@ -41,4 +41,10 @@ export const API_ENDPOINTS = {
   CURRENCIES: "/api/v1/currencies/",
   EXCHANGE_RATES: "/api/v1/exchange-rates/",
   MARGINS: "/api/v1/currency-margins/",
+
+  // Audit
+  AUDIT: {
+    LOGS: "/api/v1/audit/logs/",
+    STATS: "/api/v1/audit/stats/",
+  },
 } as const;
