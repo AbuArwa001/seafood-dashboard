@@ -33,6 +33,7 @@ const item = {
 };
 
 export default function SettingsPage() {
+  const { user, isAdmin } = useAuth();
   const settingsCategories = [
     {
       title: "Currency & Rates",
