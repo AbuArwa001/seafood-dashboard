@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { motion } from "framer-motion";
 import {
     Shield,
@@ -208,7 +209,9 @@ export default function AccessControlPage() {
                                         </div>
                                     </div>
                                     <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between text-slate-400">
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Modified: Recently</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest">
+                                            Modified: {role.updated_at ? format(new Date(role.updated_at), "MMM dd, yyyy") : "Recently"}
+                                        </span>
                                         <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </CardContent>

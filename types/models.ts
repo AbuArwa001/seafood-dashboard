@@ -15,6 +15,8 @@ export interface Role {
   id: string;
   role_name: string;
   permissions: Permission[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Permission {
