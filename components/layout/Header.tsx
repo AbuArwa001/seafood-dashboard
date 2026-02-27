@@ -71,7 +71,7 @@ export function Header() {
 
       <div className="flex items-center space-x-6 lg:space-x-8">
         {/* Notifications (Knock) */}
-        {user && (
+        {user && process.env.NEXT_PUBLIC_KNOCK_FEED_ID && (
           <div className="relative">
             <NotificationIconButton
               ref={notifButtonRef}
