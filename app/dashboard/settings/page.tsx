@@ -100,10 +100,11 @@ export default function SettingsPage() {
         {settingsCategories.map((category, index) => {
           const isUserManagement = category.title === "User Management";
           const isDataLogs = category.title === "Data & Logs";
+          const isAccessControl = category.title === "Access Control";
 
           // Access checks
           if (isUserManagement && !hasPermission(user, PERMISSIONS.VIEW_USER) && !isAdmin) return null;
-          if (isDataLogs && !isAdmin) return null;
+          if ((isDataLogs || isAccessControl) && !isAdmin) return null;
 
           const cardContent = (
             <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100 h-full">
@@ -138,6 +139,16 @@ export default function SettingsPage() {
             return (
               <motion.div key={index} variants={item}>
                 <Link href="/dashboard/settings/data-logs">
+                  {cardContent}
+                </Link>
+              </motion.div>
+            );
+          }
+
+          if (category.title === "Access Control") {
+            return (
+              <motion.div key={index} variants={item}>
+                <Link href="/dashboard/settings/access-control">
                   {cardContent}
                 </Link>
               </motion.div>
