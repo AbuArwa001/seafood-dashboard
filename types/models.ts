@@ -163,6 +163,22 @@ export interface LogisticsReceipt {
   created_at: string;
 }
 
+// System Parameter Types
+export type ParameterType = "text" | "boolean" | "number" | "json";
+export type ParameterCategory = "general" | "financial" | "logistics" | "notifications" | "system";
+
+export interface SystemParameter {
+  id: string;
+  name: string;
+  key: string;
+  value: string;
+  description: string;
+  data_type: ParameterType;
+  category: ParameterCategory;
+  is_public: boolean;
+  updated_at: string;
+}
+
 // API Response Types
 export interface PaginatedResponse<T> {
   count: number;

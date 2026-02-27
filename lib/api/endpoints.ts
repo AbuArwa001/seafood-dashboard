@@ -10,6 +10,8 @@ export const API_ENDPOINTS = {
   ME: "/api/v1/users/me/",
   ROLES: "/api/v1/roles/",
   PERMISSIONS: "/api/v1/permissions/",
+  SYSTEM_PARAMETERS: "/api/v1/system-parameters/",
+  SYSTEM_PARAMETER: (key: string) => `/api/v1/system-parameters/${key}/`,
   CHANGE_PASSWORD: "/api/v1/users/change_password/",
 
   // Notifications
