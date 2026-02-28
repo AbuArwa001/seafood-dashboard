@@ -54,8 +54,8 @@ export function MarginForm({ onSuccess, initialData }: MarginFormProps) {
     const form = useForm<z.infer<typeof marginSchema>>({
         resolver: zodResolver(marginSchema),
         defaultValues: {
-            from_currency: initialData?.from_currency || "",
-            to_currency: initialData?.to_currency || "",
+            from_currency: typeof initialData?.from_currency === 'object' ? initialData.from_currency.id : initialData?.from_currency || "",
+            to_currency: typeof initialData?.to_currency === 'object' ? initialData.to_currency.id : initialData?.to_currency || "",
             margin_percentage: initialData ? parseFloat(initialData.margin_percentage) : 2.0,
             is_active: initialData ? initialData.is_active : true,
         },
