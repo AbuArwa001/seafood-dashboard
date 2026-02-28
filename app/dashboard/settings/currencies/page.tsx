@@ -106,14 +106,14 @@ export default function CurrencyRatesSettings() {
         },
     });
 
+    const handleOpenChange = (open: boolean) => {
+        setIsAddModalOpen(open);
+        if (!open) setEditingItem(null);
+    };
+
     const handleEdit = (data: any) => {
         setEditingItem(data);
         setIsAddModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsAddModalOpen(false);
-        setEditingItem(null);
     };
 
     return (
@@ -140,7 +140,7 @@ export default function CurrencyRatesSettings() {
                     </p>
                 </div>
 
-                <Dialog open={isAddModalOpen} onOpenChange={handleCloseModal}>
+                <Dialog open={isAddModalOpen} onOpenChange={handleOpenChange}>
                     <DialogTrigger asChild>
                         <button className="bg-slate-900 text-white px-8 py-4 rounded-[1.5rem] shadow-2xl shadow-slate-900/20 font-black flex items-center hover:bg-slate-800 transition-all active:scale-95 group shrink-0">
                             <Plus className="h-5 w-5 mr-3 group-hover:rotate-90 transition-transform duration-500" />
@@ -159,13 +159,13 @@ export default function CurrencyRatesSettings() {
                         </div>
                         <div className="p-10">
                             {activeTab === "currencies" && (
-                                <CurrencyForm initialData={editingItem} onSuccess={handleCloseModal} />
+                                <CurrencyForm initialData={editingItem} onSuccess={() => handleOpenChange(false)} />
                             )}
                             {activeTab === "rates" && (
-                                <ExchangeRateForm initialData={editingItem} onSuccess={handleCloseModal} />
+                                <ExchangeRateForm initialData={editingItem} onSuccess={() => handleOpenChange(false)} />
                             )}
                             {activeTab === "margins" && (
-                                <MarginForm initialData={editingItem} onSuccess={handleCloseModal} />
+                                <MarginForm initialData={editingItem} onSuccess={() => handleOpenChange(false)} />
                             )}
                         </div>
                     </DialogContent>
