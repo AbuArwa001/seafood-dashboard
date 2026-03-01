@@ -30,7 +30,7 @@ const purchaseSchema = z.object({
   shipment: z.string().uuid("Please select a shipment"),
   currency: z.string().uuid("Please select a currency"),
   kg_purchased: z.string().min(1, "Quantity is required"),
-  image_url: z.any().optional(),
+  image_urls: z.any().optional(),
 });
 
 interface PurchaseFormProps {
@@ -64,7 +64,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       shipment: "",
       currency: "",
       kg_purchased: "",
-      image_url: undefined,
+      image_urls: undefined,
     },
   });
 
@@ -74,10 +74,12 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       formData.append("shipment", values.shipment);
       formData.append("currency", values.currency);
       formData.append("kg_purchased", values.kg_purchased);
-      if (values.image_url instanceof File) {
-        formData.append("image_file", values.image_url);
-      } else if (values.image_url) {
-        formData.append("image_url", values.image_url);
+      if (values.image_urls) {
+        // If it's a FileList or array of files, append each one
+        const files = Array.from(values.image_urls as Iterable<File>);
+        files.forEach((file) => {
+          formData.append("image_files", file);
+        });
       }
 
       const response = await apiClient.post(API_ENDPOINTS.PURCHASES, formData);
@@ -211,19 +213,18 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
 
         <FormField
           control={form.control}
-          name="image_url"
+          name="image_urls"
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem>
               <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Receipt Image (Optional)
+                Receipt Images (Optional)
               </FormLabel>
               <FormControl>
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
+                  multiple
+                  onChange={(event) => onChange(event.target.files)}
                   {...fieldProps}
                   className="h-12 rounded-xl border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                 />

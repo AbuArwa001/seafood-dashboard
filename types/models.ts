@@ -119,7 +119,7 @@ export interface SupplierPurchase {
   currency: Currency;
   entered_by: User;
   kg_purchased: string;
-  image_url: string | null;
+  image_urls: string[] | null;
   created_at: string;
 }
 

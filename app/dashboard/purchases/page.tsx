@@ -268,7 +268,8 @@ export default function PurchasesPage() {
                             {purchase.currency?.code || "USD"}
                           </TableCell>
                           <TableCell>
-                            {purchase.image_url ? (
+                            {purchase.image_urls &&
+                            purchase.image_urls.length > 0 ? (
                               <button className="bg-blue-50 text-blue-600 p-2 rounded-xl hover:bg-blue-100 transition-colors">
                                 <ImageIcon className="h-4 w-4" />
                               </button>
