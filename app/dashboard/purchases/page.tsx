@@ -270,9 +270,23 @@ export default function PurchasesPage() {
                           <TableCell>
                             {purchase.image_urls &&
                             purchase.image_urls.length > 0 ? (
-                              <button className="bg-blue-50 text-blue-600 p-2 rounded-xl hover:bg-blue-100 transition-colors">
-                                <ImageIcon className="h-4 w-4" />
-                              </button>
+                              <div className="flex -space-x-2 overflow-hidden">
+                                {purchase.image_urls
+                                  .slice(0, 3)
+                                  .map((url: string, i: number) => (
+                                    <img
+                                      key={i}
+                                      src={url}
+                                      alt={`Receipt ${i + 1}`}
+                                      className="inline-block h-8 w-8 rounded-lg border-2 border-white object-cover shadow-sm"
+                                    />
+                                  ))}
+                                {purchase.image_urls.length > 3 && (
+                                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-white bg-slate-100 text-[10px] font-bold text-slate-600 shadow-sm z-10 relative">
+                                    +{purchase.image_urls.length - 3}
+                                  </div>
+                                )}
+                              </div>
                             ) : (
                               <span className="text-slate-300 italic text-xs font-bold">
                                 No Image
