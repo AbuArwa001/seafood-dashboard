@@ -30,7 +30,7 @@ const purchaseSchema = z.object({
   shipment: z.string().uuid("Please select a shipment"),
   currency: z.string().uuid("Please select a currency"),
   kg_purchased: z.string().min(1, "Quantity is required"),
-  image_url: z.string().optional(),
+  image_urls: z.any().optional(),
 });
 
 interface PurchaseFormProps {
@@ -64,16 +64,25 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       shipment: "",
       currency: "",
       kg_purchased: "",
-      image_url: "",
+      image_urls: undefined,
     },
   });
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof purchaseSchema>) => {
-      const response = await apiClient.post(API_ENDPOINTS.PURCHASES, {
-        ...values,
-        kg_purchased: parseFloat(values.kg_purchased),
-      });
+      const formData = new FormData();
+      formData.append("shipment", values.shipment);
+      formData.append("currency", values.currency);
+      formData.append("kg_purchased", values.kg_purchased);
+      if (values.image_urls) {
+        // If it's a FileList or array of files, append each one
+        const files = Array.from(values.image_urls as Iterable<File>);
+        files.forEach((file) => {
+          formData.append("image_files", file);
+        });
+      }
+
+      const response = await apiClient.post(API_ENDPOINTS.PURCHASES, formData);
       return response.data;
     },
     onSuccess: () => {
@@ -87,13 +96,16 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       let errorMessage = "Failed to record purchase";
 
       if (errorData) {
-        if (typeof errorData === 'string') {
+        if (typeof errorData === "string") {
           errorMessage = errorData;
         } else if (errorData.detail) {
           errorMessage = errorData.detail;
         } else {
           errorMessage = Object.entries(errorData)
-            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .map(
+              ([field, msgs]) =>
+                `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`,
+            )
             .join(" | ");
         }
       }
@@ -130,8 +142,8 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                       value={shipment.id}
                       className="rounded-xl mt-1"
                     >
-                      Shipment {shipment.id.substring(0, 8).toUpperCase()} - {shipment.country_origin} (
-                      {shipment.status})
+                      Shipment {shipment.id.substring(0, 8).toUpperCase()} -{" "}
+                      {shipment.country_origin} ({shipment.status})
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -201,17 +213,20 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
 
         <FormField
           control={form.control}
-          name="image_url"
-          render={({ field }) => (
+          name="image_urls"
+          render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem>
               <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Receipt Image URL (Optional)
+                Receipt Images (Optional)
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="https://..."
-                  {...field}
-                  className="h-12 rounded-xl border-slate-100 bg-slate-50/50"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(event) => onChange(event.target.files)}
+                  {...fieldProps}
+                  className="h-12 rounded-xl border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                 />
               </FormControl>
               <FormMessage />
