@@ -3,6 +3,8 @@ export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/api/token/",
     REFRESH: "/api/token/refresh/",
+    PASSWORD_RESET_REQUEST: "/api/v1/users/password-reset-request/",
+    PASSWORD_RESET_CONFIRM: "/api/v1/users/password-reset-confirm/",
   },
 
   // Users
