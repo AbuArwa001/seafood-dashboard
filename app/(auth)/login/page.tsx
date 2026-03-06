@@ -17,6 +17,7 @@ import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -99,7 +100,14 @@ export default function LoginPage() {
                   htmlFor="password"
                   className="text-slate-700 font-semibold"
                 >
+                  Password
                 </Label>
+                <Link
+                  href="/forgot-password"
+                  className="text-sm font-semibold text-[#1a365d] hover:text-[#2c5282] transition-colors"
+                >
+                  Forgot password?
+                </Link>
               </div>
               <div className="relative">
                 <Input
