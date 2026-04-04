@@ -152,7 +152,7 @@ export default function PaymentsPage() {
           variants={item}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-emerald-600 text-white rounded-[2.5rem] overflow-hidden relative group">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-emerald-600 text-white rounded-[1.5rem] overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-white/10 transition-colors duration-700" />
             <CardContent className="p-8 relative z-10">
               <div className="flex items-center justify-between">
@@ -173,7 +173,7 @@ export default function PaymentsPage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-amber-500 text-white rounded-[2.5rem] overflow-hidden relative group">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-amber-500 text-white rounded-[1.5rem] overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-white/10 transition-colors duration-700" />
             <CardContent className="p-8 relative z-10">
               <div className="flex items-center justify-between">
@@ -210,7 +210,7 @@ export default function PaymentsPage() {
             </div>
           </div>
 
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
             <CardHeader className="border-b border-slate-50 p-8">
               <div className="flex items-center justify-between">
                 <div>

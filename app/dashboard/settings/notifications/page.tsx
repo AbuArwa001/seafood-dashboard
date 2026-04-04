@@ -194,7 +194,7 @@ export default function NotificationsSettingsPage() {
           ? [...Array(3)].map((_, i) => (
               <Card
                 key={i}
-                className="border-none shadow-premium rounded-[2.5rem] bg-white"
+                className="border-none shadow-premium rounded-[1.5rem] bg-white"
               >
                 <CardContent className="p-10">
                   <Skeleton className="h-8 w-1/3 mb-6" />
@@ -204,7 +204,7 @@ export default function NotificationsSettingsPage() {
             ))
           : parameters?.map((param) => (
               <motion.div key={param.id} variants={item}>
-                <Card className="border-none shadow-premium bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-premium-hover transition-all duration-500">
+                <Card className="border-none shadow-premium bg-white rounded-[1.5rem] overflow-hidden group hover:shadow-premium-hover transition-all duration-500">
                   <CardContent className="p-8 md:p-10">
                     <div className="flex flex-col lg:flex-row gap-10">
                       <div className="flex-1 space-y-6">

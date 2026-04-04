@@ -160,7 +160,7 @@ export default function LogisticsPage() {
           variants={item}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-[#1a365d] text-white rounded-[2.5rem] overflow-hidden relative group">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-[#1a365d] text-white rounded-[1.5rem] overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-emerald-500/20 transition-colors duration-700" />
             <CardContent className="p-8 relative z-10">
               <div className="flex items-center justify-between">
@@ -181,7 +181,7 @@ export default function LogisticsPage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden relative group border border-slate-50">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden relative group border border-slate-50">
             <div className="absolute top-0 right-0 w-48 h-48 bg-destructive/5 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-destructive/10 transition-colors duration-700" />
             <CardContent className="p-8 relative z-10">
               <div className="flex items-center justify-between">
@@ -218,7 +218,7 @@ export default function LogisticsPage() {
             </div>
           </div>
 
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
             <CardHeader className="border-b border-slate-50 p-8">
               <div className="flex items-center justify-between">
                 <div>
@@ -258,58 +258,58 @@ export default function LogisticsPage() {
                   <TableBody>
                     {isLoading
                       ? [1, 2, 3, 4, 5].map((i) => (
-                        <TableRow key={i} className="border-slate-50 h-24">
-                          <TableCell colSpan={5} className="px-8">
-                            <Skeleton className="h-12 w-full rounded-2xl" />
-                          </TableCell>
-                        </TableRow>
-                      ))
+                          <TableRow key={i} className="border-slate-50 h-24">
+                            <TableCell colSpan={5} className="px-8">
+                              <Skeleton className="h-12 w-full rounded-2xl" />
+                            </TableCell>
+                          </TableRow>
+                        ))
                       : receipts?.map((receipt: any) => (
-                        <TableRow
-                          key={receipt.id}
-                          className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
-                        >
-                          <TableCell className="px-8 py-6">
-                            <div className="flex items-center space-x-4">
-                              <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                                <MapPin className="h-5 w-5" />
+                          <TableRow
+                            key={receipt.id}
+                            className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
+                          >
+                            <TableCell className="px-8 py-6">
+                              <div className="flex items-center space-x-4">
+                                <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                                  <MapPin className="h-5 w-5" />
+                                </div>
+                                <span className="font-black text-slate-900 text-lg tracking-tighter">
+                                  {receipt.facility_location}
+                                </span>
                               </div>
+                            </TableCell>
+                            <TableCell>
+                              <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
+                                SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
+                              </span>
+                            </TableCell>
+                            <TableCell>
                               <span className="font-black text-slate-900 text-lg tracking-tighter">
-                                {receipt.facility_location}
+                                {receipt.net_received_kg}{" "}
+                                <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">
+                                  KG
+                                </span>
                               </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
-                              SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-black text-slate-900 text-lg tracking-tighter">
-                              {receipt.net_received_kg}{" "}
-                              <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">
-                                KG
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center space-x-3 text-[11px] font-black">
+                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                  T: {receipt.transport_loss_kg}
+                                </span>
+                                <ArrowRightLeft className="h-3 w-3 text-slate-300" />
+                                <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                                  F: {receipt.freezing_loss_kg}
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right px-8">
+                              <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
+                                {formatDate(receipt.created_at, "MMM d, yyyy")}
                               </span>
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-3 text-[11px] font-black">
-                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
-                                T: {receipt.transport_loss_kg}
-                              </span>
-                              <ArrowRightLeft className="h-3 w-3 text-slate-300" />
-                              <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
-                                F: {receipt.freezing_loss_kg}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <span className="text-slate-400 font-black text-xs uppercase tracking-widest">
-                              {formatDate(receipt.created_at, "MMM d, yyyy")}
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </div>

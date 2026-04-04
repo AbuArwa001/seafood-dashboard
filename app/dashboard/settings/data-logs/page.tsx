@@ -135,7 +135,7 @@ export default function DataLogsPage() {
             exit={{ opacity: 0, x: 20 }}
             className="space-y-6"
           >
-            <Card className="border-none shadow-xl rounded-[2.5rem] bg-white overflow-hidden">
+            <Card className="border-none shadow-xl rounded-[1.5rem] bg-white overflow-hidden">
               <CardHeader className="p-8 pb-4">
                 <div className="flex items-center justify-between gap-4 flex-wrap">
                   <div>
@@ -326,7 +326,7 @@ export default function DataLogsPage() {
               </Card>
             </div>
 
-            <Card className="border-none shadow-xl rounded-[2.5rem] bg-white p-8">
+            <Card className="border-none shadow-xl rounded-[1.5rem] bg-white p-8">
               <CardTitle className="text-2xl font-black mb-8 flex items-center">
                 Entity Statistics
                 <ChevronRight className="h-5 w-5 mx-2 text-slate-300" />

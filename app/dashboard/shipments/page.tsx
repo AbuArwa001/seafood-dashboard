@@ -187,7 +187,7 @@ export default function ShipmentsPage() {
         variants={item}
         className="grid grid-cols-1 md:grid-cols-3 gap-8"
       >
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-[#1a365d] text-white rounded-[2.5rem] overflow-hidden relative group">
+        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-[#1a365d] text-white rounded-[1.5rem] overflow-hidden relative group">
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-white/10 transition-colors duration-700" />
           <CardContent className="p-8 relative z-10">
             <div className="flex items-center justify-between">
@@ -206,7 +206,7 @@ export default function ShipmentsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden relative group border border-slate-50">
+        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden relative group border border-slate-50">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -225,7 +225,7 @@ export default function ShipmentsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-slate-50/50 rounded-[2.5rem] overflow-hidden relative group">
+        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-slate-50/50 rounded-[1.5rem] overflow-hidden relative group">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -266,7 +266,7 @@ export default function ShipmentsPage() {
           </Button>
         </div>
 
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden">
+        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
           <CardHeader className="border-b border-slate-50 p-8">
             <div className="flex items-center justify-between">
               <div>

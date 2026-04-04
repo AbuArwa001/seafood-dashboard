@@ -195,7 +195,7 @@ export default function UsersPage() {
           />
         </div>
 
-        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden">
+        <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
           <CardHeader className="border-b border-slate-50 p-8">
             <div className="flex items-center justify-between">
               <div>

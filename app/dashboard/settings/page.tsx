@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import {
   Settings as SettingsIcon,
   Globe,
@@ -11,7 +17,7 @@ import {
   ChevronRight,
   Database,
   Users,
-  Link as LinkIcon
+  Link as LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -37,24 +43,27 @@ export default function SettingsPage() {
   const settingsCategories = [
     {
       title: "Currency & Rates",
-      description: "Manage global currencies and real-time exchange monitoring.",
+      description:
+        "Manage global currencies and real-time exchange monitoring.",
       icon: Globe,
       color: "text-blue-500",
       bg: "bg-blue-50",
-      link: "/dashboard/settings/currencies"
+      link: "/dashboard/settings/currencies",
     },
     {
       title: "System Parameters",
-      description: "Configure core application behaviors and facility defaults.",
+      description:
+        "Configure core application behaviors and facility defaults.",
       icon: Cpu,
       color: "text-emerald-500",
       bg: "bg-emerald-50",
       link: "/dashboard/settings/system-parameters",
-      isAdminOnly: true
+      isAdminOnly: true,
     },
     {
       title: "Notifications",
-      description: "Set up automated alerts for shipments and payment deadlines.",
+      description:
+        "Set up automated alerts for shipments and payment deadlines.",
       icon: Bell,
       color: "text-amber-500",
       bg: "bg-amber-50",
@@ -68,7 +77,7 @@ export default function SettingsPage() {
       color: "text-indigo-500",
       bg: "bg-indigo-50",
       permission: PERMISSIONS.VIEW_ROLE,
-      isAdminOnly: true
+      isAdminOnly: true,
     },
     {
       title: "User Management",
@@ -77,7 +86,7 @@ export default function SettingsPage() {
       icon: Users,
       color: "text-rose-500",
       bg: "bg-rose-50",
-      permission: PERMISSIONS.VIEW_USER
+      permission: PERMISSIONS.VIEW_USER,
     },
     {
       title: "Data & Logs",
@@ -86,7 +95,7 @@ export default function SettingsPage() {
       icon: Database,
       color: "text-slate-500",
       bg: "bg-slate-50",
-      isAdminOnly: true
+      isAdminOnly: true,
     },
   ];
 
@@ -103,7 +112,10 @@ export default function SettingsPage() {
         </h2>
         <p className="text-slate-500 font-semibold mt-3 text-lg">
           Managing application preferences and{" "}
-          <span className="text-blue-500 font-black underline decoration-blue-500/20 decoration-4 underline-offset-4">administrative protocols</span>.
+          <span className="text-blue-500 font-black underline decoration-blue-500/20 decoration-4 underline-offset-4">
+            administrative protocols
+          </span>
+          .
         </p>
       </header>
 
@@ -112,14 +124,20 @@ export default function SettingsPage() {
           // Access checks
           if (category.isAdminOnly && !isAdmin) return null;
 
-          if (category.permission && !hasPermission(user, category.permission) && !isAdmin) {
+          if (
+            category.permission &&
+            !hasPermission(user, category.permission) &&
+            !isAdmin
+          ) {
             return null;
           }
 
           const cardContent = (
-            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100 h-full">
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100 h-full">
               <CardHeader className="p-8 pb-0 flex flex-row items-start justify-between">
-                <div className={`${category.bg} p-5 rounded-lg group-hover:scale-110 transition-transform duration-500`}>
+                <div
+                  className={`${category.bg} p-5 rounded-lg group-hover:scale-110 transition-transform duration-500`}
+                >
                   <category.icon className={`h-8 w-8 ${category.color}`} />
                 </div>
                 <ChevronRight className="h-6 w-6 text-slate-200 group-hover:translate-x-2 transition-transform duration-500 group-hover:text-slate-400" />
@@ -138,10 +156,10 @@ export default function SettingsPage() {
           return (
             <motion.div key={index} variants={item}>
               {category.link ? (
-                <Link href={category.link}>
-                  {cardContent}
-                </Link>
-              ) : cardContent}
+                <Link href={category.link}>{cardContent}</Link>
+              ) : (
+                cardContent
+              )}
             </motion.div>
           );
         })}

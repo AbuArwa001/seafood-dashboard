@@ -42,7 +42,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-20 items-center justify-between bg-white/60 backdrop-blur-2xl border-b border-slate-200/40 px-4 md:px-12 sticky top-6 z-10 mx-8 mt-6 rounded-[2.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] transition-all duration-500">
+    <header className="flex h-20 items-center justify-between bg-white/60 backdrop-blur-2xl border-b border-slate-200/40 px-4 md:px-12 sticky top-6 z-10 mx-8 mt-6 rounded-[1.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] transition-all duration-500">
       <div className="flex items-center flex-1 gap-6">
         {/* Mobile Menu Trigger */}
         <Sheet>
@@ -55,7 +55,10 @@ export function Header() {
               <Menu className="h-6 w-6 text-slate-700" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-80 border-none bg-white/80 backdrop-blur-3xl">
+          <SheetContent
+            side="left"
+            className="p-0 w-80 border-none bg-white/80 backdrop-blur-3xl"
+          >
             <Sidebar isMobile />
           </SheetContent>
         </Sheet>
@@ -114,7 +117,7 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-80 p-4 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-slate-200/40 bg-white/95 backdrop-blur-2xl mt-4"
+            className="w-80 p-4 rounded-[1.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-slate-200/40 bg-white/95 backdrop-blur-2xl mt-4"
             align="end"
             forceMount
           >
@@ -123,7 +126,11 @@ export function Header() {
                 <div className="flex items-center space-x-4">
                   <Avatar className="h-14 w-14 border-2 border-slate-50 shadow-md">
                     <AvatarFallback className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] text-white text-base font-black">
-                      {user?.full_name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || "?"}
+                      {user?.full_name
+                        ?.split(" ")
+                        .map((n: string) => n[0])
+                        .join("")
+                        .toUpperCase() || "?"}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -150,7 +157,9 @@ export function Header() {
               <Link href="/dashboard/security" className="block w-full">
                 <DropdownMenuItem className="rounded-2xl p-4 cursor-pointer focus:bg-slate-50 focus:text-[#1a365d] transition-all group">
                   <User className="mr-4 h-5 w-5 text-slate-400 group-focus:text-[#1a365d] transition-colors" />
-                  <span className="font-bold text-sm">Security &amp; Access</span>
+                  <span className="font-bold text-sm">
+                    Security &amp; Access
+                  </span>
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem
@@ -158,7 +167,9 @@ export function Header() {
                 className="rounded-2xl p-4 cursor-pointer focus:bg-red-50 focus:text-red-600 text-red-500 transition-all group"
               >
                 <LogOut className="mr-4 h-5 w-5 text-red-400 group-focus:text-red-600 transition-colors" />
-                <span className="font-bold text-sm text-red-600">Secure Sign Out</span>
+                <span className="font-bold text-sm text-red-600">
+                  Secure Sign Out
+                </span>
               </DropdownMenuItem>
             </div>
           </DropdownMenuContent>

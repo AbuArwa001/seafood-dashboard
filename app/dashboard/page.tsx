@@ -269,8 +269,8 @@ export default function DashboardPage() {
       value: isLoadingShipments
         ? "..."
         : (
-          shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
-        ).toString(),
+            shipments?.filter((s: any) => s.status !== "COMPLETED").length || 0
+          ).toString(),
       change: "+4",
       trend: "up",
       icon: Ship,
@@ -437,15 +437,19 @@ export default function DashboardPage() {
   const handleExecutiveReport = () => {
     toast.promise(
       async () => {
-        downloadExecutivePDF([
-          { sheetName: "Sales", data: sales || [] },
-          { sheetName: "Shipments", data: shipments || [] },
-          { sheetName: "Payments", data: payments || [] },
-          { sheetName: "Products", data: products || [] },
-        ], (user as any)?.full_name || (user as any)?.email, {
-          currencies: currenciesLookup,
-          shipments: shipmentsLookup
-        });
+        downloadExecutivePDF(
+          [
+            { sheetName: "Sales", data: sales || [] },
+            { sheetName: "Shipments", data: shipments || [] },
+            { sheetName: "Payments", data: payments || [] },
+            { sheetName: "Products", data: products || [] },
+          ],
+          (user as any)?.full_name || (user as any)?.email,
+          {
+            currencies: currenciesLookup,
+            shipments: shipmentsLookup,
+          },
+        );
       },
       {
         loading: "Compiling professional executive report...",
@@ -455,13 +459,23 @@ export default function DashboardPage() {
     );
   };
 
-  const handleModuleReport = (type: string, data: any[], format: 'pdf' | 'excel' = 'pdf') => {
+  const handleModuleReport = (
+    type: string,
+    data: any[],
+    format: "pdf" | "excel" = "pdf",
+  ) => {
     toast.message(`Generating ${type} ${format.toUpperCase()} report...`);
-    if (format === 'pdf') {
-      downloadProfessionalPDF(data, `${type} Report`, `${type}_Report`, (user as any)?.full_name || (user as any)?.email, {
-        currencies: currenciesLookup,
-        shipments: shipmentsLookup
-      });
+    if (format === "pdf") {
+      downloadProfessionalPDF(
+        data,
+        `${type} Report`,
+        `${type}_Report`,
+        (user as any)?.full_name || (user as any)?.email,
+        {
+          currencies: currenciesLookup,
+          shipments: shipmentsLookup,
+        },
+      );
     } else {
       downloadIndividualReport(data, type, `${type}_Report`);
     }
@@ -520,16 +534,20 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuSeparator className="my-2 bg-slate-100" />
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Sales", sales || [], 'pdf')}
+                onClick={() => handleModuleReport("Sales", sales || [], "pdf")}
                 className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-blue-500" />
-                  <span className="font-bold text-slate-700">Sales Report (PDF)</span>
+                  <span className="font-bold text-slate-700">
+                    Sales Report (PDF)
+                  </span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Shipments", shipments || [], 'pdf')}
+                onClick={() =>
+                  handleModuleReport("Shipments", shipments || [], "pdf")
+                }
                 className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
@@ -540,7 +558,9 @@ export default function DashboardPage() {
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Payments", payments || [], 'pdf')}
+                onClick={() =>
+                  handleModuleReport("Payments", payments || [], "pdf")
+                }
                 className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
@@ -551,7 +571,9 @@ export default function DashboardPage() {
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Products", products || [], 'pdf')}
+                onClick={() =>
+                  handleModuleReport("Products", products || [], "pdf")
+                }
                 className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
@@ -563,12 +585,16 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuSeparator className="my-2 bg-slate-100" />
               <DropdownMenuItem
-                onClick={() => handleModuleReport("Sales", sales || [], 'excel')}
+                onClick={() =>
+                  handleModuleReport("Sales", sales || [], "excel")
+                }
                 className="rounded-lg p-2 cursor-pointer hover:bg-slate-50 opacity-60"
               >
                 <div className="flex items-center gap-3">
                   <Download className="h-3 w-3" />
-                  <span className="text-xs font-semibold">Sales Data (Excel)</span>
+                  <span className="text-xs font-semibold">
+                    Sales Data (Excel)
+                  </span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -607,7 +633,7 @@ export default function DashboardPage() {
             variants={item}
             className="flex-1 min-w-full sm:min-w-[280px] lg:min-w-[22%]"
           >
-            <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[2.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
+            <Card className="border-none shadow-[0_15px_40px_-15px_rgba(0,0,0,0.06)] bg-white rounded-[1.5rem] overflow-hidden group hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-500">
               <CardContent className="p-0">
                 <div className="p-6 pb-4">
                   <div className="flex items-center justify-between mb-6">
@@ -688,7 +714,7 @@ export default function DashboardPage() {
             variants={item}
             className="flex-[2] min-w-full lg:min-w-[700px]"
           >
-            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[2.5rem] h-full overflow-hidden transition-all duration-500">
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] h-full overflow-hidden transition-all duration-500">
               <CardHeader className="border-b border-slate-50 p-8 pb-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -842,7 +868,7 @@ export default function DashboardPage() {
             variants={item}
             className="flex-1 min-w-full lg:min-w-[350px]"
           >
-            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-[1.5rem] transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
               {/* Decorative waves */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl -mb-10 -ml-10" />
@@ -900,11 +926,12 @@ export default function DashboardPage() {
                             )}
                           </p>
                           <span
-                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" ||
+                            className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${
+                              shipment.status === "RECEIVED" ||
                               shipment.status === "COMPLETED"
-                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                              : "bg-secondary/20 text-secondary border border-secondary/20"
-                              }`}
+                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                                : "bg-secondary/20 text-secondary border border-secondary/20"
+                            }`}
                           >
                             {shipment.status.replace("_", " ")}
                           </span>
