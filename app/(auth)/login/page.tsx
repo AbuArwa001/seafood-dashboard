@@ -44,7 +44,7 @@ export default function LoginPage() {
     } catch (error: any) {
       toast.error(
         error.response?.data?.detail ||
-        "Login failed. Please check your credentials.",
+          "Login failed. Please check your credentials.",
       );
     } finally {
       setIsLoading(false);
@@ -91,7 +91,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
-                className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-xl"
+                className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg"
               />
             </div>
             <div className="space-y-2">
@@ -118,7 +118,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-xl pr-12"
+                  className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg pr-12"
                 />
                 <button
                   type="button"
@@ -137,7 +137,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-xl shadow-lg transition-all active:scale-[0.98]"
+              className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg shadow-lg transition-all active:scale-[0.98]"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -181,7 +181,8 @@ export default function LoginPage() {
             <span className="text-blue-300">Redefined.</span>
           </h2>
           <p className="text-blue-100 text-lg font-medium max-w-md mx-auto opacity-80">
-            Streamlining global sea food supply chains with cutting-edge technology and real-time insights.
+            Streamlining global sea food supply chains with cutting-edge
+            technology and real-time insights.
           </p>
         </motion.div>
 
@@ -194,7 +195,7 @@ export default function LoginPage() {
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
           className="absolute -bottom-24 -right-24 w-96 h-96 border-[40px] border-white/5 rounded-full z-10"
         />

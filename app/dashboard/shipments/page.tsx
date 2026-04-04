@@ -164,7 +164,7 @@ export default function ShipmentsPage() {
                 <Plus className="h-5 w-5 mr-3" /> LOG SHIPMENT
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+            <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
               <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                 <DialogTitle className="text-3xl font-black tracking-tight">
@@ -199,7 +199,7 @@ export default function ShipmentsPage() {
                   {totalCount}
                 </p>
               </div>
-              <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
+              <div className="bg-white/10 p-5 rounded-lg backdrop-blur-md">
                 <Anchor className="h-8 w-8 text-white" />
               </div>
             </div>
@@ -218,7 +218,7 @@ export default function ShipmentsPage() {
                     .length || 0}
                 </p>
               </div>
-              <div className="bg-amber-50 p-5 rounded-xl group-hover:bg-amber-100 transition-colors">
+              <div className="bg-amber-50 p-5 rounded-lg group-hover:bg-amber-100 transition-colors">
                 <Truck className="h-8 w-8 text-amber-500" />
               </div>
             </div>
@@ -237,7 +237,7 @@ export default function ShipmentsPage() {
                     .length || 0}
                 </p>
               </div>
-              <div className="bg-emerald-50 p-5 rounded-xl group-hover:bg-emerald-100 transition-colors">
+              <div className="bg-emerald-50 p-5 rounded-lg group-hover:bg-emerald-100 transition-colors">
                 <Box className="h-8 w-8 text-emerald-500" />
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function ShipmentsPage() {
                         </TableCell>
                         <TableCell>
                           <Badge
-                            className={`rounded-xl px-4 py-2 font-black text-[10px] uppercase tracking-widest shadow-sm shadow-black/5 ${getStatusStyle(shipment.status)}`}
+                            className={`rounded-lg px-4 py-2 font-black text-[10px] uppercase tracking-widest shadow-sm shadow-black/5 ${getStatusStyle(shipment.status)}`}
                           >
                             {shipment.status.replace("_", " ")}
                           </Badge>
@@ -371,14 +371,14 @@ export default function ShipmentsPage() {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="rounded-xl hover:bg-slate-100 h-10 w-10"
+                                className="rounded-lg hover:bg-slate-100 h-10 w-10"
                               >
                                 <MoreVertical className="h-5 w-5 text-slate-400" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                               align="end"
-                              className="rounded-xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
+                              className="rounded-lg border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
                             >
                               <DropdownMenuItem
                                 className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all"
@@ -400,19 +400,24 @@ export default function ShipmentsPage() {
                                 <Anchor className="h-4 w-4 mr-3 text-[#1a365d]/40" />
                                 TRACK VESSEL
                               </DropdownMenuItem>
-                              {shipment.status !== "RECEIVED" && shipment.status !== "COMPLETED" && (
-                                <DropdownMenuItem
-                                  className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-emerald-600 focus:bg-emerald-50 focus:text-emerald-700 transition-all"
-                                  onClick={() => {
-                                    if (confirm("Mark this shipment as arrived?")) {
-                                      arriveMutation.mutate(shipment.id);
-                                    }
-                                  }}
-                                >
-                                  <CheckCircle2 className="h-4 w-4 mr-3 text-emerald-300" />
-                                  MARK AS ARRIVED
-                                </DropdownMenuItem>
-                              )}
+                              {shipment.status !== "RECEIVED" &&
+                                shipment.status !== "COMPLETED" && (
+                                  <DropdownMenuItem
+                                    className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-emerald-600 focus:bg-emerald-50 focus:text-emerald-700 transition-all"
+                                    onClick={() => {
+                                      if (
+                                        confirm(
+                                          "Mark this shipment as arrived?",
+                                        )
+                                      ) {
+                                        arriveMutation.mutate(shipment.id);
+                                      }
+                                    }}
+                                  >
+                                    <CheckCircle2 className="h-4 w-4 mr-3 text-emerald-300" />
+                                    MARK AS ARRIVED
+                                  </DropdownMenuItem>
+                                )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>

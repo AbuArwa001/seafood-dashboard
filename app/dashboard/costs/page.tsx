@@ -119,7 +119,7 @@ export default function CostsPage() {
                   ADD COST RECORD
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
+              <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
                 <div className="bg-destructive p-6 text-white text-center">
                   <DialogTitle className="text-2xl font-black">
                     Expense Ledger
@@ -244,7 +244,7 @@ export default function CostsPage() {
                         >
                           <TableCell className="px-8 py-6">
                             <div className="flex items-center space-x-3">
-                              <div className="bg-destructive/10 p-2.5 rounded-xl text-destructive">
+                              <div className="bg-destructive/10 p-2.5 rounded-lg text-destructive">
                                 <Layers className="h-4 w-4" />
                               </div>
                               <div>
@@ -303,17 +303,17 @@ export default function CostsPage() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={!hasPrev}
-                    className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                   >
                     PREVIOUS
                   </button>
-                  <div className="flex items-center justify-center px-4 bg-destructive/10 text-destructive rounded-xl text-xs font-black">
+                  <div className="flex items-center justify-center px-4 bg-destructive/10 text-destructive rounded-lg text-xs font-black">
                     PAGE {page}
                   </div>
                   <button
                     onClick={() => setPage((p) => p + 1)}
                     disabled={!hasNext}
-                    className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                   >
                     NEXT
                   </button>

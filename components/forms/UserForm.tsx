@@ -79,7 +79,10 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
       }
 
       if (user) {
-        const response = await apiClient.put(`${API_ENDPOINTS.USERS}${user.id}/`, payload);
+        const response = await apiClient.put(
+          `${API_ENDPOINTS.USERS}${user.id}/`,
+          payload,
+        );
         return response.data;
       } else {
         const response = await apiClient.post(API_ENDPOINTS.USERS, payload);
@@ -87,7 +90,9 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
       }
     },
     onSuccess: () => {
-      toast.success(user ? "User updated successfully" : "User created successfully");
+      toast.success(
+        user ? "User updated successfully" : "User created successfully",
+      );
       queryClient.invalidateQueries({ queryKey: ["users"] });
       form.reset();
       onSuccess?.();
@@ -98,7 +103,10 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
 
       if (errorData) {
         errorMessage = Object.entries(errorData)
-          .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+          .map(
+            ([field, msgs]) =>
+              `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`,
+          )
           .join(" | ");
       }
 
@@ -119,9 +127,15 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
             name="full_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Full Name</FormLabel>
+                <FormLabel className="font-bold text-slate-700">
+                  Full Name
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} className="rounded-xl border-slate-200" />
+                  <Input
+                    placeholder="John Doe"
+                    {...field}
+                    className="rounded-lg border-slate-200"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,9 +147,16 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Email Address</FormLabel>
+                <FormLabel className="font-bold text-slate-700">
+                  Email Address
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="john@example.com" {...field} className="rounded-xl border-slate-200" disabled={!!user} />
+                  <Input
+                    placeholder="john@example.com"
+                    {...field}
+                    className="rounded-lg border-slate-200"
+                    disabled={!!user}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -149,9 +170,16 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Initial Password</FormLabel>
+                <FormLabel className="font-bold text-slate-700">
+                  Initial Password
+                </FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="••••••••" {...field} className="rounded-xl border-slate-200" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    {...field}
+                    className="rounded-lg border-slate-200"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -165,14 +193,19 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
             name="role_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">System Role</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="font-bold text-slate-700">
+                  System Role
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="rounded-xl border-slate-200">
+                    <SelectTrigger className="rounded-lg border-slate-200">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-xl">
+                  <SelectContent className="rounded-lg">
                     {roles?.map((role: any) => (
                       <SelectItem key={role.id} value={role.id}>
                         {role.role_name}
@@ -190,9 +223,15 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
             name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Operational Location</FormLabel>
+                <FormLabel className="font-bold text-slate-700">
+                  Operational Location
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="Headquarters" {...field} className="rounded-xl border-slate-200" />
+                  <Input
+                    placeholder="Headquarters"
+                    {...field}
+                    className="rounded-lg border-slate-200"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -204,13 +243,20 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
           control={form.control}
           name="is_active"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-xl border border-slate-100 p-4 bg-slate-50/30">
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-slate-100 p-4 bg-slate-50/30">
               <div className="space-y-0.5">
-                <FormLabel className="text-base font-bold text-slate-900">Active Status</FormLabel>
-                <p className="text-xs text-slate-500 font-medium">Allow this user to sign in to the platform.</p>
+                <FormLabel className="text-base font-bold text-slate-900">
+                  Active Status
+                </FormLabel>
+                <p className="text-xs text-slate-500 font-medium">
+                  Allow this user to sign in to the platform.
+                </p>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -219,7 +265,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-xl font-black shadow-lg shadow-primary/25 h-12"
+          className="w-full rounded-lg font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

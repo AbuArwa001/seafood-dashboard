@@ -30,12 +30,19 @@ const shipmentSchema = z.object({
   country_origin: z.string().min(2, "Country of origin is required"),
   currency: z.string().uuid("Please select a currency"),
   status: z.enum(["CREATED", "IN_TRANSIT", "RECEIVED", "COMPLETED"]),
-  items: z.array(z.object({
-    product: z.string().uuid("Product is required"),
-    quantity: z.number().min(1, "Quantity must be at least 1"),
-    price_at_shipping: z.number().min(0, "Price must be positive"),
-  })).min(1, "At least one item is required"),
-  estimated_transit_days: z.number().min(1, "Estimated transit days must be at least 1").optional(),
+  items: z
+    .array(
+      z.object({
+        product: z.string().uuid("Product is required"),
+        quantity: z.number().min(1, "Quantity must be at least 1"),
+        price_at_shipping: z.number().min(0, "Price must be positive"),
+      }),
+    )
+    .min(1, "At least one item is required"),
+  estimated_transit_days: z
+    .number()
+    .min(1, "Estimated transit days must be at least 1")
+    .optional(),
 });
 
 interface ShipmentFormProps {
@@ -93,13 +100,16 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
       let errorMessage = "Failed to register shipment";
 
       if (errorData) {
-        if (typeof errorData === 'string') {
+        if (typeof errorData === "string") {
           errorMessage = errorData;
         } else if (errorData.detail) {
           errorMessage = errorData.detail;
         } else {
           errorMessage = Object.entries(errorData)
-            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .map(
+              ([field, msgs]) =>
+                `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`,
+            )
             .join(" | ");
         }
       }
@@ -128,7 +138,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                   <Input
                     placeholder="e.g. Kenya, Oman, UAE"
                     {...field}
-                    className="rounded-xl border-slate-200 focus:border-primary h-12 shadow-sm"
+                    className="rounded-lg border-slate-200 focus:border-primary h-12 shadow-sm"
                   />
                 </FormControl>
                 <FormMessage />
@@ -144,13 +154,16 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                 <FormLabel className="font-bold text-slate-700">
                   Currency
                 </FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="rounded-xl border-slate-200 h-12 shadow-sm">
+                    <SelectTrigger className="rounded-lg border-slate-200 h-12 shadow-sm">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-xl shadow-2xl border-none p-2">
+                  <SelectContent className="rounded-lg shadow-2xl border-none p-2">
                     {currencies?.map((currency: any) => (
                       <SelectItem
                         key={currency.id}
@@ -177,8 +190,10 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => append({ product: "", quantity: 1, price_at_shipping: 0 })}
-              className="rounded-xl border-slate-200 hover:bg-slate-50 transition-all font-bold gap-2"
+              onClick={() =>
+                append({ product: "", quantity: 1, price_at_shipping: 0 })
+              }
+              className="rounded-lg border-slate-200 hover:bg-slate-50 transition-all font-bold gap-2"
             >
               <Plus className="h-4 w-4" /> ADD ITEM
             </Button>
@@ -197,13 +212,16 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                       name={`items.${index}.product`}
                       render={({ field }) => (
                         <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
-                              <SelectTrigger className="rounded-xl border-slate-200 bg-white shadow-sm">
+                              <SelectTrigger className="rounded-lg border-slate-200 bg-white shadow-sm">
                                 <SelectValue placeholder="Select Product" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="rounded-xl shadow-2xl border-none p-2">
+                            <SelectContent className="rounded-lg shadow-2xl border-none p-2">
                               {products?.map((product: any) => (
                                 <SelectItem
                                   key={product.id}
@@ -231,8 +249,10 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                               type="number"
                               placeholder="Qty"
                               {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
-                              className="rounded-xl border-slate-200 bg-white shadow-sm"
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                              className="rounded-lg border-slate-200 bg-white shadow-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -251,8 +271,10 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                               type="number"
                               placeholder="Price"
                               {...field}
-                              onChange={(e) => field.onChange(Number(e.target.value))}
-                              className="rounded-xl border-slate-200 bg-white shadow-sm"
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                              className="rounded-lg border-slate-200 bg-white shadow-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -276,7 +298,9 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
             ))}
           </div>
           {form.formState.errors.items?.message && (
-            <p className="text-sm font-medium text-destructive">{form.formState.errors.items.message}</p>
+            <p className="text-sm font-medium text-destructive">
+              {form.formState.errors.items.message}
+            </p>
           )}
         </div>
 
@@ -286,18 +310,43 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="font-bold text-slate-700">
+                  Status
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="rounded-xl border-slate-200 h-12 shadow-sm">
+                    <SelectTrigger className="rounded-lg border-slate-200 h-12 shadow-sm">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-xl shadow-2xl border-none p-2">
-                    <SelectItem value="CREATED" className="rounded-lg py-3 focus:bg-slate-50">Created</SelectItem>
-                    <SelectItem value="IN_TRANSIT" className="rounded-lg py-3 focus:bg-slate-50">In Transit</SelectItem>
-                    <SelectItem value="RECEIVED" className="rounded-lg py-3 focus:bg-slate-50">Received</SelectItem>
-                    <SelectItem value="COMPLETED" className="rounded-lg py-3 focus:bg-slate-50">Completed</SelectItem>
+                  <SelectContent className="rounded-lg shadow-2xl border-none p-2">
+                    <SelectItem
+                      value="CREATED"
+                      className="rounded-lg py-3 focus:bg-slate-50"
+                    >
+                      Created
+                    </SelectItem>
+                    <SelectItem
+                      value="IN_TRANSIT"
+                      className="rounded-lg py-3 focus:bg-slate-50"
+                    >
+                      In Transit
+                    </SelectItem>
+                    <SelectItem
+                      value="RECEIVED"
+                      className="rounded-lg py-3 focus:bg-slate-50"
+                    >
+                      Received
+                    </SelectItem>
+                    <SelectItem
+                      value="COMPLETED"
+                      className="rounded-lg py-3 focus:bg-slate-50"
+                    >
+                      Completed
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -310,14 +359,20 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
             name="estimated_transit_days"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-bold text-slate-700">Estimated Transit (Days)</FormLabel>
+                <FormLabel className="font-bold text-slate-700">
+                  Estimated Transit (Days)
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     placeholder="e.g. 5"
                     {...field}
-                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                    className="rounded-xl border-slate-200 h-12 shadow-sm"
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value ? Number(e.target.value) : undefined,
+                      )
+                    }
+                    className="rounded-lg border-slate-200 h-12 shadow-sm"
                   />
                 </FormControl>
                 <FormMessage />

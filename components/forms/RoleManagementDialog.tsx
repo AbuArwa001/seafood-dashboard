@@ -74,7 +74,7 @@ export function RoleManagementDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-premium p-0 bg-white">
+      <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-premium p-0 bg-white">
         <div className="bg-slate-900 p-6 text-white text-center relative overflow-hidden rounded-t-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/20 rounded-full blur-3xl -mt-10 -mr-10" />
           <DialogHeader>
@@ -105,7 +105,7 @@ export function RoleManagementDialog({
                 <SelectTrigger className="h-14 w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white text-base font-bold">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-slate-100">
+                <SelectContent className="rounded-lg border-slate-100">
                   {isLoadingRoles ? (
                     <div className="p-4 flex justify-center">
                       <Loader2 className="h-4 w-4 animate-spin text-indigo-600" />
@@ -134,7 +134,7 @@ export function RoleManagementDialog({
                 !selectedRoleId ||
                 selectedRoleId === user?.role?.id
               }
-              className="w-full h-14 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/20"
+              className="w-full h-14 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/20"
             >
               {isPending ? (
                 <>
@@ -149,7 +149,7 @@ export function RoleManagementDialog({
               variant="ghost"
               onClick={onClose}
               disabled={isPending}
-              className="w-full rounded-xl text-slate-500 font-bold hover:bg-slate-50"
+              className="w-full rounded-lg text-slate-500 font-bold hover:bg-slate-50"
             >
               Cancel
             </Button>

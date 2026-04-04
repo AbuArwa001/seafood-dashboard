@@ -119,7 +119,7 @@ export default function PurchasesPage() {
                   NEW PURCHASE
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
+              <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
                 <div className="bg-blue-600 p-6 text-white text-center">
                   <DialogTitle className="text-2xl font-black">
                     Supplier Purchase
@@ -310,17 +310,17 @@ export default function PurchasesPage() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={!hasPrev}
-                    className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                   >
                     PREVIOUS
                   </button>
-                  <div className="flex items-center justify-center px-4 bg-blue-600/10 text-blue-600 rounded-xl text-xs font-black">
+                  <div className="flex items-center justify-center px-4 bg-blue-600/10 text-blue-600 rounded-lg text-xs font-black">
                     PAGE {page}
                   </div>
                   <button
                     onClick={() => setPage((p) => p + 1)}
                     disabled={!hasNext}
-                    className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                   >
                     NEXT
                   </button>

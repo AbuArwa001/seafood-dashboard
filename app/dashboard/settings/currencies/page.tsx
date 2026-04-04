@@ -174,13 +174,13 @@ export default function CurrencyRatesSettings() {
 
             <Tabs defaultValue="currencies" onValueChange={setActiveTab} className="space-y-8">
                 <TabsList className="bg-slate-100/50 p-1.5 rounded-[1.5rem] h-16 border border-slate-200/60 w-full sm:w-auto">
-                    <TabsTrigger value="currencies" className="rounded-xl px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
+                    <TabsTrigger value="currencies" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
                         CURRENCIES
                     </TabsTrigger>
-                    <TabsTrigger value="rates" className="rounded-xl px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
+                    <TabsTrigger value="rates" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
                         EXCHANGE RATES
                     </TabsTrigger>
-                    <TabsTrigger value="margins" className="rounded-xl px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
+                    <TabsTrigger value="margins" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">
                         MARGIN RULES
                     </TabsTrigger>
                 </TabsList>
@@ -216,13 +216,13 @@ export default function CurrencyRatesSettings() {
                                             ) : currencies?.map((curr: any) => (
                                                 <TableRow key={curr.id} className="hover:bg-slate-50/50 transition-colors border-slate-50">
                                                     <TableCell className="px-8 py-6">
-                                                        <div className="bg-slate-900 text-white font-black px-4 py-1.5 rounded-xl text-center inline-block text-xs">
+                                                        <div className="bg-slate-900 text-white font-black px-4 py-1.5 rounded-lg text-center inline-block text-xs">
                                                             {curr.code}
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className="font-bold text-slate-700">{curr.name}</TableCell>
                                                     <TableCell className="text-center">
-                                                        <span className="bg-slate-100 p-2.5 rounded-xl font-black text-slate-500 min-w-[40px] inline-block text-center text-sm">
+                                                        <span className="bg-slate-100 p-2.5 rounded-lg font-black text-slate-500 min-w-[40px] inline-block text-center text-sm">
                                                             {curr.symbol || "-"}
                                                         </span>
                                                     </TableCell>
@@ -236,8 +236,8 @@ export default function CurrencyRatesSettings() {
                                                     </TableCell>
                                                     <TableCell className="text-right px-8">
                                                         <div className="flex items-center justify-end space-x-2">
-                                                            <button onClick={() => handleEdit(curr)} className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"><Edit2 className="h-4 w-4" /></button>
-                                                            <button onClick={() => confirm("Delete currency?") && deleteCurrency.mutate(curr.id)} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="h-4 w-4" /></button>
+                                                            <button onClick={() => handleEdit(curr)} className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"><Edit2 className="h-4 w-4" /></button>
+                                                            <button onClick={() => confirm("Delete currency?") && deleteCurrency.mutate(curr.id)} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"><Trash2 className="h-4 w-4" /></button>
                                                         </div>
                                                     </TableCell>
                                                 </TableRow>

@@ -164,7 +164,7 @@ export default function CurrenciesPage() {
                 NEW CURRENCY
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
+            <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
               <div className="bg-primary p-6 text-white text-center">
                 <DialogTitle className="text-2xl font-black">
                   Register Currency
@@ -282,7 +282,7 @@ export default function CurrenciesPage() {
                         {curr.name}
                       </TableCell>
                       <TableCell className="text-center">
-                        <span className="bg-slate-100 p-2 rounded-xl font-black text-slate-500 w-10 inline-block text-center">
+                        <span className="bg-slate-100 p-2 rounded-lg font-black text-slate-500 w-10 inline-block text-center">
                           {curr.symbol || "-"}
                         </span>
                       </TableCell>
@@ -317,17 +317,17 @@ export default function CurrenciesPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={!hasPrev}
-                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                 >
                   PREVIOUS
                 </button>
-                <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-xl text-xs font-black">
+                <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-lg text-xs font-black">
                   PAGE {page}
                 </div>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={!hasNext}
-                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                 >
                   NEXT
                 </button>

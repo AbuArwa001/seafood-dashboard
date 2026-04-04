@@ -504,7 +504,7 @@ export default function DashboardPage() {
               </DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={handleExecutiveReport}
-                className="rounded-xl p-4 cursor-pointer hover:bg-primary/5 group"
+                className="rounded-lg p-4 cursor-pointer hover:bg-primary/5 group"
               >
                 <div className="flex items-center gap-4">
                   <div className="p-2 bg-amber-100 rounded-lg group-hover:bg-amber-200 transition-colors">
@@ -521,7 +521,7 @@ export default function DashboardPage() {
               <DropdownMenuSeparator className="my-2 bg-slate-100" />
               <DropdownMenuItem
                 onClick={() => handleModuleReport("Sales", sales || [], 'pdf')}
-                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+                className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-blue-500" />
@@ -530,7 +530,7 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleModuleReport("Shipments", shipments || [], 'pdf')}
-                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+                className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
@@ -541,7 +541,7 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleModuleReport("Payments", payments || [], 'pdf')}
-                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+                className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-amber-500" />
@@ -552,7 +552,7 @@ export default function DashboardPage() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleModuleReport("Products", products || [], 'pdf')}
-                className="rounded-xl p-3 cursor-pointer hover:bg-slate-50"
+                className="rounded-lg p-3 cursor-pointer hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-4 w-4 text-indigo-500" />
@@ -564,7 +564,7 @@ export default function DashboardPage() {
               <DropdownMenuSeparator className="my-2 bg-slate-100" />
               <DropdownMenuItem
                 onClick={() => handleModuleReport("Sales", sales || [], 'excel')}
-                className="rounded-xl p-2 cursor-pointer hover:bg-slate-50 opacity-60"
+                className="rounded-lg p-2 cursor-pointer hover:bg-slate-50 opacity-60"
               >
                 <div className="flex items-center gap-3">
                   <Download className="h-3 w-3" />
@@ -580,7 +580,7 @@ export default function DashboardPage() {
                   <Plus className="h-5 w-5 mr-3" /> REGISTER ASSET
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -708,7 +708,7 @@ export default function DashboardPage() {
                       <button
                         key={t}
                         onClick={() => setTimeRange(t)}
-                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest transition-all ${t === timeRange ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600 cursor-pointer"}`}
+                        className={`px-4 py-1.5 rounded-lg text-[10px] font-black tracking-widest transition-all ${t === timeRange ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600 cursor-pointer"}`}
                       >
                         {t}
                       </button>
@@ -968,7 +968,7 @@ export default function DashboardPage() {
                         className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="h-10 w-10 rounded-xl flex items-center justify-center font-black text-xs bg-slate-100">
+                          <div className="h-10 w-10 rounded-lg flex items-center justify-center font-black text-xs bg-slate-100">
                             {curr.code}
                           </div>
                           <div>
@@ -1072,7 +1072,7 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SHIPMENT) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-primary transition-all duration-500">
+                <div className="bg-white p-6 rounded-lg shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-primary transition-all duration-500">
                   <div className="bg-primary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Ship className="h-8 w-8 text-primary group-hover:text-white" />
                   </div>
@@ -1106,7 +1106,7 @@ export default function DashboardPage() {
           {(hasPermission(user, PERMISSIONS.ADD_SALE) || isAdmin) && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-secondary transition-all duration-500">
+                <div className="bg-white p-6 rounded-lg shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-secondary transition-all duration-500">
                   <div className="bg-secondary/10 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Activity className="h-8 w-8 text-secondary group-hover:text-white" />
                   </div>
@@ -1140,7 +1140,7 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
+                <div className="bg-white p-6 rounded-lg shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-slate-900 transition-all duration-500">
                   <div className="bg-slate-100 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Package className="h-8 w-8 text-slate-900 group-hover:text-white" />
                   </div>
@@ -1174,7 +1174,7 @@ export default function DashboardPage() {
           {canManageCatalog && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-white p-6 rounded-xl shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
+                <div className="bg-white p-6 rounded-lg shadow-premium flex items-center space-x-4 group cursor-pointer hover:bg-emerald-600 transition-all duration-500">
                   <div className="bg-emerald-50 p-4 rounded-lg group-hover:bg-white/20 transition-colors shrink-0">
                     <Layers className="h-8 w-8 text-emerald-600 group-hover:text-white" />
                   </div>

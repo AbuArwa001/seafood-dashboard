@@ -135,7 +135,7 @@ export default function LogisticsPage() {
                   <Plus className="h-5 w-5 mr-3" /> RECORD RECEIPT
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -175,7 +175,7 @@ export default function LogisticsPage() {
                     </span>
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-lg backdrop-blur-md">
                   <Scale className="h-8 w-8 text-emerald-400" />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function LogisticsPage() {
                     </span>
                   </p>
                 </div>
-                <div className="bg-destructive/5 p-5 rounded-xl group-hover:bg-destructive/10 transition-colors">
+                <div className="bg-destructive/5 p-5 rounded-lg group-hover:bg-destructive/10 transition-colors">
                   <Flame className="h-8 w-8 text-destructive" />
                 </div>
               </div>

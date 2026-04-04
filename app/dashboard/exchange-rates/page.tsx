@@ -204,7 +204,7 @@ export default function ExchangeRatesPage() {
 
       {/* Interactive Converter Section */}
       <motion.div variants={item}>
-        <div className="bg-slate-900 p-8 rounded-xl text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-slate-900 p-8 rounded-lg text-white shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -mt-32 -mr-32" />
           <div className="relative z-10">
             <div className="flex items-center space-x-3 mb-8">
@@ -252,7 +252,7 @@ export default function ExchangeRatesPage() {
                       <SelectItem
                         key={c.id}
                         value={c.id}
-                        className="focus:bg-primary focus:text-white rounded-xl py-3"
+                        className="focus:bg-primary focus:text-white rounded-lg py-3"
                       >
                         {c.code} - {c.name}
                       </SelectItem>
@@ -287,7 +287,7 @@ export default function ExchangeRatesPage() {
                       <SelectItem
                         key={c.id}
                         value={c.id}
-                        className="focus:bg-primary focus:text-white rounded-xl py-3"
+                        className="focus:bg-primary focus:text-white rounded-lg py-3"
                       >
                         {c.code} - {c.name}
                       </SelectItem>
@@ -387,16 +387,16 @@ export default function ExchangeRatesPage() {
                   [1, 2, 3].map((i) => (
                     <TableRow key={i} className="border-slate-50">
                       <TableCell className="px-8 py-6">
-                        <Skeleton className="h-8 w-32 rounded-xl" />
+                        <Skeleton className="h-8 w-32 rounded-lg" />
                       </TableCell>
                       <TableCell>
-                        <Skeleton className="h-8 w-24 rounded-xl" />
+                        <Skeleton className="h-8 w-24 rounded-lg" />
                       </TableCell>
                       <TableCell>
-                        <Skeleton className="h-8 w-40 rounded-xl" />
+                        <Skeleton className="h-8 w-40 rounded-lg" />
                       </TableCell>
                       <TableCell className="text-right px-8">
-                        <Skeleton className="h-8 w-20 ml-auto rounded-xl" />
+                        <Skeleton className="h-8 w-20 ml-auto rounded-lg" />
                       </TableCell>
                     </TableRow>
                   ))
@@ -408,13 +408,13 @@ export default function ExchangeRatesPage() {
                     >
                       <TableCell className="px-8 py-6">
                         <div className="flex items-center space-x-3">
-                          <div className="bg-primary/10 p-2 rounded-xl">
+                          <div className="bg-primary/10 p-2 rounded-lg">
                             <span className="font-black text-primary text-xs">
                               {rate.from_currency.code}
                             </span>
                           </div>
                           <ChevronRight className="h-3 w-3 text-slate-300" />
-                          <div className="bg-secondary/10 p-2 rounded-xl">
+                          <div className="bg-secondary/10 p-2 rounded-lg">
                             <span className="font-black text-secondary text-xs">
                               {rate.to_currency.code}
                             </span>
@@ -466,17 +466,17 @@ export default function ExchangeRatesPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={!hasPrev}
-                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                 >
                   PREVIOUS
                 </button>
-                <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-xl text-xs font-black">
+                <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-lg text-xs font-black">
                   PAGE {page}
                 </div>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={!hasNext}
-                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors"
                 >
                   NEXT
                 </button>
@@ -503,13 +503,13 @@ export default function ExchangeRatesPage() {
               for export markets.
             </p>
             <div className="flex space-x-4">
-              <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex-1">
+              <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   Base Currency
                 </p>
                 <p className="text-xl font-black">USD</p>
               </div>
-              <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex-1">
+              <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   Reference
                 </p>

@@ -99,11 +99,15 @@ export default function PaymentsPage() {
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 font-heading leading-tight">
-              Receivables <span className="text-amber-600 italic">Management</span>
+              Receivables{" "}
+              <span className="text-amber-600 italic">Management</span>
             </h2>
             <p className="text-slate-500 font-semibold mt-3 text-lg">
               Managing accounts receivable and{" "}
-              <span className="text-amber-500 font-black underline decoration-amber-500/20 decoration-4 underline-offset-4">liquidation status</span>.
+              <span className="text-amber-500 font-black underline decoration-amber-500/20 decoration-4 underline-offset-4">
+                liquidation status
+              </span>
+              .
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -125,7 +129,7 @@ export default function PaymentsPage() {
                   <Plus className="h-5 w-5 mr-3" /> RECORD PAYMENT
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -163,7 +167,7 @@ export default function PaymentsPage() {
                     })}
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-lg backdrop-blur-md">
                   <CheckCircle2 className="h-8 w-8 text-white" />
                 </div>
               </div>
@@ -184,7 +188,7 @@ export default function PaymentsPage() {
                     })}
                   </p>
                 </div>
-                <div className="bg-white/10 p-5 rounded-xl backdrop-blur-md">
+                <div className="bg-white/10 p-5 rounded-lg backdrop-blur-md">
                   <Clock className="h-8 w-8 text-white" />
                 </div>
               </div>
@@ -211,7 +215,8 @@ export default function PaymentsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
-                    Receivables <span className="text-amber-600 italic">History</span>
+                    Receivables{" "}
+                    <span className="text-amber-600 italic">History</span>
                   </CardTitle>
                   <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest flex items-center gap-2">
                     <CreditCard className="h-4 w-4 text-amber-500" />
@@ -225,78 +230,104 @@ export default function PaymentsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-slate-50/50 h-16">
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">Client / Buyer</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Settlement Amount</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Target Date</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Status</TableHead>
-                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Actions</TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">
+                        Client / Buyer
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Settlement Amount
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Target Date
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Status
+                      </TableHead>
+                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Actions
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {isLoading
                       ? [1, 2, 3, 4, 5].map((i) => (
-                        <TableRow key={i} className="border-slate-50 h-24">
-                          <TableCell colSpan={5} className="px-8">
-                            <Skeleton className="h-12 w-full rounded-2xl" />
-                          </TableCell>
-                        </TableRow>
-                      ))
+                          <TableRow key={i} className="border-slate-50 h-24">
+                            <TableCell colSpan={5} className="px-8">
+                              <Skeleton className="h-12 w-full rounded-2xl" />
+                            </TableCell>
+                          </TableRow>
+                        ))
                       : payments?.map((payment: any) => (
-                        <TableRow
-                          key={payment.id}
-                          className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
-                        >
-                          <TableCell className="px-8 py-6">
-                            <div className="flex items-center space-x-4">
-                              <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-[#1a365d] group-hover:text-white transition-all duration-300">
-                                <User className="h-5 w-5" />
+                          <TableRow
+                            key={payment.id}
+                            className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24"
+                          >
+                            <TableCell className="px-8 py-6">
+                              <div className="flex items-center space-x-4">
+                                <div className="bg-slate-100 p-3 rounded-2xl text-slate-400 group-hover:bg-[#1a365d] group-hover:text-white transition-all duration-300">
+                                  <User className="h-5 w-5" />
+                                </div>
+                                <div>
+                                  <p className="text-lg font-black text-slate-900 tracking-tighter leading-none mb-1">
+                                    {payment.buyer_name}
+                                  </p>
+                                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest leading-none">
+                                    SALE REF:{" "}
+                                    {payment.sale?.substring(0, 8) || "N/A"}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <p className="text-lg font-black text-slate-900 tracking-tighter leading-none mb-1">
-                                  {payment.buyer_name}
-                                </p>
-                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest leading-none">
-                                  SALE REF: {payment.sale?.substring(0, 8) || "N/A"}
-                                </p>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-2xl font-black text-slate-900 tracking-tighter">
+                                  {payment.currency?.symbol || "$"}
+                                  {parseFloat(
+                                    payment.amount_paid,
+                                  ).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                  })}
+                                </span>
                               </div>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-2xl font-black text-slate-900 tracking-tighter">
-                                {payment.currency?.symbol || "$"}
-                                {parseFloat(payment.amount_paid).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col">
-                              <div className="flex items-center text-slate-900 font-black text-sm">
-                                <Calendar className="h-4 w-4 mr-2 text-slate-400" />
-                                {formatDate(payment.expected_payment_date, "MMM d, yyyy")}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex flex-col">
+                                <div className="flex items-center text-slate-900 font-black text-sm">
+                                  <Calendar className="h-4 w-4 mr-2 text-slate-400" />
+                                  {formatDate(
+                                    payment.expected_payment_date,
+                                    "MMM d, yyyy",
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {payment.actual_payment_date ? (
-                              <div className="inline-flex items-center bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
-                                <CheckCircle2 className="h-3 w-3 mr-2" />
-                                Paid {formatDate(payment.actual_payment_date, "MMM d")}
-                              </div>
-                            ) : (
-                              <div className="inline-flex items-center bg-amber-50 text-amber-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-amber-100 shadow-sm">
-                                <Clock className="h-3 w-3 mr-2" />
-                                Pending Collection
-                              </div>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <Button variant="ghost" size="icon" className="rounded-xl hover:bg-slate-100 h-10 w-10">
-                              <MoreVertical className="h-5 w-5 text-slate-400" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+                            <TableCell>
+                              {payment.actual_payment_date ? (
+                                <div className="inline-flex items-center bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+                                  <CheckCircle2 className="h-3 w-3 mr-2" />
+                                  Paid{" "}
+                                  {formatDate(
+                                    payment.actual_payment_date,
+                                    "MMM d",
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="inline-flex items-center bg-amber-50 text-amber-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-amber-100 shadow-sm">
+                                  <Clock className="h-3 w-3 mr-2" />
+                                  Pending Collection
+                                </div>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right px-8">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-lg hover:bg-slate-100 h-10 w-10"
+                              >
+                                <MoreVertical className="h-5 w-5 text-slate-400" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </div>

@@ -69,8 +69,14 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name || "",
-      category: typeof product?.category === "object" ? product.category.id : (product?.category || ""),
-      unit: typeof product?.unit === "object" ? product.unit.id : (product?.unit || ""),
+      category:
+        typeof product?.category === "object"
+          ? product.category.id
+          : product?.category || "",
+      unit:
+        typeof product?.unit === "object"
+          ? product.unit.id
+          : product?.unit || "",
       description: product?.description || "",
     },
   });
@@ -91,14 +97,17 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
       let errorMessage = "Failed to save product";
 
       if (errorData) {
-        if (typeof errorData === 'string') {
+        if (typeof errorData === "string") {
           errorMessage = errorData;
         } else if (errorData.detail) {
           errorMessage = errorData.detail;
         } else {
           // Flatten nested DRF errors: { "name": ["error..."] }
           errorMessage = Object.entries(errorData)
-            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`)
+            .map(
+              ([field, msgs]) =>
+                `${field}: ${Array.isArray(msgs) ? msgs.join(", ") : msgs}`,
+            )
             .join(" | ");
         }
       }
@@ -143,7 +152,7 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                 <Input
                   placeholder="e.g. Red Snapper"
                   {...field}
-                  className="rounded-xl border-slate-200"
+                  className="rounded-lg border-slate-200"
                 />
               </FormControl>
               <FormMessage />
@@ -170,7 +179,7 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                         <Plus className="h-4 w-4" />
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] rounded-xl border-none shadow-2xl p-0 overflow-hidden">
+                    <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
                       <div className="bg-emerald-600 p-6 text-white">
                         <DialogTitle className="text-2xl font-black flex items-center">
                           <Plus className="mr-3 h-6 w-6" /> Add Category
@@ -190,11 +199,11 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-xl border-slate-200">
+                    <SelectTrigger className="rounded-lg border-slate-200">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-xl">
+                  <SelectContent className="rounded-lg">
                     {categories?.map((cat: any) => (
                       <SelectItem key={cat.id} value={cat.id}>
                         {cat.name}
@@ -218,11 +227,11 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-xl border-slate-200">
+                    <SelectTrigger className="rounded-lg border-slate-200">
                       <SelectValue placeholder="Select unit" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-xl">
+                  <SelectContent className="rounded-lg">
                     {units?.map((unit: any) => (
                       <SelectItem key={unit.id} value={unit.id}>
                         {unit.code}
@@ -248,7 +257,7 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
                 <Textarea
                   placeholder="Optional product details..."
                   {...field}
-                  className="rounded-xl border-slate-200 min-h-[100px]"
+                  className="rounded-lg border-slate-200 min-h-[100px]"
                 />
               </FormControl>
               <FormMessage />
@@ -259,7 +268,7 @@ export function ProductForm({ onSuccess, product }: ProductFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-xl font-black shadow-lg shadow-primary/25 h-12"
+          className="w-full rounded-lg font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

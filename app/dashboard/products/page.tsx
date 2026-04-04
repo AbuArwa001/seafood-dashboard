@@ -66,12 +66,7 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const {
-    data,
-    isLoading,
-    refetch,
-    isFetching,
-  } = useQuery({
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["products", searchQuery, page],
     queryFn: async () => {
       const response = await apiClient.get(API_ENDPOINTS.PRODUCTS, {
@@ -82,8 +77,8 @@ export default function ProductsPage() {
   });
 
   const isArray = Array.isArray(data);
-  const products = isArray ? data : (data?.results || []);
-  const count = isArray ? data.length : (data?.count || 0);
+  const products = isArray ? data : data?.results || [];
+  const count = isArray ? data.length : data?.count || 0;
   const hasNext = !isArray && !!data?.next;
   const hasPrevious = !isArray && !!data?.previous;
 
@@ -126,7 +121,7 @@ export default function ProductsPage() {
                 <Plus className="h-5 w-5 mr-3" /> ADD PRODUCT
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+            <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
               <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                 <DialogTitle className="text-3xl font-black tracking-tight">
@@ -143,7 +138,7 @@ export default function ProductsPage() {
           </Dialog>
 
           <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-            <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+            <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
               <div className="bg-gradient-to-br from-[#1a365d] to-[#2c5282] p-8 text-white text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
                 <DialogTitle className="text-3xl font-black tracking-tight">
@@ -259,7 +254,7 @@ export default function ProductsPage() {
                         <TableCell>
                           <Badge
                             variant="outline"
-                            className="rounded-xl border-slate-100 bg-slate-50/50 text-slate-500 font-black text-[10px] px-3 py-1 uppercase tracking-widest"
+                            className="rounded-lg border-slate-100 bg-slate-50/50 text-slate-500 font-black text-[10px] px-3 py-1 uppercase tracking-widest"
                           >
                             {product.category?.name || "Uncategorized"}
                           </Badge>
@@ -292,14 +287,14 @@ export default function ProductsPage() {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="rounded-xl hover:bg-slate-100 h-10 w-10"
+                                className="rounded-lg hover:bg-slate-100 h-10 w-10"
                               >
                                 <MoreVertical className="h-5 w-5 text-slate-400" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                               align="end"
-                              className="rounded-xl border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
+                              className="rounded-lg border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl"
                             >
                               <DropdownMenuItem
                                 className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all"
@@ -341,7 +336,7 @@ export default function ProductsPage() {
                     <TableRow>
                       <TableCell colSpan={5} className="h-64 text-center">
                         <div className="flex flex-col items-center justify-center space-y-6">
-                          <div className="bg-slate-50 p-10 rounded-xl">
+                          <div className="bg-slate-50 p-10 rounded-lg">
                             <Package className="h-16 w-16 text-slate-200" />
                           </div>
                           <p className="text-slate-400 font-black italic uppercase tracking-widest text-xs">
@@ -350,7 +345,7 @@ export default function ProductsPage() {
                           <Button
                             variant="ghost"
                             onClick={() => setSearchQuery("")}
-                            className="text-[#1a365d] font-black text-xs uppercase tracking-[0.2em] hover:bg-[#1a365d]/5 rounded-xl"
+                            className="text-[#1a365d] font-black text-xs uppercase tracking-[0.2em] hover:bg-[#1a365d]/5 rounded-lg"
                           >
                             Reset Search Registry
                           </Button>
@@ -373,7 +368,7 @@ export default function ProductsPage() {
                   size="sm"
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={!hasPrevious || isFetching}
-                  className="rounded-xl font-bold text-xs px-4"
+                  className="rounded-lg font-bold text-xs px-4"
                 >
                   PREVIOUS
                 </Button>
@@ -382,7 +377,7 @@ export default function ProductsPage() {
                   size="sm"
                   onClick={() => setPage((p) => p + 1)}
                   disabled={!hasNext || isFetching}
-                  className="rounded-xl font-bold text-xs px-4"
+                  className="rounded-lg font-bold text-xs px-4"
                 >
                   NEXT
                 </Button>

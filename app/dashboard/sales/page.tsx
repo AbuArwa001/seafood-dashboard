@@ -109,7 +109,10 @@ export default function SalesPage() {
             </h2>
             <p className="text-slate-500 font-semibold mt-3 text-lg">
               Monitoring revenue generation and{" "}
-              <span className="text-secondary font-black underline decoration-secondary/20 decoration-4 underline-offset-4">customer transactions</span>.
+              <span className="text-secondary font-black underline decoration-secondary/20 decoration-4 underline-offset-4">
+                customer transactions
+              </span>
+              .
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -131,7 +134,7 @@ export default function SalesPage() {
                   <Plus className="h-5 w-5 mr-3" /> RECORD SALE
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] rounded-xl border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+              <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
                 <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/20 rounded-full blur-3xl -mt-10 -mr-10" />
                   <DialogTitle className="text-3xl font-black tracking-tight">
@@ -151,10 +154,7 @@ export default function SalesPage() {
 
         {/* Analytics Summary */}
         <motion.div variants={item}>
-          <SalesCard
-            totalSalesVolume={totalSalesVolume}
-            salesData={sales}
-          />
+          <SalesCard totalSalesVolume={totalSalesVolume} salesData={sales} />
         </motion.div>
 
         {/* Content Area */}
@@ -183,7 +183,8 @@ export default function SalesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
-                    Transaction <span className="text-secondary italic">History</span>
+                    Transaction{" "}
+                    <span className="text-secondary italic">History</span>
                   </CardTitle>
                   <p className="text-sm text-slate-400 font-bold mt-1 uppercase tracking-widest flex items-center gap-2">
                     <ShoppingCart className="h-4 w-4" />
@@ -197,12 +198,24 @@ export default function SalesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-slate-50/50 h-16">
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">Reference ID</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Cargo Link</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Volume</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Unit Price</TableHead>
-                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Total Asset Value</TableHead>
-                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">Entry Date</TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400 px-8">
+                        Reference ID
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Cargo Link
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Volume
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Unit Price
+                      </TableHead>
+                      <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Total Asset Value
+                      </TableHead>
+                      <TableHead className="text-right px-8 font-black text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                        Entry Date
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -227,7 +240,7 @@ export default function SalesPage() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center space-x-3">
-                              <div className="bg-slate-100 p-2.5 rounded-xl text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
+                              <div className="bg-slate-100 p-2.5 rounded-lg text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
                                 <Package className="h-4 w-4" />
                               </div>
                               <span className="font-black text-slate-900 text-sm tracking-tight">
@@ -235,14 +248,15 @@ export default function SalesPage() {
                                 {typeof sale.shipment === "string"
                                   ? sale.shipment.substring(0, 6)
                                   : sale.shipment?.id?.substring(0, 6) ||
-                                  sale.id.substring(0, 6)}
+                                    sale.id.substring(0, 6)}
                               </span>
                             </div>
                           </TableCell>
                           <TableCell>
                             <div className="space-y-1">
                               <p className="font-black text-slate-900 leading-none text-lg tracking-tighter">
-                                {sale.quantity_sold} {sale.unit?.code || "Units"}
+                                {sale.quantity_sold}{" "}
+                                {sale.unit?.code || "Units"}
                               </p>
                               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">
                                 {sale.kg_sold} KG TOTAL
@@ -261,7 +275,9 @@ export default function SalesPage() {
                                 $
                                 {parseFloat(
                                   sale.total_sale_amount,
-                                ).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                ).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2,
+                                })}
                               </span>
                               <div className="bg-emerald-50 p-1 rounded-lg">
                                 <ArrowUpRight className="h-4 w-4 text-emerald-500" />
@@ -279,7 +295,7 @@ export default function SalesPage() {
                       <TableRow>
                         <TableCell colSpan={6} className="h-64 text-center">
                           <div className="flex flex-col items-center justify-center space-y-6">
-                            <div className="bg-slate-50 p-10 rounded-xl">
+                            <div className="bg-slate-50 p-10 rounded-lg">
                               <ShoppingCart className="h-16 w-16 text-slate-200" />
                             </div>
                             <p className="text-slate-400 font-black italic uppercase tracking-widest text-xs">
