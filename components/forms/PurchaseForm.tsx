@@ -37,8 +37,11 @@ interface PurchaseFormProps {
   onSuccess?: () => void;
 }
 
+import { useState } from "react";
+
 export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
   const queryClient = useQueryClient();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const { data: shipments } = useQuery({
     queryKey: ["shipments"],
@@ -74,12 +77,15 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       formData.append("shipment", values.shipment);
       formData.append("currency", values.currency);
       formData.append("kg_purchased", values.kg_purchased);
-      if (values.image_urls) {
-        // If it's a FileList or array of files, append each one
-        const files = Array.from(values.image_urls as Iterable<File>);
-        files.forEach((file) => {
+      
+      console.log("selectedFiles:", selectedFiles);
+      if (selectedFiles && selectedFiles.length > 0) {
+        selectedFiles.forEach((file) => {
+          console.log("Appending file:", file.name);
           formData.append("image_files", file);
         });
+      } else {
+        console.log("NO FILES IN selectedFiles");
       }
 
       const response = await apiClient.post(API_ENDPOINTS.PURCHASES, formData);
@@ -89,6 +95,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       toast.success("Purchase recorded successfully");
       queryClient.invalidateQueries({ queryKey: ["purchases"] });
       form.reset();
+      setSelectedFiles([]);
       onSuccess?.();
     },
     onError: (error: any) => {
@@ -147,7 +154,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                     </SelectItem>
                   ))}
                 </SelectContent>
-              </Select>
+               </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -211,28 +218,24 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="image_urls"
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <FormItem>
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Receipt Images (Optional)
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  {...fieldProps}
-                  onChange={(event) => onChange(event.target.files)}
-                  className="h-12 rounded-lg border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel className="text-xs font-black uppercase tracking-widest text-slate-400">
+            Receipt Images (Optional)
+          </FormLabel>
+          <FormControl>
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => {
+                if (event.target.files) {
+                  setSelectedFiles(Array.from(event.target.files));
+                }
+              }}
+              className="h-12 rounded-lg border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+            />
+          </FormControl>
+        </FormItem>
 
         <Button
           type="submit"
