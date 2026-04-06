@@ -35,6 +35,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { PurchaseForm } from "@/components/forms/PurchaseForm";
+import { PurchaseDetailDialog } from "@/components/modals/PurchaseDetailDialog";
 
 const container = {
   hidden: { opacity: 0 },
@@ -57,6 +58,13 @@ export default function PurchasesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [selectedPurchase, setSelectedPurchase] = useState<any>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  const handleRowClick = (purchase: any) => {
+    setSelectedPurchase(purchase);
+    setIsDetailModalOpen(true);
+  };
 
   const {
     data: purchasesData,
@@ -243,7 +251,8 @@ export default function PurchasesPage() {
                     : purchases?.map((purchase: any) => (
                         <TableRow
                           key={purchase.id}
-                          className="hover:bg-slate-50/50 transition-colors border-slate-50 group"
+                          className="hover:bg-slate-50/50 transition-colors border-slate-50 group cursor-pointer"
+                          onClick={() => handleRowClick(purchase)}
                         >
                           <TableCell className="px-8 py-6">
                             <span className="font-black text-slate-400 text-xs uppercase tracking-tighter">
@@ -329,6 +338,12 @@ export default function PurchasesPage() {
             </CardContent>
           </Card>
         </motion.div>
+
+        <PurchaseDetailDialog 
+          purchase={selectedPurchase}
+          isOpen={isDetailModalOpen}
+          onClose={() => setIsDetailModalOpen(false)}
+        />
       </motion.div>
     </RoleGuard>
   );
