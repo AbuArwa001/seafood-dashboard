@@ -181,7 +181,7 @@ export default function DataLogsPage() {
                               </div>
                               <div className="flex flex-col min-w-0">
                                 <span className="text-sm font-bold text-slate-900 truncate">
-                                  {log.user_details ? `${log.user_details.first_name} ${log.user_details.last_name}`.trim() || log.user_details.email : "System"}
+                                  {log.user_details ? (log.user_details.full_name || `${log.user_details.first_name || ''} ${log.user_details.last_name || ''}`.trim() || log.user_details.email) : "System"}
                                 </span>
                                 {log.user_details && (
                                   <span className="text-[10px] text-slate-400 font-semibold truncate uppercase tracking-wider">
