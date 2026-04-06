@@ -16,6 +16,7 @@ import {
   Ship,
   ArrowRightLeft,
   Banknote,
+  Activity,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -107,6 +108,12 @@ const navigation = [
         href: "/dashboard/settings",
         icon: Settings,
         permissions: [PERMISSIONS.VIEW_USER, PERMISSIONS.VIEW_PAYMENT], // Admin and Finance see Settings
+      },
+      {
+        name: "Data Logs",
+        href: "/dashboard/settings/data-logs",
+        icon: Activity,
+        permissions: [PERMISSIONS.VIEW_USER], // Admin only (or those who can view users/admin)
       },
     ],
   },
