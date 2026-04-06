@@ -224,8 +224,8 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(event) => onChange(event.target.files)}
                   {...fieldProps}
+                  onChange={(event) => onChange(event.target.files)}
                   className="h-12 rounded-lg border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                 />
               </FormControl>
