@@ -74,7 +74,7 @@ export function SalesCard({ totalSalesVolume, salesData }: SalesCardProps) {
 
           {/* Chart Area - Flexible container */}
           <div className="w-full lg:w-[45%] h-[180px] md:h-[220px] relative group/chart">
-            <div className="absolute inset-0 bg-white/[0.02] rounded-3xl border border-white/[0.05] -m-4 transition-all group-hover/chart:bg-white/[0.04]" />
+            <div className="absolute inset-0 bg-white/[0.02] rounded-lg border border-white/[0.05] -m-4 transition-all group-hover/chart:bg-white/[0.04]" />
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>
