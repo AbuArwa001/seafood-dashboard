@@ -24,7 +24,7 @@ export function AccessControlHeader({ isLoading, refetch }: AccessControlHeaderP
       <div className="flex items-center gap-3">
         <Button
           variant="ghost" size="icon" onClick={() => refetch()}
-          className="rounded-lg hover:bg-slate-100 text-slate-500 transition-all duration-300"
+          className="rounded-lg   hover:bg-slate-100 text-slate-500 transition-all duration-300"
         >
           <RefreshCw className={`h-5 w-5 ${isLoading ? "animate-spin" : ""}`} />
         </Button>

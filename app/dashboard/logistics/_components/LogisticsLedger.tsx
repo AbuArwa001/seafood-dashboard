@@ -32,12 +32,12 @@ export function LogisticsLedger({
           <Input
             placeholder="Search by location or shipment ID..."
             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-emerald-600/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+            className="pl-14 h-16 rounded-lg  border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-emerald-600/10 transition-all text-lg font-semibold placeholder:text-slate-300"
           />
         </div>
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>
@@ -80,7 +80,7 @@ export function LogisticsLedger({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
+                      <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg   group-hover:bg-slate-200 transition-colors">
                         SHP-{receipt.shipment?.substring(0, 8) || "N/A"}
                       </span>
                     </TableCell>
@@ -91,11 +91,11 @@ export function LogisticsLedger({
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-3 text-[11px] font-black">
-                        <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                        <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg   border border-destructive/10">
                           T: {receipt.transport_loss_kg}
                         </span>
                         <ArrowRightLeft className="h-3 w-3 text-slate-300" />
-                        <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg border border-destructive/10">
+                        <span className="text-destructive px-2 py-1 bg-destructive/5 rounded-lg   border border-destructive/10">
                           F: {receipt.freezing_loss_kg}
                         </span>
                       </div>

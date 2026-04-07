@@ -17,7 +17,7 @@ export function CurrenciesTab({
 }: CurrenciesTabProps) {
   return (
     <motion.div variants={itemVariants} initial="hidden" animate="show" className="grid grid-cols-1 gap-8">
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white/80 backdrop-blur-md rounded-lgoverflow-hidden border border-white/40">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white/80 backdrop-blur-md rounded-lg  overflow-hidden border border-white/40">
         <CardHeader className="p-8 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-2xl font-black text-slate-900">Active Registry</CardTitle>
@@ -49,11 +49,11 @@ export function CurrenciesTab({
                 currencies?.map((curr: any) => (
                   <TableRow key={curr.id} className="hover:bg-slate-50/50 transition-colors border-slate-50">
                     <TableCell className="px-8 py-6">
-                      <div className="bg-slate-900 text-white font-black px-4 py-1.5 rounded-lg text-center inline-block text-xs">{curr.code}</div>
+                      <div className="bg-slate-900 text-white font-black px-4 py-1.5 rounded-lg   text-center inline-block text-xs">{curr.code}</div>
                     </TableCell>
                     <TableCell className="font-bold text-slate-700">{curr.name}</TableCell>
                     <TableCell className="text-center">
-                      <span className="bg-slate-100 p-2.5 rounded-lg font-black text-slate-500 min-w-[40px] inline-block text-center text-sm">{curr.symbol || "-"}</span>
+                      <span className="bg-slate-100 p-2.5 rounded-lg   font-black text-slate-500 min-w-[40px] inline-block text-center text-sm">{curr.symbol || "-"}</span>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center">
@@ -65,10 +65,10 @@ export function CurrenciesTab({
                     </TableCell>
                     <TableCell className="text-right px-8">
                       <div className="flex items-center justify-end space-x-2">
-                        <button onClick={() => handleEdit(curr)} className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                        <button onClick={() => handleEdit(curr)} className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg   transition-all">
                           <Edit2 className="h-4 w-4" />
                         </button>
-                        <button onClick={() => confirm("Delete currency?") && deleteCurrencyMutation.mutate(curr.id)} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
+                        <button onClick={() => confirm("Delete currency?") && deleteCurrencyMutation.mutate(curr.id)} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg   transition-all">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>

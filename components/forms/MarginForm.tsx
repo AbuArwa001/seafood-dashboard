@@ -119,11 +119,11 @@ export function MarginForm({ onSuccess, initialData }: MarginFormProps) {
                   disabled={!!initialData}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg h-12">
+                    <SelectTrigger className="rounded-lg   h-12">
                       <SelectValue placeholder="Select base" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {currencies?.map((currency: any) => (
                       <SelectItem key={currency.id} value={currency.id}>
                         {currency.code} ({currency.name})
@@ -150,11 +150,11 @@ export function MarginForm({ onSuccess, initialData }: MarginFormProps) {
                   disabled={!!initialData}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg h-12">
+                    <SelectTrigger className="rounded-lg   h-12">
                       <SelectValue placeholder="Select target" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {currencies?.map((currency: any) => (
                       <SelectItem key={currency.id} value={currency.id}>
                         {currency.code} ({currency.name})
@@ -184,7 +184,7 @@ export function MarginForm({ onSuccess, initialData }: MarginFormProps) {
                     placeholder="e.g. 2.50"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                    className="rounded-lg h-12 pr-10"
+                    className="rounded-lg   h-12 pr-10"
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
                     <Percent className="h-4 w-4" />

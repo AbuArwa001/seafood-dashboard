@@ -221,7 +221,7 @@ export function Sidebar({ className, isMobile = false }: SidebarProps) {
 
       {/* User Status Card */}
       <div className="p-6">
-        <div className="relative overflow-hidden rounded-lg bg-slate-900 p-5 shadow-2xl group">
+        <div className="relative overflow-hidden rounded-lg   bg-slate-900 p-5 shadow-2xl group">
           {/* Decorative background blur */}
           <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-blue-500/20 blur-2xl group-hover:bg-blue-400/30 transition-colors duration-500" />
 

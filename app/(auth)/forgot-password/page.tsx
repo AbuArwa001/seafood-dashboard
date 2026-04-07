@@ -30,7 +30,7 @@ export default function ForgotPasswordPage() {
     } catch (error: any) {
       toast.error(
         error.response?.data?.detail ||
-          "Something went wrong. Please try again.",
+        "Something went wrong. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={isLoading}
-                    className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg pl-10"
+                    className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg   pl-10"
                   />
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                 </div>
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg shadow-lg transition-all active:scale-[0.98]"
+                className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg   shadow-lg transition-all active:scale-[0.98]"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
               </p>
               <Button
                 variant="outline"
-                className="w-full h-12 border-slate-200 text-slate-600 font-semibold rounded-lg hover:bg-slate-100"
+                className="w-full h-12 border-slate-200 text-slate-600 font-semibold rounded-lg   hover:bg-slate-100"
                 onClick={() => setIsSubmitted(false)}
               >
                 Didn't receive the email? Try again

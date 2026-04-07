@@ -72,7 +72,7 @@ export function CategoryForm({ onSuccess }: CategoryFormProps) {
                 <Input
                   placeholder="e.g. Shellfish, Pelagic Fish"
                   {...field}
-                  className="rounded-lg border-slate-200"
+                  className="rounded-lg   border-slate-200"
                 />
               </FormControl>
               <FormMessage />
@@ -83,7 +83,7 @@ export function CategoryForm({ onSuccess }: CategoryFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-lg font-black shadow-lg shadow-primary/25 h-12"
+          className="w-full rounded-lg   font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

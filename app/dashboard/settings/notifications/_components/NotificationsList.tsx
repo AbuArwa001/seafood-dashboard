@@ -28,7 +28,7 @@ export function NotificationsList({
     return (
       <div className="grid grid-cols-1 gap-8">
         {[...Array(3)].map((_, i) => (
-          <Card key={i} className="border-none shadow-premium rounded-lgbg-white">
+          <Card key={i} className="border-none shadow-premium rounded-lg  bg-white">
             <CardContent className="p-10"><Skeleton className="h-8 w-1/3 mb-6" /><Skeleton className="h-20 w-full rounded-2xl" /></CardContent>
           </Card>
         ))}
@@ -40,7 +40,7 @@ export function NotificationsList({
     <div className="grid grid-cols-1 gap-8">
       {parameters?.map((param) => (
         <motion.div key={param.id} variants={itemVariants}>
-          <Card className="border-none shadow-premium bg-white rounded-lgoverflow-hidden group hover:shadow-premium-hover transition-all duration-500">
+          <Card className="border-none shadow-premium bg-white rounded-lg  overflow-hidden group hover:shadow-premium-hover transition-all duration-500">
             <CardContent className="p-8 md:p-10">
               <div className="flex flex-col lg:flex-row gap-10">
                 <div className="flex-1 space-y-6">
@@ -52,7 +52,7 @@ export function NotificationsList({
                     <p className="text-slate-500 font-medium leading-relaxed max-w-xl">{param.description}</p>
                   </div>
                   <div className="flex items-center gap-6 p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
-                    <div className="bg-white p-2 rounded-lg shadow-sm">
+                    <div className="bg-white p-2 rounded-lg   shadow-sm">
                       {param.key.includes("days") ? <Clock className="h-4 w-4 text-amber-500" /> : param.key.includes("email") ? <Mail className="h-4 w-4 text-blue-500" /> : param.key.includes("roles") ? <Users className="h-4 w-4 text-indigo-500" /> : <Shield className="h-4 w-4 text-emerald-500" />}
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">PROPRIETARY PARAMETER: <span className="text-slate-600">{param.key}</span></span>
@@ -79,7 +79,7 @@ export function NotificationsList({
                             <button
                               key={role.id}
                               onClick={() => handleValueChange(param.key, toggleRole(currentVal, role.role_name))}
-                              className={cn("w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all font-bold text-xs uppercase tracking-tight", isSelected ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-white text-slate-500 hover:bg-slate-100")}
+                              className={cn("w-full flex items-center justify-between px-4 py-3 rounded-lg   transition-all font-bold text-xs uppercase tracking-tight", isSelected ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-white text-slate-500 hover:bg-slate-100")}
                             >
                               {role.role_name}
                               {isSelected && <Check className="h-3 w-3" />}

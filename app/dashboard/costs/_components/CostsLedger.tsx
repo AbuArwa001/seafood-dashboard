@@ -78,7 +78,7 @@ export function CostsLedger({
                   <TableRow key={cost.id} className="hover:bg-slate-50/50 transition-colors border-slate-50 group">
                     <TableCell className="px-8 py-6">
                       <div className="flex items-center space-x-3">
-                        <div className="bg-destructive/10 p-2.5 rounded-lg text-destructive">
+                        <div className="bg-destructive/10 p-2.5 rounded-lg   text-destructive">
                           <Layers className="h-4 w-4" />
                         </div>
                         <div>
@@ -122,13 +122,13 @@ export function CostsLedger({
                 Showing {costs.length} of {totalCount} records
               </div>
               <div className="flex space-x-2">
-                <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                   PREVIOUS
                 </button>
-                <div className="flex items-center justify-center px-4 bg-destructive/10 text-destructive rounded-lg text-xs font-black">
+                <div className="flex items-center justify-center px-4 bg-destructive/10 text-destructive rounded-lg   text-xs font-black">
                   PAGE {page}
                 </div>
-                <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                   NEXT
                 </button>
               </div>

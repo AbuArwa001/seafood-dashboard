@@ -121,7 +121,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-lg border-slate-100 bg-slate-50/50">
+                  <SelectTrigger className="h-12 rounded-lg   border-slate-100 bg-slate-50/50">
                     <SelectValue placeholder="Select a shipment" />
                   </SelectTrigger>
                 </FormControl>
@@ -130,7 +130,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                     <SelectItem
                       key={shipment.id}
                       value={shipment.id}
-                      className="rounded-lg mt-1"
+                      className="rounded-lg   mt-1"
                     >
                       Shipment {shipment.id.substring(0, 8).toUpperCase()} -{" "}
                       {shipment.country_origin} ({shipment.status})
@@ -155,7 +155,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                 <Input
                   placeholder="Freezer 04 - Nairobi"
                   {...field}
-                  className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                  className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                 />
               </FormControl>
               <FormMessage />
@@ -178,7 +178,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -200,7 +200,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -222,7 +222,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -243,7 +243,7 @@ export function LogisticsReceiptForm({ onSuccess }: LogisticsReceiptFormProps) {
                 <Textarea
                   placeholder="Any discrepancies or quality notes..."
                   {...field}
-                  className="min-h-[100px] rounded-lg border-slate-100 bg-slate-50/50 resize-none"
+                  className="min-h-[100px] rounded-lg   border-slate-100 bg-slate-50/50 resize-none"
                 />
               </FormControl>
               <FormMessage />

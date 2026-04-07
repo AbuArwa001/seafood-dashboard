@@ -14,7 +14,7 @@ interface LiveFeedProps {
 export function LiveFeed({ shipments, isLoadingShipments, router, itemVariants }: LiveFeedProps) {
   return (
     <motion.div variants={itemVariants} className="flex-1 min-w-full lg:min-w-[350px]">
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-lgtransition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] bg-[#1a365d] text-white h-full relative overflow-hidden rounded-lg   transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mt-20 -mr-20" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl -mb-10 -ml-10" />
 
@@ -58,8 +58,8 @@ export function LiveFeed({ shipments, isLoadingShipments, router, itemVariants }
                       {new Date(shipment.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
                     </p>
                     <span className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter ${shipment.status === "RECEIVED" || shipment.status === "COMPLETED"
-                        ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                        : "bg-secondary/20 text-secondary border border-secondary/20"
+                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                      : "bg-secondary/20 text-secondary border border-secondary/20"
                       }`}>
                       {shipment.status.replace("_", " ")}
                     </span>

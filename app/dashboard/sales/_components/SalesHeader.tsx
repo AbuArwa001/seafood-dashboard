@@ -39,7 +39,7 @@ export function SalesHeader({ isAddModalOpen, setIsAddModalOpen, isFetching, ref
               <Plus className="h-5 w-5 mr-3" /> RECORD SALE
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[550px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+          <DialogContent className="sm:max-w-[550px] rounded-lg   border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
             <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/20 rounded-full blur-3xl -mt-10 -mr-10" />
               <DialogTitle className="text-3xl font-black tracking-tight">Post Transaction</DialogTitle>

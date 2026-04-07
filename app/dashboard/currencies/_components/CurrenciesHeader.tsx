@@ -34,7 +34,7 @@ export function CurrenciesHeader({ isAddModalOpen, setIsAddModalOpen, isFetching
               <Plus className="h-5 w-5 mr-2" /> NEW CURRENCY
             </button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
+          <DialogContent className="sm:max-w-[425px] rounded-lg   border-none shadow-2xl p-0 overflow-hidden">
             <div className="bg-primary p-6 text-white text-center">
               <DialogTitle className="text-2xl font-black">Register Currency</DialogTitle>
               <p className="text-primary-foreground/80 text-[10px] font-bold mt-1 uppercase tracking-widest">Add to global treasury system</p>

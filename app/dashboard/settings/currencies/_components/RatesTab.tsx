@@ -14,7 +14,7 @@ interface RatesTabProps {
 export function RatesTab({ rates, loadingRates, itemVariants }: RatesTabProps) {
   return (
     <motion.div variants={itemVariants} initial="hidden" animate="show" className="grid grid-cols-1 gap-8">
-      <Card className="border-none shadow-[0_20px_50px_-15_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="p-8 border-b border-slate-100 flex flex-row items-center justify-between bg-slate-50/50">
           <div>
             <CardTitle className="text-2xl font-black text-slate-900">Rate Matrix</CardTitle>
@@ -41,9 +41,9 @@ export function RatesTab({ rates, loadingRates, itemVariants }: RatesTabProps) {
                   <TableRow key={rate.id} className="hover:bg-slate-50/50 transition-colors border-slate-50">
                     <TableCell className="px-8 py-6">
                       <div className="flex items-center space-x-3">
-                        <div className="bg-blue-600 text-white font-black px-3 py-1 rounded-lg text-[10px] shadow-sm">{rate.from_currency.code}</div>
+                        <div className="bg-blue-600 text-white font-black px-3 py-1 rounded-lg   text-[10px] shadow-sm">{rate.from_currency.code}</div>
                         <ChevronRight className="h-3 w-3 text-slate-300" />
-                        <div className="bg-slate-200 text-slate-700 font-black px-3 py-1 rounded-lg text-[10px] shadow-sm">{rate.to_currency.code}</div>
+                        <div className="bg-slate-200 text-slate-700 font-black px-3 py-1 rounded-lg   text-[10px] shadow-sm">{rate.to_currency.code}</div>
                       </div>
                     </TableCell>
                     <TableCell className="text-center">

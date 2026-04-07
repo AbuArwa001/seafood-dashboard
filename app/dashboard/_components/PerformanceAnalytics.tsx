@@ -17,7 +17,7 @@ export function PerformanceAnalytics({
 }: PerformanceAnalyticsProps) {
   return (
     <motion.div variants={itemVariants} className="flex-[2] min-w-full lg:min-w-[700px]">
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgh-full overflow-hidden transition-all duration-500">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg   h-full overflow-hidden transition-all duration-500">
         <CardHeader className="border-b border-slate-50 p-8 pb-6">
           <div className="flex items-center justify-between">
             <div>
@@ -32,7 +32,7 @@ export function PerformanceAnalytics({
                 <button
                   key={t}
                   onClick={() => setTimeRange(t)}
-                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black tracking-widest transition-all ${t === timeRange ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600 cursor-pointer"}`}
+                  className={`px-4 py-1.5 rounded-lg   text-[10px] font-black tracking-widest transition-all ${t === timeRange ? "bg-white text-[#1a365d] shadow-sm" : "text-slate-400 hover:text-slate-600 cursor-pointer"}`}
                 >
                   {t}
                 </button>

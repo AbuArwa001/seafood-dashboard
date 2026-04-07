@@ -33,7 +33,7 @@ export function LoginForm({
               id="email" type="email" placeholder="admin@seafood.com"
               value={email} onChange={(e) => setEmail(e.target.value)}
               required disabled={isLoading}
-              className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg"
+              className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg  "
             />
           </div>
           <div className="space-y-2">
@@ -46,7 +46,7 @@ export function LoginForm({
                 id="password" type={showPassword ? "text" : "password"} placeholder="••••••••"
                 value={password} onChange={(e) => setPassword(e.target.value)}
                 required disabled={isLoading}
-                className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg pr-12"
+                className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg   pr-12"
               />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors" disabled={isLoading}>
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -54,7 +54,7 @@ export function LoginForm({
             </div>
           </div>
 
-          <Button type="submit" className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg shadow-lg transition-all active:scale-[0.98]" disabled={isLoading}>
+          <Button type="submit" className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg   shadow-lg transition-all active:scale-[0.98]" disabled={isLoading}>
             {isLoading ? (
               <span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> Authenticating...</span>
             ) : "Sign In"}

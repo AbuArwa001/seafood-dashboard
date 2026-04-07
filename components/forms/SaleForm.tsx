@@ -121,11 +121,11 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="rounded-lg border-slate-200">
+                  <SelectTrigger className="rounded-lg   border-slate-200">
                     <SelectValue placeholder="Select shipment" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="rounded-lg">
+                <SelectContent className="rounded-lg  ">
                   {shipments?.map((shp: any) => (
                     <SelectItem key={shp.id} value={shp.id}>
                       Shipment {shp.id.substring(0, 8).toUpperCase()} -{" "}
@@ -153,11 +153,11 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg border-slate-200">
+                    <SelectTrigger className="rounded-lg   border-slate-200">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {currencies?.map((curr: any) => (
                       <SelectItem key={curr.id} value={curr.id}>
                         {curr.code}
@@ -184,7 +184,7 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -208,7 +208,7 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -230,7 +230,7 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
                     step="1"
                     placeholder="0"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -242,7 +242,7 @@ export function SaleForm({ onSuccess }: SaleFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-lg font-black shadow-lg shadow-secondary/25 h-12 bg-secondary hover:bg-secondary/90"
+          className="w-full rounded-lg   font-black shadow-lg shadow-secondary/25 h-12 bg-secondary hover:bg-secondary/90"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

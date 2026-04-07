@@ -26,12 +26,12 @@ export function PaymentsLedger({
           <Input
             placeholder="Search by buyer name or transaction ID..."
             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-amber-500/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+            className="pl-14 h-16 rounded-lg  border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-amber-500/10 transition-all text-lg font-semibold placeholder:text-slate-300"
           />
         </div>
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>
@@ -105,7 +105,7 @@ export function PaymentsLedger({
                       )}
                     </TableCell>
                     <TableCell className="text-right px-8">
-                      <Button variant="ghost" size="icon" className="rounded-lg hover:bg-slate-100 h-10 w-10">
+                      <Button variant="ghost" size="icon" className="rounded-lg   hover:bg-slate-100 h-10 w-10">
                         <MoreVertical className="h-5 w-5 text-slate-400" />
                       </Button>
                     </TableCell>

@@ -35,7 +35,7 @@ export function CostsHeader({ isAddModalOpen, setIsAddModalOpen, isFetching, ref
               <Plus className="h-5 w-5 mr-2" /> ADD COST RECORD
             </button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
+          <DialogContent className="sm:max-w-[425px] rounded-lg   border-none shadow-2xl p-0 overflow-hidden">
             <div className="bg-destructive p-6 text-white text-center">
               <DialogTitle className="text-2xl font-black">Expense Ledger</DialogTitle>
               <p className="text-destructive-foreground/80 text-[10px] font-bold mt-1 uppercase tracking-widest">

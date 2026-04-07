@@ -47,15 +47,15 @@ export function ShipmentsTracker({
           <Input
             placeholder="Search by ID, origin, or vessel..."
             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-[#1a365d]/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+            className="pl-14 h-16 rounded-lg  border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-[#1a365d]/10 transition-all text-lg font-semibold placeholder:text-slate-300"
           />
         </div>
-        <Button variant="outline" className="rounded-lgh-16 px-8 border-none bg-white font-bold text-slate-600 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:bg-slate-50 transition-all gap-3">
+        <Button variant="outline" className="rounded-lg  h-16 px-8 border-none bg-white font-bold text-slate-600 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:bg-slate-50 transition-all gap-3">
           <Filter className="h-5 w-5" /> Advanced Filter
         </Button>
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>
@@ -116,18 +116,18 @@ export function ShipmentsTracker({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge className={`rounded-lg px-4 py-2 font-black text-[10px] uppercase tracking-widest shadow-sm shadow-black/5 ${getStatusStyle(shipment.status)}`}>
+                        <Badge className={`rounded-lg   px-4 py-2 font-black text-[10px] uppercase tracking-widest shadow-sm shadow-black/5 ${getStatusStyle(shipment.status)}`}>
                           {shipment.status.replace("_", " ")}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="rounded-lg hover:bg-slate-100 h-10 w-10">
+                            <Button variant="ghost" size="icon" className="rounded-lg   hover:bg-slate-100 h-10 w-10">
                               <MoreVertical className="h-5 w-5 text-slate-400" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="rounded-lg border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl">
+                          <DropdownMenuContent align="end" className="rounded-lg   border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl">
                             <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all" onClick={() => { setSelectedShipment(shipment); setIsViewCargoOpen(true); }}>
                               <ArrowRight className="h-4 w-4 mr-3 text-slate-300" /> VIEW FULL CARGO
                             </DropdownMenuItem>

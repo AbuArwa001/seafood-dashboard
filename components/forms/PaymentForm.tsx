@@ -126,7 +126,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-lg border-slate-100 bg-slate-50/50">
+                  <SelectTrigger className="h-12 rounded-lg   border-slate-100 bg-slate-50/50">
                     <SelectValue placeholder="Select a sale transaction" />
                   </SelectTrigger>
                 </FormControl>
@@ -135,7 +135,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                     <SelectItem
                       key={sale.id}
                       value={sale.id}
-                      className="rounded-lg mt-1"
+                      className="rounded-lg   mt-1"
                     >
                       Sale {sale.id.slice(0, 8)} - {sale.total_sale_amount}{" "}
                       {sale.currency?.code}
@@ -160,7 +160,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                 <Input
                   placeholder="Global Seafoods Ltd"
                   {...field}
-                  className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                  className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                 />
               </FormControl>
               <FormMessage />
@@ -183,7 +183,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -204,7 +204,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-12 rounded-lg border-slate-100 bg-slate-50/50">
+                    <SelectTrigger className="h-12 rounded-lg   border-slate-100 bg-slate-50/50">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                   </FormControl>
@@ -213,7 +213,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                       <SelectItem
                         key={currency.id}
                         value={currency.id}
-                        className="rounded-lg mt-1"
+                        className="rounded-lg   mt-1"
                       >
                         {currency.code} ({currency.symbol})
                       </SelectItem>
@@ -239,7 +239,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                   <Input
                     type="date"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -259,7 +259,7 @@ export function PaymentForm({ onSuccess }: PaymentFormProps) {
                   <Input
                     type="date"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />

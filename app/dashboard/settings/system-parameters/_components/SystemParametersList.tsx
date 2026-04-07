@@ -44,7 +44,7 @@ export function SystemParametersList({
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="space-y-4 flex-1">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${CATEGORY_CONFIG[param.category].color}`}>
+                      <div className={`p-2 rounded-lg   ${CATEGORY_CONFIG[param.category].color}`}>
                         {(() => { const Icon = CATEGORY_CONFIG[param.category].icon; return <Icon className="h-4 w-4" />; })()}
                       </div>
                       <div>
@@ -82,7 +82,7 @@ export function SystemParametersList({
                       {pendingChanges[param.key] !== undefined && (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}>
                           <Button
-                            className="w-full h-12 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-200"
+                            className="w-full h-12 rounded-lg   bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-200"
                             onClick={() => handleSave(param.key)} disabled={updateMutation.isPending}
                           >
                             {updateMutation.isPending && updateMutation.variables?.key === param.key ? (

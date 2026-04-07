@@ -18,7 +18,7 @@ export function CurrenciesSettingsHeader({
     <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
         <div className="flex items-center space-x-3 mb-2">
-          <div className="bg-blue-600/10 p-2 rounded-lg">
+          <div className="bg-blue-600/10 p-2 rounded-lg  ">
             <Globe className="h-5 w-5 text-blue-600" />
           </div>
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600/60">Financial Configuration</span>
@@ -34,12 +34,12 @@ export function CurrenciesSettingsHeader({
 
       <Dialog open={isAddModalOpen} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
-          <button className="bg-slate-900 text-white px-8 py-4 rounded-lgshadow-2xl shadow-slate-900/20 font-black flex items-center hover:bg-slate-800 transition-all active:scale-95 group shrink-0">
+          <button className="bg-slate-900 text-white px-8 py-4 rounded-lg  shadow-2xl shadow-slate-900/20 font-black flex items-center hover:bg-slate-800 transition-all active:scale-95 group shrink-0">
             <Plus className="h-5 w-5 mr-3 group-hover:rotate-90 transition-transform duration-500" />
             {activeTab === "currencies" ? "ADD CURRENCY" : activeTab === "rates" ? "RECORD RATE" : "NEW MARGIN RULE"}
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[550px] rounded-lgborder-none shadow-2xl p-0 overflow-hidden bg-white">
+        <DialogContent className="sm:max-w-[550px] rounded-lg  border-none shadow-2xl p-0 overflow-hidden bg-white">
           <div className="bg-slate-900 p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -mt-10 -mr-10" />
             <DialogTitle className="text-2xl font-black">{editingItem ? "Modify Registry" : "New Financial Entry"}</DialogTitle>

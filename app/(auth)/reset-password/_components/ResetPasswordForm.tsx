@@ -16,7 +16,7 @@ export function ResetPasswordForm() {
         </div>
         <h3 className="text-xl font-bold text-slate-900">{logic.error}</h3>
         <Link href="/forgot-password">
-          <Button className="mt-4 bg-[#1a365d] hover:bg-[#2c5282] text-white rounded-lg h-12 w-full max-w-xs">
+          <Button className="mt-4 bg-[#1a365d] hover:bg-[#2c5282] text-white rounded-lg   h-12 w-full max-w-xs">
             Request new link
           </Button>
         </Link>
@@ -35,7 +35,7 @@ export function ResetPasswordForm() {
           Your password has been reset successfully. Redirecting you to login...
         </p>
         <Link href="/login">
-          <Button className="mt-4 bg-[#1a365d] hover:bg-[#2c5282] text-white rounded-lg h-12 w-full max-w-xs">
+          <Button className="mt-4 bg-[#1a365d] hover:bg-[#2c5282] text-white rounded-lg   h-12 w-full max-w-xs">
             Go to login now
           </Button>
         </Link>
@@ -53,7 +53,7 @@ export function ResetPasswordForm() {
             placeholder="New password" value={logic.password}
             onChange={(e) => logic.setPassword(e.target.value)}
             required disabled={logic.isLoading}
-            className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg pl-10 pr-12"
+            className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg   pl-10 pr-12"
           />
           <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
           <button
@@ -73,7 +73,7 @@ export function ResetPasswordForm() {
             placeholder="Confirm new password" value={logic.confirmPassword}
             onChange={(e) => logic.setConfirmPassword(e.target.value)}
             required disabled={logic.isLoading}
-            className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg pl-10"
+            className="bg-slate-50 border-slate-200 focus:border-[#1a365d] focus:ring-[#1a365d] transition-all h-12 rounded-lg   pl-10"
           />
           <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
         </div>
@@ -81,7 +81,7 @@ export function ResetPasswordForm() {
 
       <Button
         type="submit" disabled={logic.isLoading}
-        className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg shadow-lg transition-all active:scale-[0.98]"
+        className="w-full h-12 bg-[#1a365d] hover:bg-[#2c5282] text-white font-bold rounded-lg   shadow-lg transition-all active:scale-[0.98]"
       >
         {logic.isLoading ? (
           <span className="flex items-center gap-2">

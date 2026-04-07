@@ -32,7 +32,7 @@ export function PurchasesHeader({ isAddModalOpen, setIsAddModalOpen, isFetching,
               <Plus className="h-5 w-5 mr-2" /> NEW PURCHASE
             </button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] rounded-lg border-none shadow-2xl p-0 overflow-hidden">
+          <DialogContent className="sm:max-w-[425px] rounded-lg   border-none shadow-2xl p-0 overflow-hidden">
             <div className="bg-blue-600 p-6 text-white text-center">
               <DialogTitle className="text-2xl font-black">Supplier Purchase</DialogTitle>
               <p className="text-blue-100 text-[10px] font-bold mt-1 uppercase tracking-widest">Inventory Procurement Registry</p>

@@ -23,7 +23,7 @@ export function AccessControlRoles({
       <>
         {[...Array(6)].map((_, i) => (
           <Card key={i} className="border-none shadow-sm rounded-[2rem] overflow-hidden bg-white">
-            <CardHeader className="p-8"><Skeleton className="h-8 w-1/2 rounded-lg" /><Skeleton className="h-4 w-3/4 mt-2 rounded-lg" /></CardHeader>
+            <CardHeader className="p-8"><Skeleton className="h-8 w-1/2 rounded-lg  " /><Skeleton className="h-4 w-3/4 mt-2 rounded-lg  " /></CardHeader>
             <CardContent className="px-8 pb-8 space-y-4"><Skeleton className="h-24 w-full rounded-2xl" /></CardContent>
           </Card>
         ))}
@@ -49,7 +49,7 @@ export function AccessControlRoles({
     <>
       {filteredRoles?.map((role) => (
         <motion.div key={role.id} variants={itemVariants} onClick={() => { setSelectedRole(role); setIsDialogOpen(true); }} className="cursor-pointer">
-          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)] bg-white rounded-lgoverflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 border border-transparent hover:border-indigo-100 flex flex-col h-full group">
+          <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)] bg-white rounded-lg  overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 border border-transparent hover:border-indigo-100 flex flex-col h-full group">
             <CardHeader className="p-8 pb-4">
               <div className="flex items-start justify-between">
                 <div className="bg-indigo-50 p-4 rounded-2xl group-hover:scale-110 transition-transform duration-500">
@@ -69,7 +69,7 @@ export function AccessControlRoles({
                   {role.permissions.map((perm: any) => {
                     const { action, module, color } = formatPermission(perm.codename);
                     return (
-                      <div key={perm.id} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider ${color}`}>
+                      <div key={perm.id} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg   border text-[10px] font-black uppercase tracking-wider ${color}`}>
                         <CheckCircle2 className="h-3 w-3" />
                         <span>{action} {module}</span>
                       </div>

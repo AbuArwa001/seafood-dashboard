@@ -106,7 +106,7 @@ export function ExchangeRateForm({
     onError: (error: any) => {
       toast.error(
         error.response?.data?.detail ||
-          "Something went wrong. Check for duplicate dates.",
+        "Something went wrong. Check for duplicate dates.",
       );
     },
   });
@@ -136,11 +136,11 @@ export function ExchangeRateForm({
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg h-12">
+                    <SelectTrigger className="rounded-lg   h-12">
                       <SelectValue placeholder="Select base" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {currencies.map((c) => (
                       <SelectItem key={c.id} value={c.id}>
                         {c.code} - {c.name}
@@ -166,11 +166,11 @@ export function ExchangeRateForm({
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg h-12">
+                    <SelectTrigger className="rounded-lg   h-12">
                       <SelectValue placeholder="Select target" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {currencies.map((c) => (
                       <SelectItem key={c.id} value={c.id}>
                         {c.code} - {c.name}
@@ -200,7 +200,7 @@ export function ExchangeRateForm({
                       step="0.000001"
                       placeholder="1.000000"
                       {...field}
-                      className="rounded-lg h-12 pr-12"
+                      className="rounded-lg   h-12 pr-12"
                     />
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">
                       VALUE
@@ -221,7 +221,7 @@ export function ExchangeRateForm({
                   Effective Date
                 </FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} className="rounded-lg h-12" />
+                  <Input type="date" {...field} className="rounded-lg   h-12" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

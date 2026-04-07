@@ -31,7 +31,7 @@ export function CurrencyWatch({ kshRates, itemVariants }: CurrencyWatchProps) {
               kshRates.map((curr: any) => (
                 <div key={curr.code} className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group">
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 rounded-lg flex items-center justify-center font-black text-xs bg-slate-100">{curr.code}</div>
+                    <div className="h-10 w-10 rounded-lg   flex items-center justify-center font-black text-xs bg-slate-100">{curr.code}</div>
                     <div>
                       <p className="text-sm font-black text-slate-900">{curr.name}</p>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{curr.code} / KSH</p>

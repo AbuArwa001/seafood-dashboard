@@ -134,7 +134,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
                   <Input
                     placeholder="John Doe"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -154,7 +154,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
                   <Input
                     placeholder="john@example.com"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                     disabled={!!user}
                   />
                 </FormControl>
@@ -178,7 +178,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
                     type="password"
                     placeholder="••••••••"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -201,11 +201,11 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg border-slate-200">
+                    <SelectTrigger className="rounded-lg   border-slate-200">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg">
+                  <SelectContent className="rounded-lg  ">
                     {roles?.map((role: any) => (
                       <SelectItem key={role.id} value={role.id}>
                         {role.role_name}
@@ -230,7 +230,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
                   <Input
                     placeholder="Headquarters"
                     {...field}
-                    className="rounded-lg border-slate-200"
+                    className="rounded-lg   border-slate-200"
                   />
                 </FormControl>
                 <FormMessage />
@@ -243,7 +243,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
           control={form.control}
           name="is_active"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-slate-100 p-4 bg-slate-50/30">
+            <FormItem className="flex flex-row items-center justify-between rounded-lg   border border-slate-100 p-4 bg-slate-50/30">
               <div className="space-y-0.5">
                 <FormLabel className="text-base font-bold text-slate-900">
                   Active Status
@@ -265,7 +265,7 @@ export function UserForm({ onSuccess, user }: UserFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-lg font-black shadow-lg shadow-primary/25 h-12"
+          className="w-full rounded-lg   font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

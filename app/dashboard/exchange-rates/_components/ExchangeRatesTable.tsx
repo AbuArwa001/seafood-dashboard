@@ -48,10 +48,10 @@ export function ExchangeRatesTable({
               {isLoading ? (
                 [1, 2, 3].map((i) => (
                   <TableRow key={i} className="border-slate-50">
-                    <TableCell className="px-8 py-6"><Skeleton className="h-8 w-32 rounded-lg" /></TableCell>
-                    <TableCell><Skeleton className="h-8 w-24 rounded-lg" /></TableCell>
-                    <TableCell><Skeleton className="h-8 w-40 rounded-lg" /></TableCell>
-                    <TableCell className="text-right px-8"><Skeleton className="h-8 w-20 ml-auto rounded-lg" /></TableCell>
+                    <TableCell className="px-8 py-6"><Skeleton className="h-8 w-32 rounded-lg  " /></TableCell>
+                    <TableCell><Skeleton className="h-8 w-24 rounded-lg  " /></TableCell>
+                    <TableCell><Skeleton className="h-8 w-40 rounded-lg  " /></TableCell>
+                    <TableCell className="text-right px-8"><Skeleton className="h-8 w-20 ml-auto rounded-lg  " /></TableCell>
                   </TableRow>
                 ))
               ) : rates?.length > 0 ? (
@@ -59,9 +59,9 @@ export function ExchangeRatesTable({
                   <TableRow key={rate.id} className="hover:bg-slate-50/50 transition-colors border-slate-50">
                     <TableCell className="px-8 py-6">
                       <div className="flex items-center space-x-3">
-                        <div className="bg-primary/10 p-2 rounded-lg"><span className="font-black text-primary text-xs">{rate.from_currency.code}</span></div>
+                        <div className="bg-primary/10 p-2 rounded-lg  "><span className="font-black text-primary text-xs">{rate.from_currency.code}</span></div>
                         <ChevronRight className="h-3 w-3 text-slate-300" />
-                        <div className="bg-secondary/10 p-2 rounded-lg"><span className="font-black text-secondary text-xs">{rate.to_currency.code}</span></div>
+                        <div className="bg-secondary/10 p-2 rounded-lg  "><span className="font-black text-secondary text-xs">{rate.to_currency.code}</span></div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -96,11 +96,11 @@ export function ExchangeRatesTable({
           <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">
             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Showing {rates.length} of {totalRates} pairs</div>
             <div className="flex space-x-2">
-              <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+              <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                 PREVIOUS
               </button>
-              <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-lg text-xs font-black">PAGE {page}</div>
-              <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+              <div className="flex items-center justify-center px-4 bg-primary/10 text-primary rounded-lg   text-xs font-black">PAGE {page}</div>
+              <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                 NEXT
               </button>
             </div>

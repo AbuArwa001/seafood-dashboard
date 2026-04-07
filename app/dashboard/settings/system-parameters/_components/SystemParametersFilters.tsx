@@ -26,7 +26,7 @@ export function SystemParametersFilters({ search, setSearch, selectedCategory, s
         <Button
           variant={selectedCategory === "all" ? "default" : "ghost"}
           onClick={() => setSelectedCategory("all")}
-          className={`rounded-lg px-4 h-10 font-bold text-xs uppercase tracking-widest ${selectedCategory === "all" ? "bg-indigo-600 hover:bg-indigo-700" : ""}`}
+          className={`rounded-lg   px-4 h-10 font-bold text-xs uppercase tracking-widest ${selectedCategory === "all" ? "bg-indigo-600 hover:bg-indigo-700" : ""}`}
         >
           All
         </Button>
@@ -35,7 +35,7 @@ export function SystemParametersFilters({ search, setSearch, selectedCategory, s
             key={key}
             variant={selectedCategory === key ? "default" : "ghost"}
             onClick={() => setSelectedCategory(key as ParameterCategory)}
-            className={`rounded-lg px-4 h-10 font-bold text-xs uppercase tracking-widest ${selectedCategory === key ? "bg-indigo-600 hover:bg-indigo-700" : ""}`}
+            className={`rounded-lg   px-4 h-10 font-bold text-xs uppercase tracking-widest ${selectedCategory === key ? "bg-indigo-600 hover:bg-indigo-700" : ""}`}
           >
             <config.icon className="h-3 w-3 mr-2" />
             {config.label}

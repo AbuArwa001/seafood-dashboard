@@ -157,7 +157,7 @@ export function RolePermissionsDialog({
               placeholder="Filter system permissions..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-11 h-12 rounded-lg border-slate-100 bg-slate-50/50 focus:bg-white font-medium text-sm transition-all"
+              className="pl-11 h-12 rounded-lg   border-slate-100 bg-slate-50/50 focus:bg-white font-medium text-sm transition-all"
             />
           </div>
 
@@ -180,19 +180,17 @@ export function RolePermissionsDialog({
                       <button
                         key={perm.id}
                         onClick={() => togglePermission(perm.id)}
-                        className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 text-left hover:scale-[1.02] active:scale-[0.98] ${
-                          selectedIds.includes(perm.id)
+                        className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 text-left hover:scale-[1.02] active:scale-[0.98] ${selectedIds.includes(perm.id)
                             ? "bg-indigo-50 border-indigo-200 shadow-sm"
                             : "bg-white border-slate-100 hover:border-slate-200"
-                        }`}
+                          }`}
                       >
                         <div className="space-y-0.5">
                           <p
-                            className={`text-xs font-black uppercase tracking-tight ${
-                              selectedIds.includes(perm.id)
+                            className={`text-xs font-black uppercase tracking-tight ${selectedIds.includes(perm.id)
                                 ? "text-indigo-700"
                                 : "text-slate-700"
-                            }`}
+                              }`}
                           >
                             {perm.name.split("|").pop()?.trim()}
                           </p>
@@ -201,11 +199,10 @@ export function RolePermissionsDialog({
                           </p>
                         </div>
                         <div
-                          className={`shrink-0 h-6 w-6 rounded-full flex items-center justify-center transition-all ${
-                            selectedIds.includes(perm.id)
+                          className={`shrink-0 h-6 w-6 rounded-full flex items-center justify-center transition-all ${selectedIds.includes(perm.id)
                               ? "bg-indigo-600 text-white"
                               : "bg-slate-100 text-transparent border border-slate-200"
-                          }`}
+                            }`}
                         >
                           <CheckCircle2 className="h-4 w-4" />
                         </div>

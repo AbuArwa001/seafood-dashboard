@@ -41,7 +41,7 @@ export function PermissionsCard({ permissions, groupedPermissions, itemVariants 
                     {(perms as any[]).map((perm: any) => {
                       const { actionLabel, colorClass } = parseCodename(perm.codename);
                       return (
-                        <span key={perm.codename} className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg border ${colorClass}`}>
+                        <span key={perm.codename} className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg   border ${colorClass}`}>
                           <CheckCircle2 className="h-3 w-3" />
                           {actionLabel}
                         </span>

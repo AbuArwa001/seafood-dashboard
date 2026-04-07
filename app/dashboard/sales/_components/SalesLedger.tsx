@@ -32,15 +32,15 @@ export function SalesLedger({
           <Input
             placeholder="Search by shipment ID or amount..."
             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-secondary/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+            className="pl-14 h-16 rounded-lg  border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-secondary/10 transition-all text-lg font-semibold placeholder:text-slate-300"
           />
         </div>
-        <Button variant="outline" className="rounded-lgh-16 px-8 border-none bg-white font-bold text-slate-600 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:bg-slate-50 transition-all gap-3">
+        <Button variant="outline" className="rounded-lg  h-16 px-8 border-none bg-white font-bold text-slate-600 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:bg-slate-50 transition-all gap-3">
           <Filter className="h-5 w-5" /> Advanced Filters
         </Button>
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>
@@ -77,13 +77,13 @@ export function SalesLedger({
                   sales.map((sale: any) => (
                     <TableRow key={sale.id} className="hover:bg-slate-50/50 transition-colors border-slate-50/50 group h-24">
                       <TableCell className="px-8 py-6">
-                        <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg group-hover:bg-slate-200 transition-colors">
+                        <span className="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] bg-slate-100 px-3 py-1 rounded-lg   group-hover:bg-slate-200 transition-colors">
                           SAL-{sale.id.substring(0, 6)}
                         </span>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-3">
-                          <div className="bg-slate-100 p-2.5 rounded-lg text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
+                          <div className="bg-slate-100 p-2.5 rounded-lg   text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
                             <Package className="h-4 w-4" />
                           </div>
                           <span className="font-black text-slate-900 text-sm tracking-tight">
@@ -111,7 +111,7 @@ export function SalesLedger({
                           <span className="text-2xl font-black text-secondary tracking-tighter">
                             ${parseFloat(sale.total_sale_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                           </span>
-                          <div className="bg-emerald-50 p-1 rounded-lg"><ArrowUpRight className="h-4 w-4 text-emerald-500" /></div>
+                          <div className="bg-emerald-50 p-1 rounded-lg  "><ArrowUpRight className="h-4 w-4 text-emerald-500" /></div>
                         </div>
                       </TableCell>
                       <TableCell className="text-right px-8">
@@ -123,7 +123,7 @@ export function SalesLedger({
                   <TableRow>
                     <TableCell colSpan={6} className="h-64 text-center">
                       <div className="flex flex-col items-center justify-center space-y-6">
-                        <div className="bg-slate-50 p-10 rounded-lg"><ShoppingCart className="h-16 w-16 text-slate-200" /></div>
+                        <div className="bg-slate-50 p-10 rounded-lg  "><ShoppingCart className="h-16 w-16 text-slate-200" /></div>
                         <p className="text-slate-400 font-black italic uppercase tracking-widest text-xs">No records found</p>
                       </div>
                     </TableCell>

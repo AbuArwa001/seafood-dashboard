@@ -77,7 +77,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
       formData.append("shipment", values.shipment);
       formData.append("currency", values.currency);
       formData.append("kg_purchased", values.kg_purchased);
-      
+
       console.log("selectedFiles:", selectedFiles);
       if (selectedFiles && selectedFiles.length > 0) {
         selectedFiles.forEach((file) => {
@@ -138,7 +138,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-lg border-slate-100 bg-slate-50/50">
+                  <SelectTrigger className="h-12 rounded-lg   border-slate-100 bg-slate-50/50">
                     <SelectValue placeholder="Select a shipment" />
                   </SelectTrigger>
                 </FormControl>
@@ -147,14 +147,14 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                     <SelectItem
                       key={shipment.id}
                       value={shipment.id}
-                      className="rounded-lg mt-1"
+                      className="rounded-lg   mt-1"
                     >
                       Shipment {shipment.id.substring(0, 8).toUpperCase()} -{" "}
                       {shipment.country_origin} ({shipment.status})
                     </SelectItem>
                   ))}
                 </SelectContent>
-               </Select>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -175,7 +175,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    className="h-12 rounded-lg border-slate-100 bg-slate-50/50"
+                    className="h-12 rounded-lg   border-slate-100 bg-slate-50/50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -196,7 +196,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-12 rounded-lg border-slate-100 bg-slate-50/50">
+                    <SelectTrigger className="h-12 rounded-lg   border-slate-100 bg-slate-50/50">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                   </FormControl>
@@ -205,7 +205,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                       <SelectItem
                         key={currency.id}
                         value={currency.id}
-                        className="rounded-lg mt-1"
+                        className="rounded-lg   mt-1"
                       >
                         {currency.code} ({currency.symbol})
                       </SelectItem>
@@ -232,7 +232,7 @@ export function PurchaseForm({ onSuccess }: PurchaseFormProps) {
                   setSelectedFiles(Array.from(event.target.files));
                 }
               }}
-              className="h-12 rounded-lg border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+              className="h-12 rounded-lg   border-slate-100 bg-slate-50/50 file:mr-4 file:py-2 file:px-4 file:rounded-lg   file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
             />
           </FormControl>
         </FormItem>

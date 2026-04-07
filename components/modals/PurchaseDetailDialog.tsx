@@ -40,7 +40,7 @@ export function PurchaseDetailDialog({ purchase, isOpen, onClose }: PurchaseDeta
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[700px] rounded-lg border-none shadow-2xl p-0 overflow-hidden bg-slate-50">
+        <DialogContent className="sm:max-w-[700px] rounded-lg   border-none shadow-2xl p-0 overflow-hidden bg-slate-50">
           <div className="bg-slate-900 p-8 text-white relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -mt-20 -mr-20" />
 
@@ -73,7 +73,7 @@ export function PurchaseDetailDialog({ purchase, isOpen, onClose }: PurchaseDeta
 
               {images.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl group cursor-pointer" onClick={() => setIsLightboxOpen(true)}>
+                  <div className="relative aspect-video rounded-lg   overflow-hidden shadow-xl group cursor-pointer" onClick={() => setIsLightboxOpen(true)}>
                     <img
                       src={images[activeImageIndex]}
                       alt="Primary Receipt"
@@ -102,7 +102,7 @@ export function PurchaseDetailDialog({ purchase, isOpen, onClose }: PurchaseDeta
                   </div>
                 </div>
               ) : (
-                <div className="bg-slate-100 rounded-lg p-12 text-center border-2 border-dashed border-slate-200">
+                <div className="bg-slate-100 rounded-lg   p-12 text-center border-2 border-dashed border-slate-200">
                   <p className="text-slate-400 font-bold italic">No documentation images found for this procurement.</p>
                 </div>
               )}
@@ -110,7 +110,7 @@ export function PurchaseDetailDialog({ purchase, isOpen, onClose }: PurchaseDeta
 
             {/* Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 group hover:shadow-md transition-all">
+              <div className="bg-white p-6 rounded-lg   shadow-sm border border-slate-100 group hover:shadow-md transition-all">
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="p-3 bg-blue-50 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <Scale className="h-5 w-5 text-blue-600 group-hover:text-white" />
@@ -131,7 +131,7 @@ export function PurchaseDetailDialog({ purchase, isOpen, onClose }: PurchaseDeta
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 group hover:shadow-md transition-all">
+              <div className="bg-white p-6 rounded-lg   shadow-sm border border-slate-100 group hover:shadow-md transition-all">
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="p-3 bg-indigo-50 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                     <Anchor className="h-5 w-5 text-indigo-600 group-hover:text-white" />

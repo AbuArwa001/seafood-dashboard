@@ -60,7 +60,7 @@ export function MarginConfigDialog() {
           CONFIGURE MARGINS
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] rounded-lgborder-none shadow-2xl p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[700px] rounded-lg  border-none shadow-2xl p-0 overflow-hidden bg-white">
         <DialogHeader className="bg-primary p-8 text-white">
           <DialogTitle className="text-2xl font-black flex items-center justify-between">
             <div className="flex items-center">
@@ -71,7 +71,7 @@ export function MarginConfigDialog() {
               <Button
                 onClick={() => setView("form")}
                 variant="outline"
-                className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary rounded-lg font-bold"
+                className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary rounded-lg   font-bold"
               >
                 <Plus className="h-4 w-4 mr-2" /> ADD RULE
               </Button>
@@ -147,7 +147,7 @@ export function MarginConfigDialog() {
                           variant="ghost"
                           size="icon"
                           onClick={() => handleEdit(margin)}
-                          className="h-10 w-10 rounded-lg hover:bg-white hover:text-primary hover:shadow-sm"
+                          className="h-10 w-10 rounded-lg   hover:bg-white hover:text-primary hover:shadow-sm"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -159,7 +159,7 @@ export function MarginConfigDialog() {
                               deleteMutation.mutate(margin.id);
                             }
                           }}
-                          className="h-10 w-10 rounded-lg hover:bg-white hover:text-red-500 hover:shadow-sm"
+                          className="h-10 w-10 rounded-lg   hover:bg-white hover:text-red-500 hover:shadow-sm"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

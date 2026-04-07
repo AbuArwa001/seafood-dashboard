@@ -36,11 +36,11 @@ export function UsersTable({
         <Input
           placeholder="Search team members by name or email..." value={searchQuery}
           onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-          className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-rose-500/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+          className="pl-14 h-16 rounded-lg  border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-rose-500/10 transition-all text-lg font-semibold placeholder:text-slate-300"
         />
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lg  overflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>
@@ -81,7 +81,7 @@ export function UsersTable({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="rounded-lg border-rose-100 bg-rose-50/50 text-rose-600 font-black text-[10px] px-3 py-1 uppercase tracking-widest flex items-center w-fit gap-2"><Shield className="h-3 w-3" /> {user.role_name}</Badge>
+                        <Badge variant="outline" className="rounded-lg   border-rose-100 bg-rose-50/50 text-rose-600 font-black text-[10px] px-3 py-1 uppercase tracking-widest flex items-center w-fit gap-2"><Shield className="h-3 w-3" /> {user.role_name}</Badge>
                       </TableCell>
                       <TableCell><div className="flex items-center text-slate-600 font-bold gap-2"><MapPin className="h-4 w-4 text-slate-300" /> {user.location}</div></TableCell>
                       <TableCell>
@@ -89,8 +89,8 @@ export function UsersTable({
                       </TableCell>
                       <TableCell className="text-right px-8">
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="rounded-lg hover:bg-slate-100 h-10 w-10"><MoreVertical className="h-5 w-5 text-slate-400" /></Button></DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="rounded-lg border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl">
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="rounded-lg   hover:bg-slate-100 h-10 w-10"><MoreVertical className="h-5 w-5 text-slate-400" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="rounded-lg   border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] p-3 min-w-[200px] bg-white/95 backdrop-blur-xl">
                             <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-slate-600 focus:bg-slate-50 focus:text-slate-900 transition-all" onClick={() => { setSelectedUser(user); setIsEditModalOpen(true); }}><Edit2 className="h-4 w-4 mr-3 text-slate-300" /> EDIT PROFILE</DropdownMenuItem>
                             <DropdownMenuItem className="rounded-2xl font-black text-xs py-4 px-4 cursor-pointer text-destructive focus:bg-destructive/5 focus:text-destructive transition-all" onClick={() => { if (confirm(`Are you sure you want to delete ${user.full_name}?`)) { deleteMutation.mutate(user.id); } }}><Trash2 className="h-4 w-4 mr-3 opacity-40" /> REMOVE ACCOUNT</DropdownMenuItem>
                           </DropdownMenuContent>
@@ -102,7 +102,7 @@ export function UsersTable({
                   <TableRow>
                     <TableCell colSpan={5} className="h-64 text-center">
                       <div className="flex flex-col items-center justify-center space-y-6">
-                        <div className="bg-slate-50 p-10 rounded-lg"><UsersIcon className="h-16 w-16 text-slate-200" /></div>
+                        <div className="bg-slate-50 p-10 rounded-lg  "><UsersIcon className="h-16 w-16 text-slate-200" /></div>
                         <p className="text-slate-400 font-black italic uppercase tracking-widest text-xs">No team members matched "{searchQuery}"</p>
                       </div>
                     </TableCell>
@@ -115,8 +115,8 @@ export function UsersTable({
           <div className="p-8 border-t border-slate-50 flex items-center justify-between">
             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Page {page}</p>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev || isFetching} className="rounded-lg font-bold text-xs px-4">PREVIOUS</Button>
-              <Button variant="outline" size="sm" onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext || isFetching} className="rounded-lg font-bold text-xs px-4">NEXT</Button>
+              <Button variant="outline" size="sm" onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev || isFetching} className="rounded-lg   font-bold text-xs px-4">PREVIOUS</Button>
+              <Button variant="outline" size="sm" onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext || isFetching} className="rounded-lg   font-bold text-xs px-4">NEXT</Button>
             </div>
           </div>
         </CardContent>

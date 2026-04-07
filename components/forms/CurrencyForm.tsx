@@ -88,7 +88,7 @@ export function CurrencyForm({ initialData, onSuccess }: CurrencyFormProps) {
                     <Input
                       placeholder="USD"
                       {...field}
-                      className="rounded-lg"
+                      className="rounded-lg  "
                     />
                   </FormControl>
                   <FormMessage />
@@ -109,7 +109,7 @@ export function CurrencyForm({ initialData, onSuccess }: CurrencyFormProps) {
                     <Input
                       placeholder="US Dollar"
                       {...field}
-                      className="rounded-lg"
+                      className="rounded-lg  "
                     />
                   </FormControl>
                   <FormMessage />
@@ -128,7 +128,7 @@ export function CurrencyForm({ initialData, onSuccess }: CurrencyFormProps) {
                 Symbol (Optional)
               </FormLabel>
               <FormControl>
-                <Input placeholder="$" {...field} className="rounded-lg" />
+                <Input placeholder="$" {...field} className="rounded-lg  " />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,7 +138,7 @@ export function CurrencyForm({ initialData, onSuccess }: CurrencyFormProps) {
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full rounded-lg font-black shadow-lg shadow-primary/25 h-12"
+          className="w-full rounded-lg   font-black shadow-lg shadow-primary/25 h-12"
         >
           {mutation.isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

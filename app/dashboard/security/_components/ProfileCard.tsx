@@ -26,15 +26,15 @@ export function ProfileCard({ user, roleName, initials, itemVariants }: ProfileC
 
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm text-slate-600">
-              <div className="bg-slate-50 h-8 w-8 rounded-lg flex items-center justify-center flex-none"><Mail className="h-4 w-4 text-slate-400" /></div>
+              <div className="bg-slate-50 h-8 w-8 rounded-lg   flex items-center justify-center flex-none"><Mail className="h-4 w-4 text-slate-400" /></div>
               <span className="font-semibold truncate">{user?.email ?? "—"}</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-slate-600">
-              <div className="bg-slate-50 h-8 w-8 rounded-lg flex items-center justify-center flex-none"><MapPin className="h-4 w-4 text-slate-400" /></div>
+              <div className="bg-slate-50 h-8 w-8 rounded-lg   flex items-center justify-center flex-none"><MapPin className="h-4 w-4 text-slate-400" /></div>
               <span className="font-semibold">{user?.location ?? "—"}</span>
             </div>
             <div className="flex items-center gap-3 text-sm">
-              <div className="bg-slate-50 h-8 w-8 rounded-lg flex items-center justify-center flex-none"><Fingerprint className="h-4 w-4 text-slate-400" /></div>
+              <div className="bg-slate-50 h-8 w-8 rounded-lg   flex items-center justify-center flex-none"><Fingerprint className="h-4 w-4 text-slate-400" /></div>
               {user?.is_active ? (
                 <Badge className="bg-emerald-500 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider hover:bg-emerald-600">Active Account</Badge>
               ) : (

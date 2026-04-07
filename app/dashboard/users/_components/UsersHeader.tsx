@@ -44,7 +44,7 @@ export function UsersHeader({
               <Plus className="h-5 w-5 mr-3" /> ADD USER
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[650px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+          <DialogContent className="sm:max-w-[650px] rounded-lg   border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
             <div className="bg-gradient-to-br from-rose-600 to-rose-700 p-8 text-white text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
               <DialogTitle className="text-3xl font-black tracking-tight">New Account</DialogTitle>
@@ -57,7 +57,7 @@ export function UsersHeader({
         </Dialog>
 
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-          <DialogContent className="sm:max-w-[650px] rounded-lg border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
+          <DialogContent className="sm:max-w-[650px] rounded-lg   border-none shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] p-0 overflow-hidden bg-white/95 backdrop-blur-xl">
             <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-white text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mt-10 -mr-10" />
               <DialogTitle className="text-3xl font-black tracking-tight">Edit Account</DialogTitle>

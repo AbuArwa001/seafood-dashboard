@@ -95,10 +95,10 @@ export function PurchasesTable({
                       {purchase.image_urls && purchase.image_urls.length > 0 ? (
                         <div className="flex -space-x-2 overflow-hidden">
                           {purchase.image_urls.slice(0, 3).map((url: string, i: number) => (
-                            <img key={i} src={url} alt={`Receipt ${i + 1}`} className="inline-block h-8 w-8 rounded-lg border-2 border-white object-cover shadow-sm" />
+                            <img key={i} src={url} alt={`Receipt ${i + 1}`} className="inline-block h-8 w-8 rounded-lg   border-2 border-white object-cover shadow-sm" />
                           ))}
                           {purchase.image_urls.length > 3 && (
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-white bg-slate-100 text-[10px] font-bold text-slate-600 shadow-sm z-10 relative">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg   border-2 border-white bg-slate-100 text-[10px] font-bold text-slate-600 shadow-sm z-10 relative">
                               +{purchase.image_urls.length - 3}
                             </div>
                           )}
@@ -115,11 +115,11 @@ export function PurchasesTable({
             <div className="flex items-center justify-between px-8 py-4 border-t border-slate-50 bg-slate-50/30">
               <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Showing {purchases.length} of {totalCount} records</div>
               <div className="flex space-x-2">
-                <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button onClick={() => setPage((p: number) => Math.max(1, p - 1))} disabled={!hasPrev} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                   PREVIOUS
                 </button>
-                <div className="flex items-center justify-center px-4 bg-blue-600/10 text-blue-600 rounded-lg text-xs font-black">PAGE {page}</div>
-                <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <div className="flex items-center justify-center px-4 bg-blue-600/10 text-blue-600 rounded-lg   text-xs font-black">PAGE {page}</div>
+                <button onClick={() => setPage((p: number) => p + 1)} disabled={!hasNext} className="px-4 py-2 bg-white border border-slate-100 rounded-lg   text-xs font-black disabled:opacity-50 hover:bg-slate-50 transition-colors">
                   NEXT
                 </button>
               </div>

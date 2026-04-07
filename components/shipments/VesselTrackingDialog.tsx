@@ -24,7 +24,7 @@ export function VesselTrackingDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] rounded-lg border-none shadow-2xl p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[800px] rounded-lg   border-none shadow-2xl p-0 overflow-hidden bg-white">
         <div className="bg-[#1a365d] p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center animate-pulse">
@@ -88,7 +88,7 @@ export function VesselTrackingDialog({
                 <Ship className="h-6 w-6 text-primary" />
               </div>
             </div>
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold shadow-sm whitespace-nowrap">
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-3 py-1 rounded-lg   text-xs font-bold shadow-sm whitespace-nowrap">
               Current Location
             </div>
           </div>

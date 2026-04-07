@@ -138,7 +138,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                   <Input
                     placeholder="e.g. Kenya, Oman, UAE"
                     {...field}
-                    className="rounded-lg border-slate-200 focus:border-primary h-12 shadow-sm"
+                    className="rounded-lg   border-slate-200 focus:border-primary h-12 shadow-sm"
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,16 +159,16 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg border-slate-200 h-12 shadow-sm">
+                    <SelectTrigger className="rounded-lg   border-slate-200 h-12 shadow-sm">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg shadow-2xl border-none p-2">
+                  <SelectContent className="rounded-lg   shadow-2xl border-none p-2">
                     {currencies?.map((currency: any) => (
                       <SelectItem
                         key={currency.id}
                         value={currency.id}
-                        className="rounded-lg py-3 focus:bg-slate-50"
+                        className="rounded-lg   py-3 focus:bg-slate-50"
                       >
                         {currency.code} ({currency.symbol})
                       </SelectItem>
@@ -193,7 +193,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
               onClick={() =>
                 append({ product: "", quantity: 1, price_at_shipping: 0 })
               }
-              className="rounded-lg border-slate-200 hover:bg-slate-50 transition-all font-bold gap-2"
+              className="rounded-lg   border-slate-200 hover:bg-slate-50 transition-all font-bold gap-2"
             >
               <Plus className="h-4 w-4" /> ADD ITEM
             </Button>
@@ -217,16 +217,16 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger className="rounded-lg border-slate-200 bg-white shadow-sm">
+                              <SelectTrigger className="rounded-lg   border-slate-200 bg-white shadow-sm">
                                 <SelectValue placeholder="Select Product" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="rounded-lg shadow-2xl border-none p-2">
+                            <SelectContent className="rounded-lg   shadow-2xl border-none p-2">
                               {products?.map((product: any) => (
                                 <SelectItem
                                   key={product.id}
                                   value={product.id}
-                                  className="rounded-lg py-3 focus:bg-slate-50 font-semibold"
+                                  className="rounded-lg   py-3 focus:bg-slate-50 font-semibold"
                                 >
                                   {product.name}
                                 </SelectItem>
@@ -252,7 +252,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                               onChange={(e) =>
                                 field.onChange(Number(e.target.value))
                               }
-                              className="rounded-lg border-slate-200 bg-white shadow-sm"
+                              className="rounded-lg   border-slate-200 bg-white shadow-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -274,7 +274,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                               onChange={(e) =>
                                 field.onChange(Number(e.target.value))
                               }
-                              className="rounded-lg border-slate-200 bg-white shadow-sm"
+                              className="rounded-lg   border-slate-200 bg-white shadow-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -318,32 +318,32 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="rounded-lg border-slate-200 h-12 shadow-sm">
+                    <SelectTrigger className="rounded-lg   border-slate-200 h-12 shadow-sm">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="rounded-lg shadow-2xl border-none p-2">
+                  <SelectContent className="rounded-lg   shadow-2xl border-none p-2">
                     <SelectItem
                       value="CREATED"
-                      className="rounded-lg py-3 focus:bg-slate-50"
+                      className="rounded-lg   py-3 focus:bg-slate-50"
                     >
                       Created
                     </SelectItem>
                     <SelectItem
                       value="IN_TRANSIT"
-                      className="rounded-lg py-3 focus:bg-slate-50"
+                      className="rounded-lg   py-3 focus:bg-slate-50"
                     >
                       In Transit
                     </SelectItem>
                     <SelectItem
                       value="RECEIVED"
-                      className="rounded-lg py-3 focus:bg-slate-50"
+                      className="rounded-lg   py-3 focus:bg-slate-50"
                     >
                       Received
                     </SelectItem>
                     <SelectItem
                       value="COMPLETED"
-                      className="rounded-lg py-3 focus:bg-slate-50"
+                      className="rounded-lg   py-3 focus:bg-slate-50"
                     >
                       Completed
                     </SelectItem>
@@ -372,7 +372,7 @@ export function ShipmentForm({ onSuccess }: ShipmentFormProps) {
                         e.target.value ? Number(e.target.value) : undefined,
                       )
                     }
-                    className="rounded-lg border-slate-200 h-12 shadow-sm"
+                    className="rounded-lg   border-slate-200 h-12 shadow-sm"
                   />
                 </FormControl>
                 <FormMessage />

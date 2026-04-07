@@ -67,7 +67,7 @@ export function Header() {
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-[#1a365d] transition-all duration-300 group-hover:left-6" />
           <Input
             placeholder="Search shipments, logistics, or registry..."
-            className="pl-14 bg-slate-100/60 border-none focus-visible:ring-2 focus-visible:ring-[#1a365d]/10 h-12 rounded-lgtransition-all duration-300 placeholder:text-slate-400 placeholder:font-medium"
+            className="pl-14 bg-slate-100/60 border-none focus-visible:ring-2 focus-visible:ring-[#1a365d]/10 h-12 rounded-lg  transition-all duration-300 placeholder:text-slate-400 placeholder:font-medium"
           />
         </div>
       </div>
@@ -117,7 +117,7 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-80 p-4 rounded-lgshadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-slate-200/40 bg-white/95 backdrop-blur-2xl mt-4"
+            className="w-80 p-4 rounded-lg  shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-slate-200/40 bg-white/95 backdrop-blur-2xl mt-4"
             align="end"
             forceMount
           >

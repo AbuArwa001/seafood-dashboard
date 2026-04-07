@@ -28,7 +28,7 @@ export function SalesCard({ totalSalesVolume, salesData }: SalesCardProps) {
     }));
 
   return (
-    <Card className="border-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] bg-slate-900 text-white rounded-lg overflow-hidden relative group w-full">
+    <Card className="border-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] bg-slate-900 text-white rounded-lg   overflow-hidden relative group w-full">
       {/* Background Gradients & Effects */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[120px] -mt-40 -mr-40 group-hover:bg-secondary/25 transition-all duration-1000 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[100px] -mb-20 -ml-20 pointer-events-none" />
@@ -74,7 +74,7 @@ export function SalesCard({ totalSalesVolume, salesData }: SalesCardProps) {
 
           {/* Chart Area - Flexible container */}
           <div className="w-full lg:w-[45%] h-[180px] md:h-[220px] relative group/chart">
-            <div className="absolute inset-0 bg-white/[0.02] rounded-lg border border-white/[0.05] -m-4 transition-all group-hover/chart:bg-white/[0.04]" />
+            <div className="absolute inset-0 bg-white/[0.02] rounded-lg   border border-white/[0.05] -m-4 transition-all group-hover/chart:bg-white/[0.04]" />
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>

@@ -12,7 +12,7 @@ export function CurrenciesSettingsInsight({ itemVariants }: CurrenciesSettingsIn
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -mt-64 -mr-64 animate-pulse" />
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="bg-blue-600/20 w-fit p-4 rounded-lg mb-8">
+            <div className="bg-blue-600/20 w-fit p-4 rounded-lg   mb-8">
               <ShieldAlert className="h-8 w-8 text-blue-400" />
             </div>
             <h3 className="text-3xl font-black mb-6 leading-tight">
