@@ -43,7 +43,7 @@ export default function AccessControlPage() {
         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
         <Input
           placeholder="Search system roles..."
-          className="h-16 pl-14 pr-6 rounded-[1.5rem] border-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] bg-white font-semibold text-lg focus:ring-2 focus:ring-indigo-500/20 transition-all"
+          className="h-16 pl-14 pr-6 rounded-lgborder-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] bg-white font-semibold text-lg focus:ring-2 focus:ring-indigo-500/20 transition-all"
           value={logic.search} onChange={(e) => logic.setSearch(e.target.value)}
         />
       </div>

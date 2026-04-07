@@ -32,7 +32,7 @@ export default function CurrencyRatesSettings() {
       />
 
       <Tabs defaultValue="currencies" onValueChange={logic.setActiveTab} className="space-y-8">
-        <TabsList className="bg-slate-100/50 p-1.5 rounded-[1.5rem] h-16 border border-slate-200/60 w-full sm:w-auto">
+        <TabsList className="bg-slate-100/50 p-1.5 rounded-lgh-16 border border-slate-200/60 w-full sm:w-auto">
           <TabsTrigger value="currencies" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">CURRENCIES</TabsTrigger>
           <TabsTrigger value="rates" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">EXCHANGE RATES</TabsTrigger>
           <TabsTrigger value="margins" className="rounded-lg px-8 font-black text-sm data-[state=active]:bg-white data-[state=active]:shadow-lg active:scale-95 transition-all">MARGIN RULES</TabsTrigger>

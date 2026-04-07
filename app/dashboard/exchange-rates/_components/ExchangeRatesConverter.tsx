@@ -38,7 +38,7 @@ export function ExchangeRatesConverter({
               <div className="relative group">
                 <input
                   type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="1.00"
-                  className="w-full bg-white/5 border border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-white/20"
+                  className="w-full bg-white/5 border border-white/10 h-16 rounded-lgpx-6 text-lg font-black focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-white/20"
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold select-none pointer-events-none group-focus-within:text-primary transition-colors">
                   {currencies?.find((c: any) => c.id === fromCurrency)?.code || "---"}
@@ -49,7 +49,7 @@ export function ExchangeRatesConverter({
             <div className="md:col-span-3 space-y-2">
               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">Base Currency</label>
               <Select onValueChange={setFromCurrency} value={fromCurrency}>
-                <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
+                <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-lgpx-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
                   <SelectValue placeholder="Select Base" />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">
@@ -78,7 +78,7 @@ export function ExchangeRatesConverter({
             <div className="md:col-span-3 space-y-2">
               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2">Target Currency</label>
               <Select onValueChange={setToCurrency} value={toCurrency}>
-                <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-[1.5rem] px-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
+                <SelectTrigger className="bg-white/5 border-white/10 h-16 rounded-lgpx-6 text-lg font-black focus:ring-primary focus:border-primary transition-all">
                   <SelectValue placeholder="Select Target" />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-white/10 bg-slate-900 text-white">

@@ -32,12 +32,12 @@ export function LogisticsLedger({
           <Input
             placeholder="Search by location or shipment ID..."
             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-14 h-16 rounded-[1.5rem] border-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-emerald-600/10 transition-all text-lg font-semibold placeholder:text-slate-300"
+            className="pl-14 h-16 rounded-lgborder-none bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] focus:ring-2 focus:ring-emerald-600/10 transition-all text-lg font-semibold placeholder:text-slate-300"
           />
         </div>
       </div>
 
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
         <CardHeader className="border-b border-slate-50 p-8">
           <div className="flex items-center justify-between">
             <div>

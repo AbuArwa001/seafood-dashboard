@@ -17,7 +17,7 @@ export function PerformanceAnalytics({
 }: PerformanceAnalyticsProps) {
   return (
     <motion.div variants={itemVariants} className="flex-[2] min-w-full lg:min-w-[700px]">
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] h-full overflow-hidden transition-all duration-500">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgh-full overflow-hidden transition-all duration-500">
         <CardHeader className="border-b border-slate-50 p-8 pb-6">
           <div className="flex items-center justify-between">
             <div>
@@ -47,12 +47,12 @@ export function PerformanceAnalytics({
                 <Legend onClick={toggleSeries} verticalAlign="top" align="right" iconType="circle" wrapperStyle={{ paddingBottom: "20px", fontSize: "10px", fontWeight: "black", textTransform: "uppercase", letterSpacing: "0.1em", cursor: "pointer" }} />
                 <defs>
                   <linearGradient id="colorShipments" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#1a365d" stopOpacity={0.15}/>
-                    <stop offset="95%" stopColor="#1a365d" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#1a365d" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#1a365d" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#FF9A62" stopOpacity={0.15}/>
-                    <stop offset="95%" stopColor="#FF9A62" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#FF9A62" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#FF9A62" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />

@@ -17,7 +17,7 @@ export function CurrenciesTab({
 }: CurrenciesTabProps) {
   return (
     <motion.div variants={itemVariants} initial="hidden" animate="show" className="grid grid-cols-1 gap-8">
-      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white/80 backdrop-blur-md rounded-[1.5rem] overflow-hidden border border-white/40">
+      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white/80 backdrop-blur-md rounded-lgoverflow-hidden border border-white/40">
         <CardHeader className="p-8 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-2xl font-black text-slate-900">Active Registry</CardTitle>

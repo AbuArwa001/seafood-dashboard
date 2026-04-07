@@ -28,7 +28,7 @@ export function NotificationsList({
     return (
       <div className="grid grid-cols-1 gap-8">
         {[...Array(3)].map((_, i) => (
-          <Card key={i} className="border-none shadow-premium rounded-[1.5rem] bg-white">
+          <Card key={i} className="border-none shadow-premium rounded-lgbg-white">
             <CardContent className="p-10"><Skeleton className="h-8 w-1/3 mb-6" /><Skeleton className="h-20 w-full rounded-2xl" /></CardContent>
           </Card>
         ))}
@@ -40,7 +40,7 @@ export function NotificationsList({
     <div className="grid grid-cols-1 gap-8">
       {parameters?.map((param) => (
         <motion.div key={param.id} variants={itemVariants}>
-          <Card className="border-none shadow-premium bg-white rounded-[1.5rem] overflow-hidden group hover:shadow-premium-hover transition-all duration-500">
+          <Card className="border-none shadow-premium bg-white rounded-lgoverflow-hidden group hover:shadow-premium-hover transition-all duration-500">
             <CardContent className="p-8 md:p-10">
               <div className="flex flex-col lg:flex-row gap-10">
                 <div className="flex-1 space-y-6">
@@ -74,7 +74,7 @@ export function NotificationsList({
                         {roles?.map((role) => {
                           const currentVal = pendingChanges[param.key] ?? param.value;
                           let isSelected = false;
-                          try { isSelected = JSON.parse(currentVal).includes(role.role_name); } catch (e) {}
+                          try { isSelected = JSON.parse(currentVal).includes(role.role_name); } catch (e) { }
                           return (
                             <button
                               key={role.id}

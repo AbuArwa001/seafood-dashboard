@@ -32,7 +32,7 @@ export default function SettingsPage() {
           if (category.permission && !hasPermission(user, category.permission) && !isAdmin) return null;
 
           const cardContent = (
-            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100 h-full">
+            <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 group cursor-pointer border border-transparent hover:border-slate-100 h-full">
               <CardHeader className="p-8 pb-0 flex flex-row items-start justify-between">
                 <div className={`${category.bg} p-5 rounded-lg group-hover:scale-110 transition-transform duration-500`}>
                   <category.icon className={`h-8 w-8 ${category.color}`} />

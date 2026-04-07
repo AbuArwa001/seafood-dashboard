@@ -60,7 +60,7 @@ export function MarginConfigDialog() {
           CONFIGURE MARGINS
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] rounded-[1.5rem] border-none shadow-2xl p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[700px] rounded-lgborder-none shadow-2xl p-0 overflow-hidden bg-white">
         <DialogHeader className="bg-primary p-8 text-white">
           <DialogTitle className="text-2xl font-black flex items-center justify-between">
             <div className="flex items-center">

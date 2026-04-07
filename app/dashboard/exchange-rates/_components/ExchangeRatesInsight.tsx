@@ -9,7 +9,7 @@ interface ExchangeRatesInsightProps {
 export function ExchangeRatesInsight({ itemVariants }: ExchangeRatesInsightProps) {
   return (
     <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="bg-slate-900 p-8 rounded-[1.5rem] text-white relative overflow-hidden shadow-2xl">
+      <div className="bg-slate-900 p-8 rounded-lgtext-white relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mt-20 -mr-20" />
         <div className="relative z-10">
           <h3 className="text-2xl font-black mb-4">
@@ -31,7 +31,7 @@ export function ExchangeRatesInsight({ itemVariants }: ExchangeRatesInsightProps
         </div>
       </div>
 
-      <div className="bg-primary p-8 rounded-[1.5rem] text-white flex flex-col justify-between shadow-2xl shadow-primary/20">
+      <div className="bg-primary p-8 rounded-lgtext-white flex flex-col justify-between shadow-2xl shadow-primary/20">
         <div>
           <div className="bg-white/20 h-12 w-12 rounded-2xl flex items-center justify-center mb-6">
             <DollarSign className="h-6 w-6" />

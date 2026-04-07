@@ -49,7 +49,7 @@ export function RoleGuard({ children, allowedRoles }: RoleGuardProps) {
 
   return (
     <div className="flex h-[70vh] flex-col items-center justify-center p-8 text-center">
-      <div className="bg-red-50 p-6 rounded-[1.5rem] mb-6">
+      <div className="bg-red-50 p-6 rounded-lgmb-6">
         <ShieldCheck className="h-12 w-12 text-destructive" />
       </div>
       <h1 className="text-3xl font-black text-slate-900 tracking-tight">

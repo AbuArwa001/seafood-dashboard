@@ -20,7 +20,7 @@ export function MarginsTab({ margins, loadingMargins, handleEdit, deleteMarginMu
           </div>
         ) : (
           margins?.map((margin: any) => (
-            <Card key={margin.id} className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden border border-slate-50 hover:shadow-xl transition-all duration-300 group ring-1 ring-slate-100/50">
+            <Card key={margin.id} className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden border border-slate-50 hover:shadow-xl transition-all duration-300 group ring-1 ring-slate-100/50">
               <CardContent className="p-8">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center -space-x-4">

@@ -14,7 +14,7 @@ interface RatesTabProps {
 export function RatesTab({ rates, loadingRates, itemVariants }: RatesTabProps) {
   return (
     <motion.div variants={itemVariants} initial="hidden" animate="show" className="grid grid-cols-1 gap-8">
-      <Card className="border-none shadow-[0_20px_50px_-15_rgba(0,0,0,0.05)] bg-white rounded-[1.5rem] overflow-hidden">
+      <Card className="border-none shadow-[0_20px_50px_-15_rgba(0,0,0,0.05)] bg-white rounded-lgoverflow-hidden">
         <CardHeader className="p-8 border-b border-slate-100 flex flex-row items-center justify-between bg-slate-50/50">
           <div>
             <CardTitle className="text-2xl font-black text-slate-900">Rate Matrix</CardTitle>
