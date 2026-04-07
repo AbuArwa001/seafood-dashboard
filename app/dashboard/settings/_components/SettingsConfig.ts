@@ -1,0 +1,65 @@
+import {
+  Globe,
+  ShieldCheck,
+  Bell,
+  Cpu,
+  Database,
+  Users,
+} from "lucide-react";
+import { PERMISSIONS } from "@/lib/permissions";
+
+export const settingsCategories = [
+  {
+    title: "Currency & Rates",
+    description: "Manage global currencies and real-time exchange monitoring.",
+    icon: Globe,
+    color: "text-blue-500",
+    bg: "bg-blue-50",
+    link: "/dashboard/settings/currencies",
+  },
+  {
+    title: "System Parameters",
+    description: "Configure core application behaviors and facility defaults.",
+    icon: Cpu,
+    color: "text-emerald-500",
+    bg: "bg-emerald-50",
+    link: "/dashboard/settings/system-parameters",
+    isAdminOnly: true,
+  },
+  {
+    title: "Notifications",
+    description: "Set up automated alerts for shipments and payment deadlines.",
+    icon: Bell,
+    color: "text-amber-500",
+    bg: "bg-amber-50",
+    link: "/dashboard/settings/notifications",
+  },
+  {
+    title: "Access Control",
+    description: "Manage role based access, and system permissions",
+    link: "/dashboard/settings/access-control",
+    icon: ShieldCheck,
+    color: "text-indigo-500",
+    bg: "bg-indigo-50",
+    permission: PERMISSIONS.VIEW_ROLE,
+    isAdminOnly: true,
+  },
+  {
+    title: "User Management",
+    description: "Administrate team accounts and operational roles.",
+    link: "/dashboard/users",
+    icon: Users,
+    color: "text-rose-500",
+    bg: "bg-rose-50",
+    permission: PERMISSIONS.VIEW_USER,
+  },
+  {
+    title: "Data & Logs",
+    description: "Audit system logs and manage database maintenance.",
+    link: "/dashboard/settings/data-logs",
+    icon: Database,
+    color: "text-slate-500",
+    bg: "bg-slate-50",
+    isAdminOnly: true,
+  },
+];
