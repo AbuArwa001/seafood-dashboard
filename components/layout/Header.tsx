@@ -42,7 +42,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-20 items-center justify-between bg-white/60 backdrop-blur-2xl border-b border-slate-200/40 px-4 md:px-12 sticky top-6 z-10 mx-8 mt-6 rounded-[1.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] transition-all duration-500">
+    <header className="flex h-20 items-center justify-between bg-white/60 backdrop-blur-2xl border-b border-slate-200/40 px-4 md:px-12 sticky top-6 z-10 mx-8 mt-6 rounded-[0.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] transition-all duration-500">
       <div className="flex items-center flex-1 gap-6">
         {/* Mobile Menu Trigger */}
         <Sheet>
