@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 interface ProfileCardProps {
   user: any;
-  roleName: string | undefined;
+  roleName: string | null | undefined;
   initials: string;
   itemVariants: any;
 }

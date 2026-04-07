@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 interface RoleCardProps {
   isAdmin: boolean;
-  roleName: string | undefined;
+  roleName: string | null | undefined;
   itemVariants: any;
 }
 
