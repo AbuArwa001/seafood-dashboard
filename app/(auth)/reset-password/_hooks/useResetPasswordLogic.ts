@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { resetPasswordConfirm } from "../_services/auth";
+import { resetPasswordConfirm } from "@/app/(auth)/_services/auth";
 
 export function useResetPasswordLogic() {
   const router = useRouter();
